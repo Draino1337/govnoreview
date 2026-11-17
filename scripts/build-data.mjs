@@ -11,8 +11,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TSV_DIR = path.join(root, 'research', 'tsv');
 const OUT = path.join(root, 'src', 'data', 'phones.json');
 
-// Для каждого телефона показывается его задняя панель: готовая вырезка из public/phones/<id>.webp
-// (см. scripts/cutout.mjs), а если файла нет — нарисованная: body — градиент корпуса, cam — раскладка камер.
+// Для каждого телефона показывается единый кадр «спина поверх экрана»: public/phones/<id>.webp
+// (собирается scripts/combine.mjs из вырезок в research/parts), а если файла нет — нарисованная задняя
+// панель: body — градиент корпуса, cam — раскладка камер.
 const PAGES = {
   's26u-17pm.tsv': [
     { id: 'samsung-galaxy-s26-ultra', brand: 'Samsung', name: 'Galaxy S26 Ultra', look: { body: ['#9d8cff', '#3b2d9e'], cam: 'col' } },
@@ -109,8 +110,8 @@ const PHOTO_DIR = path.join(root, 'public', 'phones');
 
 // Отношение ширины к высоте вырезки (0 — файла нет). Страница резервирует под снимок место заранее,
 // поэтому текст рядом с миниатюрой не прыгает, когда картинка догружается.
-async function photoRatio(id, view) {
-  const file = path.join(PHOTO_DIR, `${id}-${view}.webp`);
+async function photoRatio(id) {
+  const file = path.join(PHOTO_DIR, `${id}.webp`);
   if (!fs.existsSync(file)) return 0;
   const { width, height } = await sharp(file).metadata();
   return +(width / height).toFixed(4);
@@ -123,10 +124,7 @@ for (const [file, pair] of Object.entries(PAGES)) {
     const get = (label) => rows[i].find((r) => r[2] === label)?.[3] ?? '';
     phones.push({
       ...meta,
-      photo: {
-        front: await photoRatio(meta.id, 'front'),
-        back: await photoRatio(meta.id, 'back'),
-      },
+      photo: await photoRatio(meta.id),
       tier: get('Класс') || 'Флагман',
       released: released(get('Дата выхода')),
       price: num(get('Цена на момент выхода')) ?? 0,
@@ -138,9 +136,9 @@ for (const [file, pair] of Object.entries(PAGES)) {
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(phones));
-const both = phones.filter((p) => p.photo.front && p.photo.back).length;
-console.log(`phones.json: ${phones.length} телефонов, ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ, фото спереди и сзади: ${both}`);
+const withPhoto = phones.filter((p) => p.photo).length;
+console.log(`phones.json: ${phones.length} телефонов, ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ, кадров «спина + экран»: ${withPhoto}`);
 for (const p of phones) {
-  const ph = `${p.photo.front ? 'спер' : '----'} ${p.photo.back ? 'сзади' : '-----'}`;
-  console.log(`  ${p.id.padEnd(30)} ${ph}  ${p.released}  $${p.price}  rows=${p.rows.length} bench=${Object.keys(p.bench).length}`);
+  const ph = p.photo ? `кадр ${p.photo.toFixed(2)}` : 'нет кадра';
+  console.log(`  ${p.id.padEnd(30)} ${ph.padEnd(10)} ${p.released}  $${p.price}  rows=${p.rows.length} bench=${Object.keys(p.bench).length}`);
 }

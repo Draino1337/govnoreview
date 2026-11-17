@@ -60,6 +60,9 @@
 .side .ring {
   margin-bottom: 4px;
 }
+.side .pa {
+  align-self: center; /* кадры у двух телефонов разной ширины, а значит и высоты: держим их по центру строки */
+}
 .side-name {
   font: 800 22px/1.15 var(--display);
   letter-spacing: -0.025em;
@@ -125,35 +128,6 @@
 .swap:hover {
   transform: rotate(180deg);
   border-color: var(--a);
-}
-.view-toggle {
-  position: relative;
-  display: flex;
-  gap: 2px;
-  width: fit-content;
-  margin: 8px auto 0;
-  padding: 4px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--soft);
-}
-.view-toggle button {
-  height: 38px;
-  padding: 0 20px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 800;
-  transition: background 0.2s, color 0.2s;
-}
-.view-toggle button:hover {
-  color: var(--ink);
-}
-.view-toggle button.is-on {
-  background: var(--ink);
-  color: var(--bg);
 }
 .hero-intro {
   position: relative;
@@ -713,8 +687,27 @@
   .hero {
     padding: 22px 12px 18px;
   }
+  /* две колонки на всю ширину — кадру «спина + экран» нужно место; «VS» уходит в строку с кольцами оценок */
   .hero-grid {
-    column-gap: 4px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 6px;
+  }
+  .side-b {
+    grid-column: 2;
+  }
+  .vs {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+    z-index: 3;
+    gap: 2px;
+  }
+  .vs span {
+    font-size: 15px;
+  }
+  .swap {
+    width: 36px;
+    height: 36px;
   }
   .hero .pa-lg {
     --ph: 230px;
@@ -724,16 +717,6 @@
   }
   .side-meta {
     font-size: 12.5px;
-  }
-  .vs {
-    gap: 8px;
-  }
-  .vs span {
-    font-size: 20px;
-  }
-  .swap {
-    width: 40px;
-    height: 40px;
   }
   .side .btn-sm {
     padding: 0 12px;
@@ -803,5 +786,25 @@
     padding: 0 9px;
     gap: 6px;
     font-size: 13px;
+  }
+  /* между кольцами оценок остаётся меньше 40 px: только кнопка обмена, без надписи */
+  .vs span {
+    display: none;
+  }
+  .swap {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media (max-width: 300px) {
+  /* складные телефоны в сложенном виде: кольца почти вплотную — кнопка обмена садится на стык кадров */
+  .vs {
+    grid-row: 2;
+    align-self: end;
+    margin-bottom: 4px;
+  }
+  .swap {
+    width: 28px;
+    height: 28px;
   }
 }

@@ -565,13 +565,16 @@ a {
 }
 .ps-lead {
   flex: none;
-  width: 26px;
+  min-width: 26px;
   display: grid;
   place-items: center;
   color: var(--muted);
 }
 .ps-lead .pa {
   --ph: 40px;
+}
+.ps-lead .pa-xs.has-photo {
+  width: 36px;
 }
 .ps-field input {
   flex: 1;

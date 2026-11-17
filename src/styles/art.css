@@ -11,15 +11,19 @@
   max-width: 100%;
   perspective: 900px;
 }
+/* кадр «спина поверх экрана»: размер задаёт отношение сторон из данных (а не загрузка картинки); в узкой
+   колонке кадр уменьшается целиком, высота следует за шириной */
 .pa.has-photo {
-  aspect-ratio: var(--ar); /* ширину задаёт отношение сторон вырезки (из данных), а не загрузка картинки */
-}
-.pa.is-flippable {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+  width: min(100%, calc(var(--ph) * var(--ar)));
+  height: auto;
+  aspect-ratio: var(--ar);
 }
 .pa-xs {
   --ph: 46px;
+}
+/* миниатюры в списках — одной ширины, чтобы названия рядом с ними стояли ровно в столбик */
+.pa-xs.has-photo {
+  width: 44px;
 }
 .pa-sm {
   --ph: 132px;
@@ -38,36 +42,12 @@
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* переворот: две грани в одной ячейке сетки, у каждой скрыта обратная сторона */
-.pa-flip {
-  display: grid;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.75s cubic-bezier(0.3, 0.8, 0.2, 1);
-}
-.pa-flip.is-front {
-  transform: rotateY(180deg);
-}
-.pa-face {
-  grid-area: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-.pa-face-front {
-  transform: rotateY(180deg);
-}
-
 /* фото: вырезка на прозрачном фоне + мягкая тень на «полу» */
 .pa-photo {
   display: block;
-  height: var(--ph);
-  width: auto;
-  max-width: 100%;
-  object-fit: contain; /* если колонка уже картинки — масштабируем, не обрезаем */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
   filter: drop-shadow(0 calc(var(--ph) * 0.045) calc(var(--ph) * 0.06) rgba(10, 10, 40, 0.4));

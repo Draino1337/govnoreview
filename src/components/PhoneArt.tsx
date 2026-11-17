@@ -1,8 +1,6 @@
 import { useRef, type CSSProperties, type PointerEvent } from 'react';
 import type { CamKind, Phone } from '../types.ts';
 
-export type View = 'front' | 'back';
-
 function Camera({ kind, lenses }: { kind: CamKind; lenses: number }) {
   const n = Math.max(2, Math.min(4, lenses));
   if (kind === 'tri')
@@ -59,21 +57,17 @@ interface Props {
   phone: Phone;
   lenses?: number;
   size?: 'xs' | 'sm' | 'md' | 'lg';
-  /** наклон за курсором и переворот; нужен onFlip */
+  /** наклон за курсором */
   interactive?: boolean;
-  view?: View;
-  onFlip?: () => void;
 }
 
 /**
- * Телефон двумя видами — спереди и сзади (вырезки с прозрачным фоном из public/phones).
- * Мелкие миниатюры показывают один вид, крупная карточка переворачивается.
- * Если снимков нет — рисуется запасная задняя панель.
+ * Телефон одним кадром: спина лежит поверх экрана и закрывает его на четверть (вырезка с прозрачным фоном
+ * из public/phones, см. scripts/combine.mjs). Если кадра нет — рисуется запасная задняя панель.
  */
-export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false, view = 'front', onFlip }: Props) {
+export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const { front, back } = phone.photo;
-  const src = (v: View) => `${import.meta.env.BASE_URL}phones/${phone.id}-${v}.webp`;
+  const ratio = phone.photo; // ширина/высота кадра: место под него занято ещё до загрузки картинки
 
   const move = (e: PointerEvent) => {
     if (e.pointerType === 'touch') return;
@@ -88,44 +82,18 @@ export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false, 
     ref.current?.style.setProperty('--ry', '0deg');
   };
 
-  let body;
-  let ratio = 0; // ширина/высота снимка: место под него занято ещё до загрузки картинки
-  if (front && back && interactive) {
-    ratio = Math.max(front, back);
-    body = (
-      <div className={`pa-flip${view === 'front' ? ' is-front' : ''}`}>
-        <div className="pa-face pa-face-back">
-          <img className="pa-photo" src={src('back')} alt="" draggable={false} decoding="async" />
-        </div>
-        <div className="pa-face pa-face-front">
-          <img className="pa-photo" src={src('front')} alt="" draggable={false} decoding="async" />
-        </div>
-      </div>
-    );
-  } else if (front || back) {
-    const v: View = view === 'front' ? (front ? 'front' : 'back') : back ? 'back' : 'front';
-    ratio = phone.photo[v];
-    body = <img className="pa-photo" src={src(v)} alt="" draggable={false} loading="lazy" decoding="async" />;
-  } else {
-    body = (
-      <div className="pa-rear">
-        <Camera kind={phone.look.cam} lenses={lenses} />
-        <span className="pa-brand">{phone.brand}</span>
-      </div>
-    );
-  }
+  const body = ratio ? (
+    <img className="pa-photo" src={`${import.meta.env.BASE_URL}phones/${phone.id}.webp`} alt="" draggable={false} decoding="async" loading={interactive ? undefined : 'lazy'} />
+  ) : (
+    <div className="pa-rear">
+      <Camera kind={phone.look.cam} lenses={lenses} />
+      <span className="pa-brand">{phone.brand}</span>
+    </div>
+  );
 
   const style = { '--b0': phone.look.body[0], '--b1': phone.look.body[1], ...(ratio && { '--ar': ratio }) } as CSSProperties;
   return (
-    <div
-      ref={ref}
-      className={`pa pa-${size}${front || back ? ' has-photo' : ''}${interactive && onFlip ? ' is-flippable' : ''}`}
-      style={style}
-      aria-hidden="true"
-      onPointerMove={interactive ? move : undefined}
-      onPointerLeave={interactive ? leave : undefined}
-      onClick={interactive ? onFlip : undefined}
-    >
+    <div ref={ref} className={`pa pa-${size}${ratio ? ' has-photo' : ''}`} style={style} aria-hidden="true" onPointerMove={interactive ? move : undefined} onPointerLeave={interactive ? leave : undefined}>
       <div className="pa-body">{body}</div>
     </div>
   );

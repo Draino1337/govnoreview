@@ -10,7 +10,7 @@ import { Card } from '../components/Card.tsx';
 import { DuelBar } from '../components/DuelBar.tsx';
 import { Icon } from '../components/Icon.tsx';
 import { Legend } from '../components/Legend.tsx';
-import { PhoneArt, type View } from '../components/PhoneArt.tsx';
+import { PhoneArt } from '../components/PhoneArt.tsx';
 import { PhoneSearch } from '../components/PhoneSearch.tsx';
 import { Radar } from '../components/Radar.tsx';
 import { Ring } from '../components/Ring.tsx';
@@ -48,17 +48,15 @@ interface SideProps {
   score: number;
   accent: 'a' | 'b';
   leader: boolean;
-  view: View;
-  onFlip: () => void;
   onPick: (p: Phone) => void;
 }
 
-function Side({ p, an, score, accent, leader, view, onFlip, onPick }: SideProps) {
+function Side({ p, an, score, accent, leader, onPick }: SideProps) {
   const [editing, setEditing] = useState(false);
   return (
     <div className={`side side-${accent}`}>
       <Ring value={score} color={`var(--${accent})`} leader={leader} />
-      <PhoneArt phone={p} lenses={an.m.lenses} size="lg" interactive view={view} onFlip={onFlip} />
+      <PhoneArt phone={p} lenses={an.m.lenses} size="lg" interactive />
       <h2 className="side-name">{shortName(p)}</h2>
       <p className="side-meta">
         {p.brand} · {p.tier} · {monthYear(p.released)}
@@ -146,9 +144,7 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
   const A = analyze(a);
   const B = analyze(b);
   const [scenario, setScenario] = useState('all');
-  const [view, setView] = useState<View>('front'); // оба телефона показываем с одной стороны; открываем спереди
   const [swapping, setSwapping] = useState(false);
-  const flip = () => setView((v) => (v === 'back' ? 'front' : 'back'));
   const [toast, setToast] = useState('');
   const timer = useRef(0);
   const sc = SCENARIOS.find((s) => s.id === scenario)!;
@@ -227,21 +223,14 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
           {fullName(a)} против {fullName(b)}
         </h1>
         <div className={`hero-grid${swapping ? ' is-swapping' : ''}`}>
-          <Side p={a} an={A} score={scoreA} accent="a" leader={scoreA > scoreB} view={view} onFlip={flip} onPick={(p) => pick('a', p)} />
+          <Side p={a} an={A} score={scoreA} accent="a" leader={scoreA > scoreB} onPick={(p) => pick('a', p)} />
           <div className="vs">
             <span>VS</span>
             <button type="button" className="swap" onClick={swap} aria-label="Поменять смартфоны местами" title="Поменять местами">
               <Icon name="swap" size={18} />
             </button>
           </div>
-          <Side p={b} an={B} score={scoreB} accent="b" leader={scoreB > scoreA} view={view} onFlip={flip} onPick={(p) => pick('b', p)} />
-        </div>
-        <div className="view-toggle" role="radiogroup" aria-label="Вид телефонов">
-          {(['front', 'back'] as const).map((v) => (
-            <button key={v} type="button" role="radio" aria-checked={view === v} className={view === v ? 'is-on' : ''} onClick={() => setView(v)}>
-              {v === 'front' ? 'Спереди' : 'Сзади'}
-            </button>
-          ))}
+          <Side p={b} an={B} score={scoreB} accent="b" leader={scoreB > scoreA} onPick={(p) => pick('b', p)} />
         </div>
         <p className="hero-intro">{introText(a, b, A.m, B.m)}</p>
         <div className="scn">

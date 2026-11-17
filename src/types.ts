@@ -11,8 +11,8 @@ export interface Phone {
   id: string;
   brand: string;
   name: string;
-  /** снимки в public/phones (<id>-front.webp, <id>-back.webp): отношение ширины к высоте вырезки, 0 — снимка нет */
-  photo: { front: number; back: number };
+  /** единый кадр «спина поверх экрана» public/phones/<id>.webp: отношение ширины к высоте, 0 — кадра нет */
+  photo: number;
   tier: string;
   released: string; // YYYY-MM
   price: number; // USD на момент выхода
