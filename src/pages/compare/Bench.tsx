@@ -79,10 +79,9 @@ export function CameraCard({ a, b, ma, mb, sections }: P & { sections: SpecSecti
   const main = sections.find((s) => s.title === 'Основная камера');
   const front = sections.find((s) => s.title === 'Фронтальная камера');
   const lensGroups = [...(main?.groups.filter((g) => g.caption) ?? []), ...(front?.groups.map((g) => ({ ...g, caption: 'Фронтальная камера' })) ?? [])];
-  const dxo = ['Качество фото', 'Качество видео', 'Итоговая оценка камеры'].filter((k) => a.bench[k] || b.bench[k]);
 
   return (
-    <Card id="camera" icon="camera" title="Камеры" desc="Сенсор, оптика и замеры DxOMark, если они есть">
+    <Card id="camera" icon="camera" title="Камеры" desc="Сенсор, оптика и фронтальная камера">
       <Legend a={a} b={b} />
       <div className="bench-grid">
         <div className="bench-col">
@@ -92,19 +91,14 @@ export function CameraCard({ a, b, ma, mb, sections }: P & { sections: SpecSecti
           </h3>
           <DuelBar label="Размер сенсора" a={ma.sensor} b={mb.sensor} fmt={(n) => n.toFixed(2)} unit="″" />
           <DuelBar label="Разрешение" a={ma.mp} b={mb.mp} unit=" Мп" />
-          <DuelBar label="Оптический зум" a={ma.zoom || undefined} b={mb.zoom || undefined} fmt={(n) => String(n)} unit="x" />
-          <DuelBar label="Фронтальная камера" a={ma.frontMp} b={mb.frontMp} unit=" Мп" />
         </div>
         <div className="bench-col">
           <h3 className="sub-h">
             <Icon name="eye" size={18} />
-            DxOMark
+            Зум и фронтальная камера
           </h3>
-          {dxo.length ? (
-            dxo.map((k) => <DuelBar key={k} label={k} a={num(a.bench[k])} b={num(b.bench[k])} max={200} />)
-          ) : (
-            <p className="empty">Для этих моделей замеров DxOMark нет.</p>
-          )}
+          <DuelBar label="Оптический зум" a={ma.zoom || undefined} b={mb.zoom || undefined} fmt={(n) => String(n)} unit="x" />
+          <DuelBar label="Фронтальная камера" a={ma.frontMp} b={mb.frontMp} unit=" Мп" />
         </div>
       </div>
 

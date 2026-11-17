@@ -137,29 +137,6 @@
   line-height: 1.65;
   text-align: center;
 }
-.scn {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 22px;
-  padding-top: 20px;
-  border-top: 1px dashed var(--line);
-}
-.scn-title {
-  font-weight: 800;
-}
-.scn-chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-.scn-hint {
-  color: var(--muted);
-  text-align: center;
-}
 
 /* ───────── навигация по разделам ───────── */
 .subnav {

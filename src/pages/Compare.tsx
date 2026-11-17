@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Phone } from '../types.ts';
 import { analyze, type Analysis } from '../lib/analysis.ts';
 import { PHONES, fullName, monthYear, pairPath, shortName } from '../lib/phones.ts';
-import { CATS, SCENARIOS, overall, valueIndex, valueLabel } from '../lib/score.ts';
+import { CATS, overall, valueIndex, valueLabel } from '../lib/score.ts';
 import { buildSpecs } from '../lib/specs.ts';
 import { introText, keyDiffs, verdictText } from '../lib/insights.ts';
 import { go, hrefOf } from '../router.ts';
@@ -86,11 +86,11 @@ function Side({ p, an, score, accent, leader, onPick }: SideProps) {
   );
 }
 
-function ValueCard({ a, b, A, B, scenario }: { a: Phone; b: Phone; A: Analysis; B: Analysis; scenario: string }) {
+function ValueCard({ a, b, A, B }: { a: Phone; b: Phone; A: Analysis; B: Analysis }) {
   const [pa, setPa] = useState(String(a.price));
   const [pb, setPb] = useState(String(b.price));
-  const va = valueIndex(overall(A.s, scenario), Number(pa));
-  const vb = valueIndex(overall(B.s, scenario), Number(pb));
+  const va = valueIndex(overall(A.s), Number(pa));
+  const vb = valueIndex(overall(B.s), Number(pb));
   const box = (p: Phone, v: string, set: (s: string) => void, idx: number, accent: 'a' | 'b') => (
     <div className={`val val-${accent}`}>
       <b className="val-name">{shortName(p)}</b>
@@ -111,15 +111,15 @@ function ValueCard({ a, b, A, B, scenario }: { a: Phone; b: Phone; A: Analysis; 
         <div className="val-vs">VS</div>
         {box(b, pb, setPb, vb, 'b')}
       </div>
-      <p className="foot">Индекс растёт вместе с итоговой оценкой в выбранном сценарии и падает с ростом цены. Это упрощённая модель, а не рекомендация к покупке.</p>
+      <p className="foot">Индекс растёт вместе с итоговой оценкой и падает с ростом цены. Это упрощённая модель, а не рекомендация к покупке.</p>
     </Card>
   );
 }
 
 function Rivals({ p, other }: { p: Phone; other: Phone }) {
-  const mine = overall(analyze(p).s, 'all');
+  const mine = overall(analyze(p).s);
   const list = PHONES.filter((x) => x.id !== p.id && x.id !== other.id)
-    .sort((x, y) => Math.abs(overall(analyze(x).s, 'all') - mine) - Math.abs(overall(analyze(y).s, 'all') - mine))
+    .sort((x, y) => Math.abs(overall(analyze(x).s) - mine) - Math.abs(overall(analyze(y).s) - mine))
     .slice(0, 4);
   return (
     <div className="rivals-col">
@@ -130,7 +130,7 @@ function Rivals({ p, other }: { p: Phone; other: Phone }) {
             <a href={hrefOf(pairPath(p.id, x.id))}>
               <PhoneArt phone={x} size="xs" />
               <span>{shortName(x)}</span>
-              <em>{overall(analyze(x).s, 'all')}</em>
+              <em>{overall(analyze(x).s)}</em>
               <Icon name="arrow" size={16} />
             </a>
           </li>
@@ -143,19 +143,17 @@ function Rivals({ p, other }: { p: Phone; other: Phone }) {
 export function Compare({ a, b }: { a: Phone; b: Phone }) {
   const A = analyze(a);
   const B = analyze(b);
-  const [scenario, setScenario] = useState('all');
   const [swapping, setSwapping] = useState(false);
   const [toast, setToast] = useState('');
   const timer = useRef(0);
-  const sc = SCENARIOS.find((s) => s.id === scenario)!;
 
   const specs = useMemo(() => buildSpecs(a, b), [a, b]);
   const diffs = useMemo(() => keyDiffs(A.m, B.m), [A, B]);
   const spyIds = useMemo(() => NAV.map((n) => n[0]), []);
   const active = useScrollSpy(spyIds);
 
-  const scoreA = overall(A.s, scenario);
-  const scoreB = overall(B.s, scenario);
+  const scoreA = overall(A.s);
+  const scoreB = overall(B.s);
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
@@ -233,19 +231,6 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
           <Side p={b} an={B} score={scoreB} accent="b" leader={scoreB > scoreA} onPick={(p) => pick('b', p)} />
         </div>
         <p className="hero-intro">{introText(a, b, A.m, B.m)}</p>
-        <div className="scn">
-          <span className="scn-title">Для чего вам смартфон?</span>
-          <div className="scn-chips" role="radiogroup" aria-label="Сценарий использования">
-            {SCENARIOS.map((s) => (
-              <button key={s.id} type="button" role="radio" aria-checked={s.id === scenario} className={`chip${s.id === scenario ? ' is-on' : ''}`} onClick={() => setScenario(s.id)}>
-                {s.label}
-              </button>
-            ))}
-          </div>
-          <small className="scn-hint">
-            {sc.hint}: итоговая оценка пересчитывается под выбранный сценарий.
-          </small>
-        </div>
       </section>
 
       <nav className="subnav" aria-label="Разделы сравнения">
@@ -266,7 +251,7 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
         </div>
       </Card>
 
-      <Card id="overview" icon="display" title="Обзор" desc="Оценки по категориям и итог для выбранного сценария">
+      <Card id="overview" icon="display" title="Обзор" desc="Оценки по категориям и итоговая оценка">
         <Legend a={a} b={b} />
         <div className="ov">
           <div className="ov-cats">
@@ -277,12 +262,12 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
           <Radar labels={CATS.map((c) => c.title)} a={CATS.map((c) => A.s[c.id])} b={CATS.map((c) => B.s[c.id])} nameA={shortName(a)} nameB={shortName(b)} />
         </div>
         <div className="final">
-          <DuelBar label={`Итоговая оценка · ${sc.label}`} a={scoreA} b={scoreB} max={100} fmt={(n) => String(n)} />
+          <DuelBar label="Итоговая оценка" a={scoreA} b={scoreB} max={100} fmt={(n) => String(n)} />
         </div>
         <p className="foot">Оценки считаются автоматически по характеристикам и замерам — это не экспертное мнение. У камеры учитываются спецификации, а не качество снимков.</p>
       </Card>
 
-      <ValueCard key={a.id + b.id} a={a} b={b} A={A} B={B} scenario={scenario} />
+      <ValueCard key={a.id + b.id} a={a} b={b} A={A} B={B} />
 
       <SpecTable sections={specs} a={a} b={b} />
       <BenchCard a={a} b={b} ma={A.m} mb={B.m} />

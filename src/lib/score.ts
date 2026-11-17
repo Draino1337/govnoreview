@@ -13,20 +13,8 @@ export const CATS: { id: CatId; title: string; desc: string }[] = [
 
 export type Scores = Record<CatId, number>;
 
-export interface Scenario {
-  id: string;
-  label: string;
-  hint: string;
-  w: Scores;
-}
-
-export const SCENARIOS: Scenario[] = [
-  { id: 'all', label: 'Универсальный', hint: 'Всё понемногу', w: { display: 20, camera: 20, perf: 15, gaming: 10, battery: 20, comms: 15 } },
-  { id: 'game', label: 'Игры', hint: 'Мощность и плавность', w: { display: 15, camera: 3, perf: 25, gaming: 37, battery: 15, comms: 5 } },
-  { id: 'photo', label: 'Камерафон', hint: 'Фото и видео', w: { display: 15, camera: 47, perf: 10, gaming: 3, battery: 15, comms: 10 } },
-  { id: 'media', label: 'Мультимедиа', hint: 'Экран и звук', w: { display: 38, camera: 8, perf: 8, gaming: 8, battery: 14, comms: 24 } },
-  { id: 'battery', label: 'Автономность', hint: 'Дольше без розетки', w: { display: 8, camera: 8, perf: 8, gaming: 5, battery: 61, comms: 10 } },
-];
+/** вес каждой категории в итоговой оценке */
+const WEIGHTS: Scores = { display: 20, camera: 20, perf: 15, gaming: 10, battery: 20, comms: 15 };
 
 const clamp = (x: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
 /** значение → 0..100 между lo и hi; undefined, если данных нет */
@@ -70,7 +58,6 @@ export function scoreAll(m: Metrics): Scores {
     [lin(m.v4k, 0, 120), 1],
     [flag(m.v8k), 0.5],
     [lin(m.frontMp, 8, 32), 0.7],
-    [lin(m.dxo, 100, 170), 2],
   ]);
 
   const perf = wavg([
@@ -119,13 +106,12 @@ export function scoreAll(m: Metrics): Scores {
   };
 }
 
-export function overall(s: Scores, scenarioId: string): number {
-  const sc = SCENARIOS.find((x) => x.id === scenarioId) ?? SCENARIOS[0];
+export function overall(s: Scores): number {
   let sum = 0;
   let w = 0;
   for (const c of CATS) {
-    sum += s[c.id] * sc.w[c.id];
-    w += sc.w[c.id];
+    sum += s[c.id] * WEIGHTS[c.id];
+    w += WEIGHTS[c.id];
   }
   return Math.round(sum / w);
 }

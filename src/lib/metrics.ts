@@ -65,7 +65,6 @@ export interface Metrics {
   v4k?: number;
   v8k: boolean;
   frontMp?: number;
-  dxo?: number;
   // связь и звук
   wifi?: number;
   bt?: number;
@@ -151,7 +150,6 @@ export function getMetrics(p: Phone): Metrics {
     v4k: /Нет/.test(g('Основная камера', '', 'Запись 4K видео') ?? 'Нет') ? 0 : num(g('Основная камера', '', 'Запись 4K видео')),
     v8k: yes(g('Основная камера', '', 'Запись 8K видео')) || /До/.test(g('Основная камера', '', 'Запись 8K видео') ?? ''),
     frontMp: num(g('Фронтальная камера', '', 'Количество мегапикселей')),
-    dxo: bench('Итоговая оценка камеры'),
 
     wifi: wifi ? +wifi[1] + (wifi[2] ? 0.5 : 0) : undefined,
     bt: num(g('Коммуникации', '', 'Версия Bluetooth')),

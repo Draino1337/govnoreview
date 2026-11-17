@@ -24,7 +24,7 @@ export function Ring({ value, color, size = 96, caption = 'из 100', leader = f
         <small>{caption}</small>
       </div>
       {leader && (
-        <span className="ring-crown" title="Лидер в выбранном сценарии">
+        <span className="ring-crown" title="Лидер сравнения">
           <Icon name="trophy" size={14} />
         </span>
       )}

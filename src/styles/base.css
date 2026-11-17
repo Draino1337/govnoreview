@@ -243,24 +243,6 @@ a {
   padding: 0 16px;
   font-size: 14px;
 }
-.chip {
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--soft);
-  font-weight: 700;
-  font-size: 14px;
-  transition: background 0.2s, color 0.2s, transform 0.15s;
-}
-.chip:hover {
-  background: var(--a-soft);
-}
-.chip.is-on {
-  background: var(--ink);
-  color: var(--bg);
-  border-color: transparent;
-}
 .select {
   height: 40px;
   padding: 0 12px;
