@@ -2,6 +2,7 @@
 // Формат строки TSV:  секция|подраздел|параметр|значение A|значение B
 //                     B|название замера|значение A|значение B   (бенчмарки и измерения)
 // Чтобы добавить телефон: положите ещё одну выгрузку в research/tsv, опишите её в PAGES и запустите `npm run data`.
+// Новые модели добавьте записью в src/data/changelog.ts — это Changelog на главной.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
