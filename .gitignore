@@ -9,3 +9,4 @@ skills-lock.json
 
 # исходные картинки производителей (в репозиторий идут только готовые вырезки из public/phones)
 research/img-src/
+*.tsbuildinfo
