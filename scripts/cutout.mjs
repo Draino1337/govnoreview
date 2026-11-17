@@ -4,6 +4,7 @@
 // 2) если по углам фон непрозрачный — вырезает однотонную подложку заливкой от краёв (мягкая кромка, без «ореола»);
 // 3) масштабирует до нужной высоты (маленькие исходники растит с Lanczos и лёгкой резкостью) и сохраняет WebP с альфой.
 import sharp from 'sharp';
+import { refineEdge } from './edge.mjs';
 
 const [input, output, ...rest] = process.argv.slice(2);
 const opt = Object.fromEntries(rest.map((o) => o.replace(/^--/, '').split('=')));
@@ -125,7 +126,90 @@ const opaqueCorners = [[0, 0], [w - 1, 0], [0, h - 1], [w - 1, h - 1]].every(([x
 const removed = opaqueCorners && opt.bg !== 'keep';
 if (removed) removeBackground();
 
-// 3) ещё раз обрезаем поля (уже по результату вырезки), масштабируем, сохраняем
+// Связные пятна непрозрачных пикселей. После вырезки фона шум JPEG у кромки остаётся отдельными светлыми
+// крапинками — убираем все пятна меньше 1% самого крупного. С --blob=largest оставляем только самое крупное
+// (например, спину без профиля телефона, стоящего рядом в том же кадре).
+if (removed || opt.blob === 'largest') {
+  const label = new Int32Array(w * h).fill(-1);
+  const sizes = [];
+  let best = -1;
+  let bestSize = 0;
+  for (let s = 0, n = 0; s < w * h; s++) {
+    if (label[s] >= 0 || data[s * 4 + 3] <= 8) continue;
+    let size = 0;
+    const stack = [s];
+    label[s] = n;
+    while (stack.length) {
+      const k = stack.pop();
+      size++;
+      const x = k % w;
+      const y = (k / w) | 0;
+      for (const j of [x > 0 ? k - 1 : -1, x < w - 1 ? k + 1 : -1, y > 0 ? k - w : -1, y < h - 1 ? k + w : -1])
+        if (j >= 0 && label[j] < 0 && data[j * 4 + 3] > 8) {
+          label[j] = n;
+          stack.push(j);
+        }
+    }
+    sizes[n] = size;
+    if (size > bestSize) [best, bestSize] = [n, size];
+    n++;
+  }
+  const keep = (n) => (opt.blob === 'largest' ? n === best : sizes[n] >= bestSize * 0.01);
+  for (let k = 0; k < w * h; k++) if (label[k] < 0 || !keep(label[k])) data[k * 4 + 3] = 0;
+}
+
+// --mirror=right: правая кромка повторяет левую. Нужна, когда спина лежит поверх экрана и справа из-за её
+// скруглённых углов выглядывает экран: кадр режется (--crop) точно по правой кромке спины, а форму углов
+// берём с левой стороны. Кнопки, торчащие слева, не отражаем — опорная линия берётся по медиане кромки.
+if (opt.mirror === 'right') {
+  const left = new Int32Array(h).fill(-1);
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++)
+      if (data[(y * w + x) * 4 + 3] > 128) {
+        left[y] = x;
+        break;
+      }
+  const rows = [...left].filter((v) => v >= 0).sort((a, b) => a - b);
+  const base = rows[rows.length >> 1];
+  for (let y = 0; y < h; y++) {
+    for (let x = w >> 1; x < w; x++) {
+      const i = (y * w + x) * 4;
+      const xm = base + (w - 1 - x); // зеркальная точка слева, отсчёт от опорной линии
+      data[i + 3] = left[y] < 0 ? 0 : Math.min(data[i + 3], data[(y * w + xm) * 4 + 3]);
+    }
+  }
+}
+
+// --mirror=bottom: нижние углы повторяют верхние. Нужна, когда под телефоном снят «отблеск пола» (Pixel у
+// Kimovil): ищем низ корпуса — строку, от которой ширина силуэта вверх совпадает с шириной от верха вниз,
+// всё ниже неё срезаем, а форму нижних углов берём с верхних.
+if (opt.mirror === 'bottom') {
+  const width = (y) => {
+    let n = 0;
+    for (let x = 0; x < w; x++) n += data[(y * w + x) * 4 + 3] > 128;
+    return n;
+  };
+  const W = Array.from({ length: h }, (_, y) => width(y));
+  const y0 = W.findIndex((v) => v > 0);
+  const R = Math.round(h * 0.06); // высота скругления угла с запасом
+  let y1 = h - 1;
+  let bestErr = Infinity;
+  for (let c = Math.round(h * 0.85); c < h; c++) {
+    let err = 0;
+    for (let r = 0; r < R; r++) err += Math.abs(W[y0 + r] - W[c - r]);
+    if (err < bestErr) [bestErr, y1] = [err, c];
+  }
+  for (let y = y1 + 1; y < h; y++) for (let x = 0; x < w; x++) data[(y * w + x) * 4 + 3] = 0;
+  for (let r = 0; r < R; r++)
+    for (let x = 0; x < w; x++) {
+      const i = ((y1 - r) * w + x) * 4 + 3;
+      data[i] = Math.min(data[i], data[((y0 + r) * w + x) * 4 + 3]);
+    }
+}
+
+const EDGE_SIGMA = +(opt.smooth ?? 1); // радиус сглаживания контура (scripts/edge.mjs), px итогового кадра; 0 — не трогать
+
+// 3) ещё раз обрезаем поля (уже по результату вырезки), масштабируем, чистим кромку, сохраняем
 const b = alphaBox();
 if (!b) throw new Error('пустая картинка после вырезки');
 const cropH = b[3] - b[1] + 1;
@@ -134,7 +218,9 @@ let out = rawOf(data, w, h)
   .extract({ left: b[0], top: b[1], width: b[2] - b[0] + 1, height: cropH })
   .resize({ height: targetH, withoutEnlargement: cropH >= UP, kernel: 'lanczos3' });
 if (cropH < UP) out = out.sharpen({ sigma: 0.7 });
-await out.webp({ quality: 90, alphaQuality: 100, effort: 5 }).toFile(output);
+const fin = await out.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+if ((removed || opt.mirror) && EDGE_SIGMA > 0) refineEdge(fin.data, fin.info.width, fin.info.height, { sigma: EDGE_SIGMA });
+await rawOf(fin.data, fin.info.width, fin.info.height).webp({ quality: 90, alphaQuality: 100, effort: 5 }).toFile(output);
 
 const m = await sharp(output).metadata();
 console.log(`${output}  ${m.width}x${m.height}  ${removed ? 'фон вырезан (tol=' + TOL + ')' : 'прозрачность из источника'}${cropH < UP ? '  (исходник ' + cropH + 'px, увеличен)' : ''}`);

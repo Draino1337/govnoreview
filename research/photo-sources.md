@@ -1,56 +1,81 @@
 # Источники снимков телефонов
 
-Кадр `public/phones/<id>.webp` собирает `scripts/combine.mjs` из вырезок `research/parts/<id>-front.webp` (экран) и `<id>-back.webp` (спина); вырезки сделаны скриптом `scripts/cutout.mjs` из снимков, перечисленных ниже. Сами исходники в репозиторий не входят (папка `research/img-src/` в `.gitignore`), все изображения принадлежат их производителям.
+## Сейчас на сайте: присланные кадры
 
-- **Kimovil** — галерея устройства на странице `https://www.kimovil.com/en/where-to-buy-<модель>` (открывается кликом по фото). Номер вида `p<id>` — кадр «вид спереди» (`phone_front`), `d<id>` — кадр из `default`; `<id>` — число в имени файла `thumb_<id>_…_big.jpg` на `cdn-files.kimovil.com`. Спины у Kimovil почти везде — композиция «спина + экран», где экран лежит поверх спины.
-- **Samsung US** — кадры галереи на странице покупки samsung.com/us (PNG с прозрачным фоном, `images.samsung.com/is/image/samsung/p6pim/us/…`).
-- **Apple** — композиции «спина + экран» из магазина Apple (`as-images.apple.com/is/<имя>`).
+С 17.11.2026 все 28 кадров на сайте — присланные владельцем сайта готовые композиции «спина + экран» (PNG с прозрачным фоном, около 1150×1370 px). Владелец сделал их на основе прежних кадров сайта (описаны ниже). Исходники PNG в репозиторий не входят; очищенные копии лежат в `research/parts/<id>-user.webp`.
+
+Как заменить кадр присланным:
+
+```bash
+node scripts/user-photo.mjs <папка или файлы …>   # «<бренд> <модель>.png», как в src/data/phones.json
+npm run data
+```
+
+`user-photo.mjs` определяет телефон по имени файла, чистит альфу (почти прозрачная «дымка» вокруг телефона с альфой ниже 40 убирается, корпус делается сплошным) и сохраняет `research/parts/<id>-user.webp`. `combine.mjs` предпочитает такой кадр всему остальному (режим `user`): уменьшает до 640 px по высоте и сглаживает кромку (`scripts/edge.mjs`: ровный контур без лесенки, цвет кромки — без примеси белого фона). Чтобы вернуть телефону сборку из Kimovil, удалите его `<id>-user.webp` и запустите `node scripts/combine.mjs <id>`.
+
+## Запасной вариант: сборка из Kimovil
+
+Все снимки — из галерей **Kimovil** (`https://www.kimovil.com/en/where-to-buy-<модель>`, файлы с `cdn-files.kimovil.com`). Исключение пока одно: Galaxy S26 FE, у которого на Kimovil нет ни одного снимка (см. ниже). Все изображения принадлежат их производителям.
+
+Номер кадра: `p<n>` — снимок «вид спереди» (`phone_front/…/thumb_<n>_phone_front_big.jpg`), `d<n>` — кадр галереи (`default/…/thumb_<n>_default_big.jpg`). Размер `_big` — самый крупный, который отдаёт Kimovil. Папки в пути считаются из номера: `⌊n/100000⌋+1` (4 цифры) и `⌊n%100000/1000⌋+1` (2 цифры).
 
 ## Как собирается кадр
 
-Во всех кадрах экран лежит поверх спины, как в композициях источников. Скрытую часть спины не дорисовываем. Режимы сборки:
+1. `node scripts/kimovil.mjs [id …]` скачивает исходники в `research/img-src/<id>/` (папка в `.gitignore`) и делает вырезки `research/parts/<id>-front.webp` и `<id>-back.webp` скриптом `scripts/cutout.mjs`. Таблица кадров — в начале `scripts/kimovil.mjs`.
+2. `node scripts/combine.mjs [id …]` собирает `public/phones/<id>.webp`.
+3. `npm run data` пересчитывает отношение сторон кадров в `src/data/phones.json`.
+
+Во всех кадрах спина слева, экран лежит поверх неё справа. Экран — всегда снимок спереди Kimovil, спина — по возможности отдельный кадр того же цвета, что обои на экране. Режимы:
 
 | Режим | Что делает | Телефоны |
 | --- | --- | --- |
-| `keep` | готовая композиция источника «спина + экран», берём как есть | iPhone, Pixel, OnePlus, Oppo, Vivo, Xiaomi, Poco, Redmi, Galaxy A56 |
-| `pure` | спина целиком отдельным кадром: кладём экран поверх, он закрывает 25% ширины спины (`OVERLAP` в скрипте), на спину ложится мягкая тень | шесть Samsung, Xiaomi 17T Pro |
-| `split` | спина и экран стоят рядом: режем по прозрачному зазору и кладём экран поверх, как в `pure` | Poco F9 Ultra |
+| `pure` | спина отдельным кадром; экран кладём поверх, он закрывает 25% ширины спины (`OVERLAP` в `combine.mjs`), на спину ложится мягкая тень | все остальные |
+| `keep` | готовая композиция Kimovil «спина + экран» с экраном сверху, берём как есть | Galaxy A57, Xiaomi 17 Pro Max, Poco F8 Pro, Redmi Note 17 Pro, Redmi Note 15 Pro, OnePlus 16, OnePlus 15 |
 
-У iPhone 17 Pro, 17 Pro Max, 18 Pro Max и Oppo Find X9 Ultra в самой композиции источника спина лежит поверх экрана, их тоже берём как есть.
+`keep` — там, где у Kimovil нет прямого снимка спины (только композиции или спина под углом).
 
-У двух Pixel в композициях Kimovil под телефоном оставался белый «отблеск пола». Его срезали один раз прямо в `research/parts/google-pixel-10*-back.webp`: всё ниже нижней кромки спины и экрана, нижние углы повторяют верхние.
+Особые случаи вырезки (параметры `cutout.mjs`):
 
-## Откуда какая вырезка
+- **iPhone** (`--blob=largest`) — у Kimovil спина снята рядом с профилем телефона; оставляем только спину. Эти кадры у Kimovil мелкие (≈300 px по высоте), при сборке растягиваются примерно вдвое, поэтому спины iPhone мягче, чем у остальных.
+- **Oppo Find X9 Ultra** (`--crop`, `--mirror=right`) — отдельной прямой спины нет; берём композицию, где спина лежит поверх экрана, режем по правой кромке спины, а форму правых углов повторяем с левых.
+- **Pixel 10, 10 Pro XL** (`--mirror=bottom`) — под телефоном снят светлый «отблеск пола»; срезаем его, нижние углы повторяем с верхних.
 
-| Телефон | Экран | Спина |
-| --- | --- | --- |
-| `samsung-galaxy-s26-ultra` | Samsung US, кадр 550994049 | Samsung US, кадр 550994059 |
-| `samsung-galaxy-s25-ultra` | Samsung US, кадр 548617078 | Samsung US, кадр 548617075 |
-| `samsung-galaxy-s25` | Samsung US, кадр 547068493 | Samsung US, кадр 547068490 |
-| `samsung-galaxy-s26-fe` | Samsung US, кадр 554292601 | Samsung US, кадр 554292598 |
-| `samsung-galaxy-s25-fe` | Samsung US, кадр 548774439 | Samsung US, кадр 548774436 |
-| `samsung-galaxy-a57-5g` | Samsung US, кадр 551691213 | Samsung US, кадр 551691216 |
-| `samsung-galaxy-a56-5g` | Kimovil p1048638 | Kimovil d1052735 |
-| `apple-iphone-18-pro-max` | Kimovil p1287207 | Apple: iphone-18-pro-finish-select-202609-6-9inch-burgundy |
-| `apple-iphone-17-pro-max` | Kimovil p1133112 | Apple: iphone-17-pro-finish-select-202509-6-9inch-cosmicorange |
-| `apple-iphone-17-pro` | Kimovil p1133102 | Apple: iphone-17-pro-finish-select-202509-6-3inch-deepblue |
-| `apple-iphone-17` | Kimovil p1133088 | Apple: iphone-17-finish-select-mistblue-202509 |
-| `apple-iphone-16-pro-max` | Kimovil p975674 | Apple: iphone-16-pro-finish-select-202409-6-9inch-deserttitanium |
-| `apple-iphone-16` | Kimovil p975708 | Apple: iphone-16-finish-select-202409-6-1inch-ultramarine |
-| `apple-iphone-15` | Kimovil p820071 | Apple: iphone-15-finish-select-202309-6-1inch-blue |
-| `google-pixel-10-pro-xl` | Kimovil p1120732 | Kimovil d1120743 |
-| `google-pixel-10` | Kimovil p1120715 | Kimovil d1120696 |
-| `xiaomi-17-pro-max` | Kimovil p1139718 | Kimovil d1139713 |
-| `xiaomi-17t-pro` | Kimovil p1244241 | Kimovil d1244237 (чистая спина) |
-| `xiaomi-poco-x8-pro-max` | Kimovil p1217581 | Kimovil d1217569 |
-| `xiaomi-poco-f8-pro` | Kimovil p1166693 | Kimovil d1166677 |
-| `xiaomi-poco-f8-ultra` | Kimovil p1166676 | Kimovil d1166659 |
-| `xiaomi-poco-f9-ultra` | Kimovil p1281503 | Kimovil d1281544 |
-| `xiaomi-redmi-note-17-pro` | Kimovil p1264556 | Kimovil d1264551 |
-| `xiaomi-redmi-note-15-pro-5g` | Kimovil p1170334 | Kimovil d1170320 |
-| `oneplus-16` | Kimovil p1300848 | Kimovil d1300842 |
-| `oneplus-15` | Kimovil p1149050 | Kimovil d1149027 |
-| `vivo-x300-ultra` | Kimovil p1223349 | Kimovil d1222296 |
-| `oppo-find-x9-ultra` | Kimovil p1223378 | Kimovil d1228191 |
+Общее для всех: фон вырезается заливкой от краёв без подъедания кромки (`--erode=0`, тёмная обводка корпуса остаётся), мелкие отдельные пятна (шум JPEG по краю — «белые точки») убираются, кромка альфы слегка сглаживается.
 
-В режимах `keep` и `split` готовая композиция (колонка «Спина») несёт и экран, поэтому «Экран» отдельно нужен только в режиме `pure`.
+## Откуда какой кадр
+
+| Телефон | Экран | Спина | Режим |
+| --- | --- | --- | --- |
+| `samsung-galaxy-s26-ultra` | p1202118 | d1202113 | pure |
+| `samsung-galaxy-s25-ultra` | p1035304 | d1035322 | pure |
+| `samsung-galaxy-s25` | p1035258 | d1035289 | pure |
+| `samsung-galaxy-s25-fe` | p1130207 | d1132078 | pure |
+| `samsung-galaxy-a57-5g` | — | d1220379 | keep |
+| `samsung-galaxy-a56-5g` | p1048638 | d1052726 | pure |
+| `apple-iphone-18-pro-max` | p1287207 | d1287132 | pure |
+| `apple-iphone-17-pro-max` | p1133112 | d1133108 | pure |
+| `apple-iphone-17-pro` | p1133102 | d1133092 | pure |
+| `apple-iphone-17` | p1133088 | d1133073 | pure |
+| `apple-iphone-16-pro-max` | p975674 | d975661 | pure |
+| `apple-iphone-16` | p975708 | d975712 | pure |
+| `apple-iphone-15` | p820071 | d820072 | pure |
+| `google-pixel-10-pro-xl` | p1120732 | d1120739 | pure |
+| `google-pixel-10` | p1120715 | d1120705 | pure |
+| `xiaomi-17-pro-max` | — | d1139713 | keep |
+| `xiaomi-17t-pro` | p1244241 | d1244237 | pure |
+| `xiaomi-poco-x8-pro-max` | p1217581 | d1217557 | pure |
+| `xiaomi-poco-f8-pro` | — | d1166678 | keep |
+| `xiaomi-poco-f8-ultra` | p1166676 | d1166667 | pure |
+| `xiaomi-poco-f9-ultra` | p1281503 | d1281548 | pure |
+| `xiaomi-redmi-note-17-pro` | — | d1264555 | keep |
+| `xiaomi-redmi-note-15-pro-5g` | — | d1170320 | keep |
+| `oneplus-16` | — | d1300845 | keep |
+| `oneplus-15` | — | d1149027 | keep |
+| `vivo-x300-ultra` | p1223349 | d1222302 | pure |
+| `oppo-find-x9-ultra` | p1223378 | d1228191 | pure |
+
+В режиме `keep` композиция уже несёт экран, отдельный снимок спереди не нужен.
+
+## Galaxy S26 FE
+
+На Kimovil у него снимков нет, поэтому в таблицу `scripts/kimovil.mjs` он не входит. Раньше его кадр был собран из снимков Samsung US 554292601 (экран) и 554292598 (спина); сейчас на сайте присланный кадр (`research/parts/samsung-galaxy-s26-fe-user.webp`).

@@ -1,18 +1,17 @@
 // Собирает единый кадр телефона: экран лежит поверх спины и закрывает её на 25% ширины.
-//   node scripts/combine.mjs [id …]      (без аргументов — все телефоны из research/parts)
+//   node scripts/combine.mjs [id …]      (без аргументов — все телефоны: таблица scripts/kimovil.mjs + присланные)
 //
-// Исходные детали лежат в research/parts/<id>-front.webp и <id>-back.webp (вырезки с прозрачным фоном из
-// scripts/cutout.mjs), результат — public/phones/<id>.webp.
-//
-// Откуда берётся кадр:
-//  • keep  — готовая композиция источника «спина + экран» (Kimovil, Apple, Oppo): берём как есть, ничего не
-//            дорисовываем;
-//  • pure  — спина целиком отдельным кадром (Samsung, Xiaomi 17T Pro): кладём экран поверх спины;
-//  • split — спина и экран стоят рядом, не перекрываясь (Poco F9 Ultra): режем по зазору и кладём экран поверх.
+// Исходные детали лежат в research/parts/, результат — public/phones/<id>.webp. Режим сборки:
+//  • user — есть <id>-user.webp: готовый кадр, присланный вручную (scripts/user-photo.mjs); главнее всего
+//           остального, берём как есть и только чистим кромку;
+//  • pure — по таблице Kimovil: спина (<id>-back.webp) отдельным кадром, кладём экран (<id>-front.webp) поверх;
+//  • keep — по таблице Kimovil: готовая композиция «спина + экран» с экраном сверху, берём как есть.
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { TABLE } from './kimovil.mjs';
+import { refineEdge } from './edge.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PARTS = path.join(root, 'research', 'parts');
@@ -20,9 +19,6 @@ const OUT = path.join(root, 'public', 'phones');
 
 const OVERLAP = 0.25; // на сколько экран закрывает спину, доля ширины спины
 const HEIGHT = 640; // высота итогового кадра, px
-// композиция Apple с узкой рамкой (отношение сторон < 0.6), но это уже готовый кадр «спина + экран»
-const KEEP = new Set(['apple-iphone-17']);
-const SPLIT = new Set(['xiaomi-poco-f9-ultra']);
 
 const load = async (file, height) => {
   let img = sharp(file).ensureAlpha();
@@ -32,30 +28,6 @@ const load = async (file, height) => {
 };
 const toSharp = (im) => sharp(im.data, { raw: { width: im.w, height: im.h, channels: 4 } });
 const px = (im, x, y) => (y * im.w + x) * 4;
-
-/** Спина и экран стоят рядом: разрезаем по первому прозрачному зазору посередине. */
-function splitPair(C) {
-  const empty = (x) => {
-    for (let y = 0; y < C.h; y++) if (C.data[px(C, x, y) + 3] > 8) return false;
-    return true;
-  };
-  let a = -1;
-  let b = -1;
-  for (let x = Math.round(C.w * 0.3); x < Math.round(C.w * 0.7); x++) {
-    if (empty(x)) {
-      if (a < 0) a = x;
-      b = x;
-    } else if (a >= 0) break;
-  }
-  if (a < 0) throw new Error('нет прозрачного зазора между спиной и экраном');
-  const cut = (x0, x1) => {
-    const w = x1 - x0;
-    const data = Buffer.alloc(w * C.h * 4);
-    for (let y = 0; y < C.h; y++) C.data.copy(data, y * w * 4, px(C, x0, y), px(C, x1, y));
-    return { data, w, h: C.h };
-  };
-  return { back: cut(0, a), front: cut(b + 1, C.w) };
-}
 
 /** Тень от экрана на спине: мягкая, только в пределах самой спины. */
 async function shadowOnBack(back, front, canvasW, x0) {
@@ -82,22 +54,18 @@ async function shadowOnBack(back, front, canvasW, x0) {
 async function build(id) {
   const frontFile = path.join(PARTS, `${id}-front.webp`);
   const backFile = path.join(PARTS, `${id}-back.webp`);
-  const info = await sharp(backFile).metadata();
-
-  let back;
-  let front;
-  let mode;
-  if (SPLIT.has(id)) {
-    mode = 'split';
-    ({ back, front } = splitPair(await load(backFile, HEIGHT)));
-  } else if (KEEP.has(id) || info.width / info.height >= 0.6) {
-    // широкий кадр — это уже композиция «спина + экран»
-    return finish(id, 'keep', await toSharp(await load(backFile, HEIGHT)).png().toBuffer());
-  } else {
-    mode = 'pure';
-    back = await load(backFile, HEIGHT);
-    front = await load(frontFile, HEIGHT);
+  const userFile = path.join(PARTS, `${id}-user.webp`);
+  if (fs.existsSync(userFile)) {
+    const im = await load(userFile, HEIGHT);
+    refineEdge(im.data, im.w, im.h); // кромку чистим уже на итоговом размере
+    return finish(id, 'user', await toSharp(im).png().toBuffer());
   }
+  if (!TABLE[id]) throw new Error(`нет ни присланного кадра, ни строки в таблице scripts/kimovil.mjs: ${id}`);
+  if (TABLE[id].keep) return finish(id, 'keep', await toSharp(await load(backFile, HEIGHT)).png().toBuffer());
+
+  const mode = 'pure';
+  const back = await load(backFile, HEIGHT);
+  const front = await load(frontFile, HEIGHT);
 
   const x0 = back.w - Math.round(OVERLAP * back.w);
   const width = x0 + front.w;
@@ -134,9 +102,9 @@ async function finish(id, mode, png) {
 }
 
 const ids = process.argv.slice(2);
-const all = fs
-  .readdirSync(PARTS)
-  .filter((f) => f.endsWith('-back.webp'))
-  .map((f) => f.replace(/-back\.webp$/, ''));
 fs.mkdirSync(OUT, { recursive: true });
-for (const id of ids.length ? ids : all) await build(id);
+const user = fs
+  .readdirSync(PARTS)
+  .filter((f) => f.endsWith('-user.webp'))
+  .map((f) => f.replace(/-user\.webp$/, ''));
+for (const id of ids.length ? ids : [...new Set([...Object.keys(TABLE), ...user])]) await build(id);
