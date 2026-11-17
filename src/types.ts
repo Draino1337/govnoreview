@@ -11,7 +11,7 @@ export interface Phone {
   id: string;
   brand: string;
   name: string;
-  /** единый кадр «спина поверх экрана» public/phones/<id>.webp: отношение ширины к высоте, 0 — кадра нет */
+  /** единый кадр «экран поверх спины» public/phones/<id>.webp: отношение ширины к высоте, 0 — кадра нет */
   photo: number;
   tier: string;
   released: string; // YYYY-MM

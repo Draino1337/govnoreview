@@ -11,7 +11,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TSV_DIR = path.join(root, 'research', 'tsv');
 const OUT = path.join(root, 'src', 'data', 'phones.json');
 
-// Для каждого телефона показывается единый кадр «спина поверх экрана»: public/phones/<id>.webp
+// Для каждого телефона показывается единый кадр «экран поверх спины»: public/phones/<id>.webp
 // (собирается scripts/combine.mjs из вырезок в research/parts), а если файла нет — нарисованная задняя
 // панель: body — градиент корпуса, cam — раскладка камер.
 const PAGES = {
