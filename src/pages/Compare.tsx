@@ -146,7 +146,7 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
   const A = analyze(a);
   const B = analyze(b);
   const [scenario, setScenario] = useState('all');
-  const [view, setView] = useState<View>('back'); // оба телефона показываем с одной стороны
+  const [view, setView] = useState<View>('front'); // оба телефона показываем с одной стороны; открываем спереди
   const [swapping, setSwapping] = useState(false);
   const flip = () => setView((v) => (v === 'back' ? 'front' : 'back'));
   const [toast, setToast] = useState('');
