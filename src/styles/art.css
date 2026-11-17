@@ -1,0 +1,256 @@
+/* Нарисованный телефон. Все размеры считаются от --ph (высота), чтобы масштабироваться как одно целое. */
+.pa {
+  --ph: 200px;
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  display: block;
+  flex: none;
+  height: var(--ph);
+  aspect-ratio: 9 / 19.2;
+  padding: 0;
+  border: 0;
+  background: none;
+  perspective: 900px;
+}
+.pa-xs {
+  --ph: 46px;
+}
+.pa-sm {
+  --ph: 132px;
+}
+.pa-md {
+  --ph: 196px;
+}
+.pa-lg {
+  --ph: 272px;
+}
+.pa-interactive {
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+.pa-body {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(calc(var(--ry) + var(--flip, 0deg)));
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pa-body.is-back {
+  --flip: 180deg;
+}
+.pa-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: calc(var(--ph) * 0.068);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: linear-gradient(145deg, var(--b0), var(--b1));
+  box-shadow:
+    0 calc(var(--ph) * 0.07) calc(var(--ph) * 0.14) calc(var(--ph) * -0.05) rgba(8, 8, 40, 0.5),
+    inset 0 0 0 calc(var(--ph) * 0.007) rgba(255, 255, 255, 0.4);
+}
+.pa-front {
+  padding: calc(var(--ph) * 0.018);
+}
+.pa-screen {
+  position: relative;
+  display: grid;
+  place-content: center;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--ph) * 0.052);
+  color: #fff;
+  text-align: center;
+  background:
+    radial-gradient(120% 70% at 18% 0%, var(--w0), transparent 62%),
+    linear-gradient(170deg, color-mix(in srgb, var(--w1) 85%, #000), #05060d);
+  box-shadow: inset 0 0 0 calc(var(--ph) * 0.01) #000;
+}
+.pa-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.24), transparent 38%);
+}
+.pa-hole {
+  position: absolute;
+  top: calc(var(--ph) * 0.03);
+  left: 50%;
+  width: calc(var(--ph) * 0.03);
+  height: calc(var(--ph) * 0.03);
+  border-radius: 50%;
+  background: #000;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 calc(var(--ph) * 0.004) #20202b;
+}
+.pa-clock {
+  font: 800 calc(var(--ph) * 0.13) / 1 var(--display);
+  letter-spacing: -0.04em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+.pa-date {
+  margin-top: calc(var(--ph) * 0.02);
+  font-size: calc(var(--ph) * 0.04);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.pa-rear {
+  transform: rotateY(180deg);
+}
+.pa-rear::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.36), transparent 40%, rgba(0, 0, 0, 0.14));
+}
+.pa-brand {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--ph) * 0.06);
+  left: 0;
+  text-align: center;
+  font-size: calc(var(--ph) * 0.034);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  mix-blend-mode: overlay;
+}
+.pa-hint {
+  position: absolute;
+  right: -10px;
+  bottom: 10px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--solid);
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.pa-interactive:hover .pa-hint,
+.pa-interactive:focus-visible .pa-hint {
+  opacity: 1;
+}
+@media (hover: none) {
+  .pa-hint {
+    opacity: 0.85;
+  }
+}
+
+/* камеры на задней панели */
+.cam {
+  position: absolute;
+  top: calc(var(--ph) * 0.045);
+  left: calc(var(--ph) * 0.045);
+}
+.lens {
+  display: block;
+  flex: none;
+  width: calc(var(--ph) * 0.085);
+  height: calc(var(--ph) * 0.085);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(90, 110, 255, 0.45) 0, #0b0d18 42%, #000 100%);
+  box-shadow:
+    inset 0 0 0 calc(var(--ph) * 0.008) rgba(255, 255, 255, 0.3),
+    0 calc(var(--ph) * 0.006) calc(var(--ph) * 0.016) rgba(0, 0, 0, 0.5);
+}
+.flash {
+  display: block;
+  width: calc(var(--ph) * 0.028);
+  height: calc(var(--ph) * 0.028);
+  border-radius: 50%;
+  background: #fff4c4;
+  box-shadow: 0 0 calc(var(--ph) * 0.02) #fff;
+}
+.cam-col {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ph) * 0.03);
+}
+.cam-tri,
+.cam-duo,
+.cam-plate {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.07));
+  box-shadow: inset 0 0 0 calc(var(--ph) * 0.006) rgba(255, 255, 255, 0.4);
+}
+.cam-tri {
+  width: calc(var(--ph) * 0.235);
+  height: calc(var(--ph) * 0.235);
+  border-radius: calc(var(--ph) * 0.055);
+}
+.cam-tri .lens {
+  position: absolute;
+  width: calc(var(--ph) * 0.088);
+  height: calc(var(--ph) * 0.088);
+}
+.cam-tri .lens:nth-child(1) {
+  left: 8%;
+  top: 8%;
+}
+.cam-tri .lens:nth-child(2) {
+  left: 8%;
+  bottom: 8%;
+}
+.cam-tri .lens:nth-child(3) {
+  right: 8%;
+  top: 31%;
+}
+.cam-tri .flash {
+  position: absolute;
+  right: 16%;
+  top: 11%;
+}
+.cam-duo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: calc(var(--ph) * 0.125);
+  height: calc(var(--ph) * 0.22);
+  border-radius: calc(var(--ph) * 0.07);
+}
+.cam-ring {
+  position: relative;
+  width: calc(var(--ph) * 0.26);
+  height: calc(var(--ph) * 0.26);
+  border-radius: 50%;
+  background: radial-gradient(circle, #0a0a10 0 62%, rgba(255, 255, 255, 0.34) 64% 68%, rgba(255, 255, 255, 0.1) 70%);
+}
+.cam-ring .lens {
+  position: absolute;
+  width: calc(var(--ph) * 0.07);
+  height: calc(var(--ph) * 0.07);
+}
+.cam-ring .lens:nth-child(1) {
+  left: 17%;
+  top: 14%;
+}
+.cam-ring .lens:nth-child(2) {
+  left: 17%;
+  bottom: 14%;
+}
+.cam-ring .lens:nth-child(3) {
+  right: 14%;
+  top: 36%;
+}
+.cam-plate {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: calc(var(--ph) * 0.025);
+  padding: calc(var(--ph) * 0.022);
+  border-radius: calc(var(--ph) * 0.045);
+}
+.cam-plate .flash {
+  align-self: center;
+  justify-self: center;
+}

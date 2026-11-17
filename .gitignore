@@ -1,0 +1,8 @@
+node_modules/
+*.log
+.vite/
+
+# локальный инструментарий агента — в репозиторий не нужен
+.claude/
+.agents/
+skills-lock.json
