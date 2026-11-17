@@ -1,7 +1,9 @@
 .crumbs {
   display: flex;
+  flex-wrap: wrap; /* на самых узких экранах вторая кнопка переходит на новую строку, а не вылезает за край */
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   margin: 22px 0 14px;
 }
 
@@ -22,12 +24,15 @@
     radial-gradient(38% 60% at 24% 42%, var(--a-soft), transparent 72%),
     radial-gradient(38% 60% at 76% 42%, var(--b-soft), transparent 72%);
 }
+/* Шесть общих строк: кольцо, телефон, название, параметры, цена, кнопка. Обе колонки (.side) берут их
+   через subgrid, поэтому строка одинаково высокая слева и справа — даже если название или параметры
+   в одной колонке переносятся на две строки, а в другой нет, цена и кнопки остаются на одной линии. */
 .hero-grid {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: start;
-  gap: 8px;
+  grid-template-rows: auto auto auto auto auto auto;
+  gap: 10px 8px;
   transition: opacity 0.28s, transform 0.28s;
 }
 .hero-grid.is-swapping {
@@ -36,12 +41,21 @@
 }
 .side {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  grid-row: 1 / span 6;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* единственная колонка ровно по ширине .side: широкая картинка не раздвигает её */
+  grid-template-rows: subgrid;
   gap: 10px;
+  justify-items: center;
+  align-items: start;
   min-width: 0;
   text-align: center;
+}
+.side-a {
+  grid-column: 1;
+}
+.side-b {
+  grid-column: 3;
 }
 .side .ring {
   margin-bottom: 4px;
@@ -65,6 +79,7 @@
   font-weight: 800;
 }
 .side-price small {
+  display: inline-block; /* «при выходе» переносится целиком, а не по слову */
   color: var(--muted);
   font-size: 12px;
   font-weight: 600;
@@ -73,15 +88,21 @@
   width: min(100%, 300px);
   text-align: left;
 }
+.side .ps-field {
+  height: 40px; /* как у кнопки «Сменить»: шапка не прыгает, когда открывается поиск */
+}
 .side .ps-label {
   display: none;
 }
+/* «VS» и кнопка обмена — посередине строки с телефонами */
 .vs {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  padding-top: 215px;
 }
 .vs span {
   font: 800 30px var(--display);
@@ -693,29 +714,19 @@
     padding: 22px 12px 18px;
   }
   .hero-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    column-gap: 4px;
   }
   .hero .pa-lg {
     --ph: 230px;
   }
-  .hero .pa {
-    max-width: calc(100% - 16px); /* зазор посередине под бейдж «VS» */
-  }
   .side-name {
-    font-size: 15px;
+    font-size: clamp(13px, 3.9vw, 15px);
   }
   .side-meta {
     font-size: 12.5px;
   }
   .vs {
-    position: absolute;
-    top: 200px;
-    left: 50%;
-    z-index: 3;
-    padding: 0;
     gap: 8px;
-    transform: translateX(-50%);
   }
   .vs span {
     font-size: 20px;
@@ -724,17 +735,35 @@
     width: 40px;
     height: 40px;
   }
+  .side .btn-sm {
+    padding: 0 12px;
+    gap: 6px;
+  }
   .side .ps {
     width: 100%;
   }
+  /* колонка узкая — выпадающий список шире её и растёт к центру карточки */
+  .side .ps-list {
+    width: min(280px, calc(100vw - 56px));
+  }
+  .side-a .ps-list {
+    right: auto;
+  }
+  .side-b .ps-list {
+    left: auto;
+  }
   .val-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
   .val-vs {
     display: none;
   }
+  .val .money {
+    max-width: 100%;
+  }
   .money input {
     width: 84px;
+    min-width: 0;
   }
   .spec-head {
     grid-template-columns: 1fr 1fr;
@@ -760,5 +789,19 @@
   }
   .verdict {
     font-size: 15.5px;
+  }
+}
+/* узкие телефоны: кнопки в шапке и под телефонами компактнее, чтобы обе уместились в строку */
+@media (max-width: 400px) {
+  .crumbs .btn-sm {
+    padding: 0 12px;
+  }
+}
+@media (max-width: 340px) {
+  .crumbs .btn-sm,
+  .side .btn-sm {
+    padding: 0 9px;
+    gap: 6px;
+    font-size: 13px;
   }
 }

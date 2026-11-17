@@ -12,7 +12,7 @@
   perspective: 900px;
 }
 .pa.has-photo {
-  aspect-ratio: auto; /* ширину задаёт сама вырезка */
+  aspect-ratio: var(--ar); /* ширину задаёт отношение сторон вырезки (из данных), а не загрузка картинки */
 }
 .pa.is-flippable {
   cursor: pointer;

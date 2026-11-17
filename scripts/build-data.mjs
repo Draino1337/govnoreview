@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TSV_DIR = path.join(root, 'research', 'tsv');
@@ -106,16 +107,25 @@ function parse(text) {
 
 const PHOTO_DIR = path.join(root, 'public', 'phones');
 
+// Отношение ширины к высоте вырезки (0 — файла нет). Страница резервирует под снимок место заранее,
+// поэтому текст рядом с миниатюрой не прыгает, когда картинка догружается.
+async function photoRatio(id, view) {
+  const file = path.join(PHOTO_DIR, `${id}-${view}.webp`);
+  if (!fs.existsSync(file)) return 0;
+  const { width, height } = await sharp(file).metadata();
+  return +(width / height).toFixed(4);
+}
+
 const phones = [];
 for (const [file, pair] of Object.entries(PAGES)) {
   const { rows, bench } = parse(fs.readFileSync(path.join(TSV_DIR, file), 'utf8'));
-  pair.forEach((meta, i) => {
+  for (const [i, meta] of pair.entries()) {
     const get = (label) => rows[i].find((r) => r[2] === label)?.[3] ?? '';
     phones.push({
       ...meta,
       photo: {
-        front: fs.existsSync(path.join(PHOTO_DIR, `${meta.id}-front.webp`)),
-        back: fs.existsSync(path.join(PHOTO_DIR, `${meta.id}-back.webp`)),
+        front: await photoRatio(meta.id, 'front'),
+        back: await photoRatio(meta.id, 'back'),
       },
       tier: get('Класс') || 'Флагман',
       released: released(get('Дата выхода')),
@@ -123,7 +133,7 @@ for (const [file, pair] of Object.entries(PAGES)) {
       rows: rows[i],
       bench: bench[i],
     });
-  });
+  }
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });

@@ -89,7 +89,9 @@ export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false, 
   };
 
   let body;
+  let ratio = 0; // ширина/высота снимка: место под него занято ещё до загрузки картинки
   if (front && back && interactive) {
+    ratio = Math.max(front, back);
     body = (
       <div className={`pa-flip${view === 'front' ? ' is-front' : ''}`}>
         <div className="pa-face pa-face-back">
@@ -102,6 +104,7 @@ export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false, 
     );
   } else if (front || back) {
     const v: View = view === 'front' ? (front ? 'front' : 'back') : back ? 'back' : 'front';
+    ratio = phone.photo[v];
     body = <img className="pa-photo" src={src(v)} alt="" draggable={false} loading="lazy" decoding="async" />;
   } else {
     body = (
@@ -112,7 +115,7 @@ export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false, 
     );
   }
 
-  const style = { '--b0': phone.look.body[0], '--b1': phone.look.body[1] } as CSSProperties;
+  const style = { '--b0': phone.look.body[0], '--b1': phone.look.body[1], ...(ratio && { '--ar': ratio }) } as CSSProperties;
   return (
     <div
       ref={ref}

@@ -36,12 +36,6 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [path]);
 
-  // главный экран статичный: пока он открыт, страница не прокручивается
-  useEffect(() => {
-    document.documentElement.classList.toggle('no-scroll', isHome);
-    return () => document.documentElement.classList.remove('no-scroll');
-  }, [isHome]);
-
   useEffect(() => {
     document.title = pair ? `${fullName(pair[0])} vs ${fullName(pair[1])} — сравнение · govnoreview` : 'govnoreview — сравнение смартфонов';
   }, [pair]);

@@ -1,18 +1,6 @@
-/* Главный экран — один экран, страница не прокручивается. */
-html.no-scroll,
-html.no-scroll body {
-  height: 100svh;
-  overflow: hidden;
-}
-/* Если окно слишком низкое, лучше дать прокрутку, чем обрезать кнопки. */
-@media (max-height: 540px), (max-width: 720px) and (max-height: 740px) {
-  html.no-scroll,
-  html.no-scroll body {
-    height: auto;
-    overflow: visible;
-  }
-}
-
+/* Главный экран — ровно в одно окно: пока заголовок и выбор телефонов помещаются, страница не прокручивается.
+   Если окно слишком низкое, она прокручивается как обычная — ничего не обрезается (раньше высоту порога
+   приходилось угадывать, и на части экранов терялась сноска внизу). */
 .home {
   display: flex;
   flex-direction: column;
@@ -106,5 +94,14 @@ html.no-scroll body {
   }
   .picker-vs {
     height: 24px;
+  }
+}
+/* невысокие телефоны: описание под заголовком убираем, чтобы выбор телефонов помещался без прокрутки */
+@media (max-width: 720px) and (max-height: 760px) {
+  .lead {
+    display: none;
+  }
+  .home-hero h1 {
+    margin-bottom: 16px;
   }
 }
