@@ -85,12 +85,6 @@ const P: Record<string, ReactNode> = {
   bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
   back: <path d="M19 12H5M11 6l-6 6 6 6" />,
-  dice: (
-    <>
-      <rect x="4" y="4" width="16" height="16" rx="3.5" />
-      <path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01" />
-    </>
-  ),
   flip: <path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5" />,
   plus: <path d="M12 5v14M5 12h14" />,
   chevron: <path d="M6 9l6 6 6-6" />,

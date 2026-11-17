@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Phone } from '../types.ts';
-import { PHONES, pairPath } from '../lib/phones.ts';
+import { pairPath } from '../lib/phones.ts';
 import { go } from '../router.ts';
 import { Icon } from '../components/Icon.tsx';
 import { PhoneSearch } from '../components/PhoneSearch.tsx';
@@ -12,13 +12,6 @@ export function Home() {
 
   const ready = !!a && !!b && a.id !== b.id;
   const submit = () => ready && go(pairPath(a!.id, b!.id));
-
-  const random = () => {
-    const i = Math.floor(Math.random() * PHONES.length);
-    let j = Math.floor(Math.random() * (PHONES.length - 1));
-    if (j >= i) j += 1;
-    go(pairPath(PHONES[i].id, PHONES[j].id));
-  };
 
   return (
     <div className="wrap home">
@@ -40,10 +33,6 @@ export function Home() {
             <button type="button" className="btn btn-primary" disabled={!ready} onClick={submit}>
               Сравнить
               <Icon name="arrow" size={18} />
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={random}>
-              <Icon name="dice" size={18} />
-              Случайная пара
             </button>
           </div>
         </div>
