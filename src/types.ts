@@ -11,7 +11,8 @@ export interface Phone {
   id: string;
   brand: string;
   name: string;
-  photo: boolean; // есть public/phones/<id>.webp — вырезка задней панели
+  /** какие снимки лежат в public/phones: <id>-front.webp и <id>-back.webp */
+  photo: { front: boolean; back: boolean };
   tier: string;
   released: string; // YYYY-MM
   price: number; // USD на момент выхода

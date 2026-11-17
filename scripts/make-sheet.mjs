@@ -36,6 +36,7 @@ for (let i = 0; i < files.length; i++) {
   const left = (i % cols) * cw;
   const top = Math.floor(i / cols) * ch;
   layers.push({ input: checker, left, top });
+  if (files[i] === '-') continue; // «-» — пустая ячейка, чтобы строки не съезжали
   try {
     const img = await sharp(files[i]).resize(cw - 8, ch - 8, { fit: 'inside' }).toBuffer();
     const m = await sharp(img).metadata();

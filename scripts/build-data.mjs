@@ -113,7 +113,10 @@ for (const [file, pair] of Object.entries(PAGES)) {
     const get = (label) => rows[i].find((r) => r[2] === label)?.[3] ?? '';
     phones.push({
       ...meta,
-      photo: fs.existsSync(path.join(PHOTO_DIR, `${meta.id}.webp`)),
+      photo: {
+        front: fs.existsSync(path.join(PHOTO_DIR, `${meta.id}-front.webp`)),
+        back: fs.existsSync(path.join(PHOTO_DIR, `${meta.id}-back.webp`)),
+      },
       tier: get('Класс') || 'Флагман',
       released: released(get('Дата выхода')),
       price: num(get('Цена на момент выхода')) ?? 0,
@@ -125,5 +128,9 @@ for (const [file, pair] of Object.entries(PAGES)) {
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(phones));
-console.log(`phones.json: ${phones.length} телефонов, ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ, с фото: ${phones.filter((p) => p.photo).length}`);
-for (const p of phones) console.log(`  ${p.id.padEnd(30)} ${p.photo ? 'фото' : '----'}  ${p.released}  $${p.price}  rows=${p.rows.length} bench=${Object.keys(p.bench).length}`);
+const both = phones.filter((p) => p.photo.front && p.photo.back).length;
+console.log(`phones.json: ${phones.length} телефонов, ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ, фото спереди и сзади: ${both}`);
+for (const p of phones) {
+  const ph = `${p.photo.front ? 'спер' : '----'} ${p.photo.back ? 'сзади' : '-----'}`;
+  console.log(`  ${p.id.padEnd(30)} ${ph}  ${p.released}  $${p.price}  rows=${p.rows.length} bench=${Object.keys(p.bench).length}`);
+}
