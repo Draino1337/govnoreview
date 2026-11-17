@@ -210,7 +210,7 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
       <div className="crumbs">
         <a href={hrefOf('/')} className="btn btn-ghost btn-sm">
           <Icon name="back" size={15} />
-          Все смартфоны
+          Новое сравнение
         </a>
         <button type="button" className="btn btn-ghost btn-sm" onClick={share}>
           <Icon name="link" size={15} />

@@ -170,32 +170,6 @@ a {
   background: var(--b);
   opacity: 0.88;
 }
-.hdr-nav {
-  display: flex;
-  gap: 4px;
-  margin-left: 12px;
-}
-.hdr-nav a,
-.hdr-nav button {
-  height: 38px;
-  padding: 0 14px;
-  display: inline-flex;
-  align-items: center;
-  border: 0;
-  border-radius: 12px;
-  background: transparent;
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 14.5px;
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-}
-.hdr-nav a:hover,
-.hdr-nav button:hover,
-.hdr-nav a.is-on {
-  background: var(--soft);
-  color: var(--ink);
-}
 .theme {
   margin-left: auto;
   width: 42px;
@@ -787,19 +761,8 @@ mark {
   .card-body {
     padding: 16px;
   }
-  .hdr-nav {
-    margin-left: 0;
-  }
   .logo span:not(.logo-mark) {
     display: none;
-  }
-}
-@media (max-width: 560px) {
-  .hdr .wrap {
-    gap: 10px;
-  }
-  .hdr-nav a {
-    display: none; /* логотип и так ведёт на главную */
   }
 }
 

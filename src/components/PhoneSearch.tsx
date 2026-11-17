@@ -32,6 +32,13 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
   const [editing, setEditing] = useState(false);
   const [q, setQ] = useState('');
   const [hi, setHi] = useState(0);
+  const [maxH, setMaxH] = useState(390);
+
+  // список не должен вылезать за нижний край окна (на главной страница не прокручивается)
+  const fit = () => {
+    const r = input.current?.parentElement?.getBoundingClientRect();
+    if (r) setMaxH(Math.max(170, Math.min(390, window.innerHeight - r.bottom - 24)));
+  };
 
   const list = useMemo(() => searchPhones(editing ? q : '', 8).filter((p) => p.id !== exclude), [q, editing, exclude]);
   const open = editing;
@@ -84,6 +91,7 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
             setEditing(true);
             setQ('');
             setHi(0);
+            fit();
           }}
           onBlur={() => {
             setEditing(false);
@@ -102,7 +110,7 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
         )}
       </div>
       {open && (
-        <ul className="ps-list" role="listbox" id={`${id}-list`}>
+        <ul className="ps-list" role="listbox" id={`${id}-list`} style={{ maxHeight: maxH }}>
           {list.length === 0 && <li className="ps-empty">Ничего не нашли. В каталоге пока {`${searchPhones('', 99).length}`} моделей.</li>}
           {list.map((p, i) => (
             <li key={p.id} id={`${id}-o${i}`} role="option" aria-selected={i === hi} className={i === hi ? 'is-hi' : ''} onMouseEnter={() => setHi(i)} onMouseDown={(e) => e.preventDefault()} onClick={() => pick(p)}>
