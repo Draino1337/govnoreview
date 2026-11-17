@@ -1,5 +1,5 @@
 export type Row = [sec: string, sub: string, label: string, value: string];
-export type CamKind = 'tri' | 'duo' | 'col' | 'ring' | 'plate';
+export type CamKind = 'tri' | 'duo' | 'col' | 'ring' | 'plate' | 'bar';
 
 export interface Look {
   body: [string, string];

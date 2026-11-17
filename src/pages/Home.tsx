@@ -12,14 +12,17 @@ import { Ring } from '../components/Ring.tsx';
 
 const POPULAR: [string, string][] = [
   ['samsung-galaxy-s26-ultra', 'apple-iphone-17-pro-max'],
+  ['apple-iphone-18-pro-max', 'apple-iphone-17-pro-max'],
+  ['google-pixel-10-pro-xl', 'apple-iphone-17-pro-max'],
+  ['vivo-x300-ultra', 'oppo-find-x9-ultra'],
   ['xiaomi-poco-f9-ultra', 'xiaomi-poco-f8-ultra'],
+  ['xiaomi-poco-x8-pro-max', 'xiaomi-poco-f8-pro'],
+  ['samsung-galaxy-s26-ultra', 'samsung-galaxy-s25-ultra'],
   ['oneplus-16', 'oneplus-15'],
   ['apple-iphone-17-pro', 'apple-iphone-17'],
+  ['apple-iphone-16', 'apple-iphone-15'],
+  ['samsung-galaxy-s26-fe', 'samsung-galaxy-s25-fe'],
   ['samsung-galaxy-a57-5g', 'samsung-galaxy-a56-5g'],
-  ['xiaomi-redmi-note-17-pro', 'xiaomi-redmi-note-15-pro-5g'],
-  ['samsung-galaxy-s26-ultra', 'oneplus-16'],
-  ['apple-iphone-17-pro-max', 'xiaomi-poco-f9-ultra'],
-  ['samsung-galaxy-a57-5g', 'xiaomi-redmi-note-17-pro'],
 ];
 
 function PairCard({ a, b }: { a: Phone; b: Phone }) {

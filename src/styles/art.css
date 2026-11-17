@@ -243,6 +243,26 @@
   right: 14%;
   top: 36%;
 }
+/* полоса камер на всю ширину — как у Pixel */
+.cam-bar {
+  top: calc(var(--ph) * 0.12);
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: calc(var(--ph) * 0.025);
+  height: calc(var(--ph) * 0.105);
+  padding-right: calc(var(--ph) * 0.06);
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+  box-shadow:
+    inset 0 calc(var(--ph) * 0.004) 0 rgba(255, 255, 255, 0.28),
+    0 calc(var(--ph) * 0.01) calc(var(--ph) * 0.03) rgba(0, 0, 0, 0.28);
+}
+.cam-bar .lens {
+  width: calc(var(--ph) * 0.068);
+  height: calc(var(--ph) * 0.068);
+}
 .cam-plate {
   display: grid;
   grid-template-columns: repeat(2, auto);

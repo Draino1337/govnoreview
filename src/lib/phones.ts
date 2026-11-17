@@ -5,14 +5,19 @@ export const PHONES = raw as unknown as Phone[];
 export const byId = new Map(PHONES.map((p) => [p.id, p]));
 
 export const fullName = (p: Phone) => (p.name.startsWith(p.brand) ? p.name : `${p.brand} ${p.name}`);
-export const shortName = (p: Phone) => (p.brand === 'OnePlus' ? `OnePlus ${p.name}` : p.name);
+// у этих брендов название модели без бренда непонятно («16», «X300 Ultra», «17T Pro»)
+const BRAND_IN_SHORT = new Set(['OnePlus', 'Vivo', 'Oppo']);
+export const shortName = (p: Phone) => (BRAND_IN_SHORT.has(p.brand) || /^\d/.test(p.name) ? `${p.brand} ${p.name}` : p.name);
 
 // чтобы находилось и по-русски: «айфон», «самсунг», «поко»…
 const ALIASES: Record<string, string> = {
   Apple: 'эппл айфон iphone',
   Samsung: 'самсунг галакси galaxy',
-  Xiaomi: 'сяоми ксиаоми редми поко redmi poco mi',
+  Xiaomi: 'сяоми ксиаоми ксиоми редми поко redmi poco mi',
   OnePlus: 'ванплас ван плас oneplus',
+  Google: 'гугл пиксель google pixel',
+  Vivo: 'виво vivo',
+  Oppo: 'оппо oppo',
 };
 const hay = (p: Phone) => `${fullName(p)} ${ALIASES[p.brand] ?? ''}`.toLowerCase();
 

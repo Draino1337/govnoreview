@@ -28,6 +28,14 @@ function Camera({ kind, lenses }: { kind: CamKind; lenses: number }) {
         <i className="lens" />
       </div>
     );
+  if (kind === 'bar')
+    return (
+      <div className="cam cam-bar">
+        <i className="lens" />
+        <i className="lens" />
+        <i className="lens" />
+      </div>
+    );
   if (kind === 'plate')
     return (
       <div className="cam cam-plate">

@@ -36,6 +36,39 @@ const PAGES = {
     { id: 'oneplus-16', brand: 'OnePlus', name: '16', look: { body: ['#ece6d6', '#a89f86'], wall: ['#f5ebcd', '#6b5a2e'], cam: 'ring' } },
     { id: 'oneplus-15', brand: 'OnePlus', name: '15', look: { body: ['#363636', '#0b0b0b'], wall: ['#e0b03f', '#1a1408'], cam: 'ring' } },
   ],
+  'iphone18-16pm.tsv': [
+    { id: 'apple-iphone-18-pro-max', brand: 'Apple', name: 'iPhone 18 Pro Max', look: { body: ['#a8344d', '#3a0b18'], wall: ['#2a0f1c', '#e0506d'], cam: 'tri' } },
+    { id: 'apple-iphone-16-pro-max', brand: 'Apple', name: 'iPhone 16 Pro Max', look: { body: ['#dcc7a8', '#8c7355'], wall: ['#2b2418', '#ecc98a'], cam: 'tri' } },
+  ],
+  'iphone16-15.tsv': [
+    { id: 'apple-iphone-16', brand: 'Apple', name: 'iPhone 16', look: { body: ['#8aa7ff', '#3a55b8'], wall: ['#6b86ff', '#0f1a52'], cam: 'duo' } },
+    { id: 'apple-iphone-15', brand: 'Apple', name: 'iPhone 15', look: { body: ['#f4d4d8', '#c79aa0'], wall: ['#f7b6c2', '#5a2c3a'], cam: 'duo' } },
+  ],
+  's25u-s25.tsv': [
+    { id: 'samsung-galaxy-s25-ultra', brand: 'Samsung', name: 'Galaxy S25 Ultra', look: { body: ['#c1ccdc', '#5d6b82'], wall: ['#8fa8d8', '#1a2547'], cam: 'col' } },
+    { id: 'samsung-galaxy-s25', brand: 'Samsung', name: 'Galaxy S25', look: { body: ['#c8e8dd', '#6aa896'], wall: ['#8fe0c6', '#124a3c'], cam: 'col' } },
+  ],
+  's26fe-s25fe.tsv': [
+    { id: 'samsung-galaxy-s26-fe', brand: 'Samsung', name: 'Galaxy S26 FE', look: { body: ['#7b93ff', '#2c3f9e'], wall: ['#9aaeff', '#1b2670'], cam: 'col' } },
+    { id: 'samsung-galaxy-s25-fe', brand: 'Samsung', name: 'Galaxy S25 FE', look: { body: ['#a9cbea', '#4f7fb0'], wall: ['#7fb2e8', '#12304f'], cam: 'col' } },
+  ],
+  'pixel10.tsv': [
+    { id: 'google-pixel-10-pro-xl', brand: 'Google', name: 'Pixel 10 Pro XL', look: { body: ['#4a5260', '#14171d'], wall: ['#7fd1b9', '#0d2a26'], cam: 'bar' } },
+    { id: 'google-pixel-10', brand: 'Google', name: 'Pixel 10', look: { body: ['#ece47f', '#b5ab3a'], wall: ['#f2e68a', '#4a4310'], cam: 'bar' } },
+  ],
+  // на этой странице источник сам поставил 17T Pro в первую колонку
+  'xiaomi17.tsv': [
+    { id: 'xiaomi-17t-pro', brand: 'Xiaomi', name: '17T Pro', look: { body: ['#6a5fe0', '#251f6b'], wall: ['#8a7dff', '#1b1555'], cam: 'plate' } },
+    { id: 'xiaomi-17-pro-max', brand: 'Xiaomi', name: '17 Pro Max', look: { body: ['#f2f4f1', '#9fb3a8'], wall: ['#b6e0cf', '#173a2e'], cam: 'plate' } },
+  ],
+  'poco-x8.tsv': [
+    { id: 'xiaomi-poco-x8-pro-max', brand: 'Xiaomi', name: 'Poco X8 Pro Max', look: { body: ['#4f86f5', '#1b3a8f'], wall: ['#4d8dff', '#0f2358'], cam: 'plate' } },
+    { id: 'xiaomi-poco-f8-pro', brand: 'Xiaomi', name: 'Poco F8 Pro', look: { body: ['#d6dce8', '#7f8ca6'], wall: ['#aab6d3', '#222c46'], cam: 'plate' } },
+  ],
+  'vivo-oppo.tsv': [
+    { id: 'vivo-x300-ultra', brand: 'Vivo', name: 'X300 Ultra', look: { body: ['#d3ecdc', '#6fa88a'], wall: ['#9fe0c0', '#0f3a2a'], cam: 'ring' } },
+    { id: 'oppo-find-x9-ultra', brand: 'Oppo', name: 'Find X9 Ultra', look: { body: ['#f59a4c', '#9a3c08'], wall: ['#ffb36b', '#4a1c05'], cam: 'ring' } },
+  ],
 };
 
 const MONTHS = { Январь: 1, Февраль: 2, Март: 3, Апрель: 4, Май: 5, Июнь: 6, Июль: 7, Август: 8, Сентябрь: 9, Октябрь: 10, Ноябрь: 11, Декабрь: 12 };
