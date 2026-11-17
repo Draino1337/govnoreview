@@ -1,4 +1,4 @@
-import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import type { Phone } from '../types.ts';
 import { fullName, searchPhones } from '../lib/phones.ts';
 import { PhoneArt } from './PhoneArt.tsx';
@@ -40,8 +40,15 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
     if (r) setMaxH(Math.max(170, Math.min(390, window.innerHeight - r.bottom - 24)));
   };
 
-  const list = useMemo(() => searchPhones(editing ? q : '', 8).filter((p) => p.id !== exclude), [q, editing, exclude]);
+  // весь каталог по алфавиту, список прокручивается
+  const list = useMemo(() => searchPhones(editing ? q : '').filter((p) => p.id !== exclude), [q, editing, exclude]);
   const open = editing;
+
+  // при выборе стрелками подсвеченная строка не должна уезжать за край прокрутки
+  const listRef = useRef<HTMLUListElement>(null);
+  useEffect(() => {
+    listRef.current?.querySelector('.is-hi')?.scrollIntoView({ block: 'nearest' });
+  }, [hi]);
 
   const pick = (p: Phone) => {
     onChange(p);
@@ -110,8 +117,8 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
         )}
       </div>
       {open && (
-        <ul className="ps-list" role="listbox" id={`${id}-list`} style={{ maxHeight: maxH }}>
-          {list.length === 0 && <li className="ps-empty">Ничего не нашли. В каталоге пока {`${searchPhones('', 99).length}`} моделей.</li>}
+        <ul ref={listRef} className="ps-list" role="listbox" id={`${id}-list`} style={{ maxHeight: maxH }}>
+          {list.length === 0 && <li className="ps-empty">Ничего не нашли. В каталоге пока {`${searchPhones('').length}`} моделей.</li>}
           {list.map((p, i) => (
             <li key={p.id} id={`${id}-o${i}`} role="option" aria-selected={i === hi} className={i === hi ? 'is-hi' : ''} onMouseEnter={() => setHi(i)} onMouseDown={(e) => e.preventDefault()} onClick={() => pick(p)}>
               <PhoneArt phone={p} size="xs" />

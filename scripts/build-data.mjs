@@ -59,6 +59,78 @@ const PAGES = {
     { id: 'google-pixel-10-pro-xl', brand: 'Google', name: 'Pixel 10 Pro XL', look: { body: ['#4a5260', '#14171d'], cam: 'bar' } },
     { id: 'google-pixel-10', brand: 'Google', name: 'Pixel 10', look: { body: ['#ece47f', '#b5ab3a'], cam: 'bar' } },
   ],
+  // все остальные Google Pixel: NanoReview, а Pixel, Pixel XL, Pixel 2, 2 XL и 3a XL — с GSMArena (на NanoReview их нет)
+  'pixel1.tsv': [
+    { id: 'google-pixel-xl', brand: 'Google', name: 'Pixel XL', look: { body: ['#3a3d42', '#16181b'], cam: 'col' } },
+    { id: 'google-pixel', brand: 'Google', name: 'Pixel', look: { body: ['#e9ebee', '#b9bdc4'], cam: 'col' } },
+  ],
+  'pixel2.tsv': [
+    { id: 'google-pixel-2-xl', brand: 'Google', name: 'Pixel 2 XL', look: { body: ['#f2f2f0', '#c9c9c6'], cam: 'col' } },
+    { id: 'google-pixel-2', brand: 'Google', name: 'Pixel 2', look: { body: ['#9fb6cf', '#5f7891'], cam: 'col' } },
+  ],
+  'pixel3.tsv': [
+    { id: 'google-pixel-3-xl', brand: 'Google', name: 'Pixel 3 XL', look: { body: ['#f4f4f2', '#cfcfcc'], cam: 'col' } },
+    { id: 'google-pixel-3', brand: 'Google', name: 'Pixel 3', look: { body: ['#f3dcd3', '#d1b3a8'], cam: 'col' } },
+  ],
+  'pixel3a.tsv': [
+    { id: 'google-pixel-3a-xl', brand: 'Google', name: 'Pixel 3a XL', look: { body: ['#38393c', '#141517'], cam: 'col' } },
+    { id: 'google-pixel-3a', brand: 'Google', name: 'Pixel 3a', look: { body: ['#d9d3e6', '#ada3c2'], cam: 'col' } },
+  ],
+  'pixel4.tsv': [
+    { id: 'google-pixel-4-xl', brand: 'Google', name: 'Pixel 4 XL', look: { body: ['#f2f2f0', '#cbcbc8'], cam: 'plate' } },
+    { id: 'google-pixel-4', brand: 'Google', name: 'Pixel 4', look: { body: ['#f2a374', '#d1774a'], cam: 'plate' } },
+  ],
+  'pixel4a.tsv': [
+    { id: 'google-pixel-4a-5g', brand: 'Google', name: 'Pixel 4a 5G', look: { body: ['#3b3c3f', '#151618'], cam: 'plate' } },
+    { id: 'google-pixel-4a', brand: 'Google', name: 'Pixel 4a', look: { body: ['#2f3033', '#111214'], cam: 'plate' } },
+  ],
+  'pixel5.tsv': [
+    { id: 'google-pixel-5', brand: 'Google', name: 'Pixel 5', look: { body: ['#b8c4b0', '#87957f'], cam: 'plate' } },
+  ],
+  'pixel6.tsv': [
+    { id: 'google-pixel-6-pro', brand: 'Google', name: 'Pixel 6 Pro', look: { body: ['#f5e9c8', '#d6c393'], cam: 'bar' } },
+    { id: 'google-pixel-6', brand: 'Google', name: 'Pixel 6', look: { body: ['#f2b8a6', '#d58c78'], cam: 'bar' } },
+  ],
+  'pixel7.tsv': [
+    { id: 'google-pixel-7-pro', brand: 'Google', name: 'Pixel 7 Pro', look: { body: ['#c7c3b3', '#8f8b7b'], cam: 'bar' } },
+    { id: 'google-pixel-7', brand: 'Google', name: 'Pixel 7', look: { body: ['#e6e9c6', '#bcc28f'], cam: 'bar' } },
+  ],
+  'pixel7a-6a.tsv': [
+    { id: 'google-pixel-7a', brand: 'Google', name: 'Pixel 7a', look: { body: ['#b9cfe3', '#7f9cb8'], cam: 'bar' } },
+    { id: 'google-pixel-6a', brand: 'Google', name: 'Pixel 6a', look: { body: ['#c9d6c3', '#97a891'], cam: 'bar' } },
+  ],
+  'pixel8.tsv': [
+    { id: 'google-pixel-8-pro', brand: 'Google', name: 'Pixel 8 Pro', look: { body: ['#b8d3ea', '#7fa3c4'], cam: 'bar' } },
+    { id: 'google-pixel-8', brand: 'Google', name: 'Pixel 8', look: { body: ['#f1d5cf', '#d2aaa1'], cam: 'bar' } },
+  ],
+  'pixel9a-8a.tsv': [
+    { id: 'google-pixel-9a', brand: 'Google', name: 'Pixel 9a', look: { body: ['#c9c6e6', '#9893c4'], cam: 'bar' } },
+    { id: 'google-pixel-8a', brand: 'Google', name: 'Pixel 8a', look: { body: ['#c6e3cf', '#90b99c'], cam: 'bar' } },
+  ],
+  'pixel9pro.tsv': [
+    { id: 'google-pixel-9-pro-xl', brand: 'Google', name: 'Pixel 9 Pro XL', look: { body: ['#3c3e42', '#151619'], cam: 'bar' } },
+    { id: 'google-pixel-9-pro', brand: 'Google', name: 'Pixel 9 Pro', look: { body: ['#c4c1b4', '#8e8b7f'], cam: 'bar' } },
+  ],
+  'pixel9-10a.tsv': [
+    { id: 'google-pixel-9', brand: 'Google', name: 'Pixel 9', look: { body: ['#f2c4d6', '#d293ad'], cam: 'bar' } },
+    { id: 'google-pixel-10a', brand: 'Google', name: 'Pixel 10a', look: { body: ['#d8d0ea', '#a99dc9'], cam: 'bar' } },
+  ],
+  'pixel10pro.tsv': [
+    { id: 'google-pixel-10-pro', brand: 'Google', name: 'Pixel 10 Pro', look: { body: ['#c3c8cf', '#868c96'], cam: 'bar' } },
+    { id: 'google-pixel-10-pro-fold', brand: 'Google', name: 'Pixel 10 Pro Fold', look: { body: ['#c9d8c9', '#93a893'], cam: 'bar' } },
+  ],
+  'pixel-fold.tsv': [
+    { id: 'google-pixel-9-pro-fold', brand: 'Google', name: 'Pixel 9 Pro Fold', look: { body: ['#efece4', '#cbc6b8'], cam: 'bar' } },
+    { id: 'google-pixel-fold', brand: 'Google', name: 'Pixel Fold', look: { body: ['#efede8', '#c9c5bc'], cam: 'bar' } },
+  ],
+  'pixel11pro.tsv': [
+    { id: 'google-pixel-11-pro-xl', brand: 'Google', name: 'Pixel 11 Pro XL', look: { body: ['#3d4045', '#15171a'], cam: 'bar' } },
+    { id: 'google-pixel-11-pro', brand: 'Google', name: 'Pixel 11 Pro', look: { body: ['#d9d6cc', '#a6a294'], cam: 'bar' } },
+  ],
+  'pixel11.tsv': [
+    { id: 'google-pixel-11', brand: 'Google', name: 'Pixel 11', look: { body: ['#b9cde6', '#7f9cc2'], cam: 'bar' } },
+    { id: 'google-pixel-11-pro-fold', brand: 'Google', name: 'Pixel 11 Pro Fold', look: { body: ['#3a3c3f', '#141517'], cam: 'bar' } },
+  ],
   // на этой странице источник сам поставил 17T Pro в первую колонку
   'xiaomi17.tsv': [
     { id: 'xiaomi-17t-pro', brand: 'Xiaomi', name: '17T Pro', look: { body: ['#6a5fe0', '#251f6b'], cam: 'plate' } },

@@ -32,7 +32,7 @@ npm run preview    # посмотреть собранный сайт
 Характеристики и замеры лежат в `research/tsv/*.tsv`, скрипт `scripts/build-data.mjs` собирает из них `src/data/phones.json`.
 Чтобы добавить телефон: положите выгрузку в `research/tsv`, опишите пару телефонов в `PAGES` (id, бренд, название, цвет и раскладка камер для запасной «нарисованной» панели) и запустите `npm run data`.
 
-В каталоге сейчас 28 моделей Samsung, Apple, Google, Xiaomi, OnePlus, Vivo и Oppo. Данные собраны из открытых источников (в первую очередь со страниц сравнений NanoReview, а также Geekbench, AnTuTu, 3DMark, DxOMark) по состоянию на ноябрь 2026.
+В каталоге сейчас 63 модели Samsung, Apple, Google, Xiaomi, OnePlus, Vivo и Oppo. Данные собраны из открытых источников (в первую очередь со страниц сравнений NanoReview, для старых Pixel — с GSMArena, а также Geekbench, AnTuTu, 3DMark, DxOMark) по состоянию на ноябрь 2026.
 
 ## Фото телефонов
 

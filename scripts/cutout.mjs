@@ -1,10 +1,10 @@
 // Готовит картинку телефона для сайта:
-//   node scripts/cutout.mjs <вход> <выход.webp> [--height=900] [--upscale=640] [--crop=x,y,w,h] [--tol=18] [--erode=1] [--bg=keep]
+//   node scripts/cutout.mjs <вход> <выход.webp> [--height=900] [--upscale=640] [--crop=x,y,w,h] [--tol=18] [--erode=1] [--bg=keep] [--floor=60] [--round=R] [--alphamin=90]
 // 1) обрезает прозрачные поля (у Apple, например, полотно квадратное, а картинка внутри — прямоугольник 16:9);
 // 2) если по углам фон непрозрачный — вырезает однотонную подложку заливкой от краёв (мягкая кромка, без «ореола»);
 // 3) масштабирует до нужной высоты (маленькие исходники растит с Lanczos и лёгкой резкостью) и сохраняет WebP с альфой.
 import sharp from 'sharp';
-import { refineEdge } from './edge.mjs';
+import { refineEdge, cleanAlpha } from './edge.mjs';
 
 const [input, output, ...rest] = process.argv.slice(2);
 const opt = Object.fromEntries(rest.map((o) => o.replace(/^--/, '').split('=')));
@@ -123,13 +123,57 @@ function removeBackground() {
 
 // 2) если по углам фон непрозрачный — это подложка, вырезаем её
 const opaqueCorners = [[0, 0], [w - 1, 0], [0, h - 1], [w - 1, h - 1]].every(([x, y]) => data[(y * w + x) * 4 + 3] >= 250);
-const removed = opaqueCorners && opt.bg !== 'keep';
+const removed = opaqueCorners && opt.bg !== 'keep' && !opt.round;
 if (removed) removeBackground();
+
+// --alphamin=N: у прозрачного исходника полупрозрачная нарисованная тень — всё, что прозрачнее N, убираем
+if (opt.alphamin) cleanAlpha(data, w, h, { floor: +opt.alphamin, solid: 256 });
+
+// --round=R: телефон снят впритык к краям кадра, фона вокруг почти нет — вместо вырезки фона оставляем
+// скруглённый прямоугольник во весь кадр (R — радиус угла в пикселях исходника), кромка со сглаживанием.
+if (opt.round) {
+  const R = +opt.round;
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const cx = Math.min(Math.max(x + 0.5, R), w - R);
+      const cy = Math.min(Math.max(y + 0.5, R), h - R);
+      const d = Math.hypot(x + 0.5 - cx, y + 0.5 - cy) - R; // > 0 — снаружи
+      const a = Math.max(0, Math.min(1, 0.5 - d));
+      const i = (y * w + x) * 4 + 3;
+      data[i] = Math.round(data[i] * a);
+    }
+}
+
+// --floor=<допуск>[,<насыщенность>]: тень и отблеск «пола» под телефоном. В нижней части кадра (ниже 75% высоты) от уже
+// вырезанного фона заливкой убираем светлые серые пиксели: насыщенность низкая, яркость не ниже 255 − допуск.
+// Тёмная или цветная кромка корпуса заливку останавливает.
+if (removed && opt.floor) {
+  const [FT, SAT = 22] = opt.floor.split(',').map(Number);
+  const yMin = Math.round(h * 0.75);
+  const shadow = (k) => {
+    const i = k * 4;
+    const mx = Math.max(data[i], data[i + 1], data[i + 2]);
+    const mn = Math.min(data[i], data[i + 1], data[i + 2]);
+    return mx - mn < SAT && mn >= 255 - FT;
+  };
+  const stack = [];
+  for (let y = yMin; y < h; y++) for (let x = 0; x < w; x++) if (data[(y * w + x) * 4 + 3] === 0) stack.push(y * w + x);
+  while (stack.length) {
+    const k = stack.pop();
+    const x = k % w;
+    const y = (k / w) | 0;
+    for (const j of [x > 0 ? k - 1 : -1, x < w - 1 ? k + 1 : -1, y > yMin ? k - w : -1, y < h - 1 ? k + w : -1])
+      if (j >= 0 && data[j * 4 + 3] > 0 && shadow(j)) {
+        data[j * 4 + 3] = 0;
+        stack.push(j);
+      }
+  }
+}
 
 // Связные пятна непрозрачных пикселей. После вырезки фона шум JPEG у кромки остаётся отдельными светлыми
 // крапинками — убираем все пятна меньше 1% самого крупного. С --blob=largest оставляем только самое крупное
 // (например, спину без профиля телефона, стоящего рядом в том же кадре).
-if (removed || opt.blob === 'largest') {
+if (removed || opt.alphamin || opt.blob === 'largest') {
   const label = new Int32Array(w * h).fill(-1);
   const sizes = [];
   let best = -1;
@@ -219,7 +263,7 @@ let out = rawOf(data, w, h)
   .resize({ height: targetH, withoutEnlargement: cropH >= UP, kernel: 'lanczos3' });
 if (cropH < UP) out = out.sharpen({ sigma: 0.7 });
 const fin = await out.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-if ((removed || opt.mirror) && EDGE_SIGMA > 0) refineEdge(fin.data, fin.info.width, fin.info.height, { sigma: EDGE_SIGMA });
+if ((removed || opt.mirror || opt.round || opt.alphamin) && EDGE_SIGMA > 0) refineEdge(fin.data, fin.info.width, fin.info.height, { sigma: EDGE_SIGMA });
 await rawOf(fin.data, fin.info.width, fin.info.height).webp({ quality: 90, alphaQuality: 100, effort: 5 }).toFile(output);
 
 const m = await sharp(output).metadata();

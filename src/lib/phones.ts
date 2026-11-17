@@ -21,13 +21,17 @@ const ALIASES: Record<string, string> = {
 };
 const hay = (p: Phone) => `${fullName(p)} ${ALIASES[p.brand] ?? ''}`.toLowerCase();
 
-export function searchPhones(q: string, limit = 8): Phone[] {
+// по алфавиту, числа — как числа: iPhone 15, 16, 17 (а не 15, 17, 16 Pro…)
+const byName = (a: Phone, b: Phone) => fullName(a).localeCompare(fullName(b), 'en', { numeric: true, sensitivity: 'base' });
+
+/** Телефоны, подходящие под запрос (пустой запрос — весь каталог), по алфавиту. */
+export function searchPhones(q: string, limit = Infinity): Phone[] {
   const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
   return PHONES.filter((p) => {
     const h = hay(p);
     return tokens.every((t) => h.includes(t));
   })
-    .sort((a, b) => b.released.localeCompare(a.released))
+    .sort(byName)
     .slice(0, limit);
 }
 
