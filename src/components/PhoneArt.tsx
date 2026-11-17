@@ -1,6 +1,5 @@
-import { useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useRef, type CSSProperties, type PointerEvent } from 'react';
 import type { CamKind, Phone } from '../types.ts';
-import { Icon } from './Icon.tsx';
 
 function Camera({ kind, lenses }: { kind: CamKind; lenses: number }) {
   const n = Math.max(2, Math.min(4, lenses));
@@ -61,65 +60,48 @@ interface Props {
   interactive?: boolean;
 }
 
-/** Нарисованный телефон: наклоняется за курсором, по клику разворачивается задней панелью. */
+/**
+ * Задняя панель телефона: вырезка с прозрачным фоном (public/phones/<id>.webp),
+ * а если её нет — нарисованная. Вид спереди у всех одинаковый, поэтому его нет.
+ */
 export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [back, setBack] = useState(false);
-  const { body, wall, cam } = phone.look;
 
   const move = (e: PointerEvent) => {
-    if (!interactive || e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch') return;
     const r = ref.current!.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    ref.current!.style.setProperty('--rx', `${(-y * 14).toFixed(1)}deg`);
-    ref.current!.style.setProperty('--ry', `${(x * 18).toFixed(1)}deg`);
+    ref.current!.style.setProperty('--rx', `${(-y * 12).toFixed(1)}deg`);
+    ref.current!.style.setProperty('--ry', `${(x * 16).toFixed(1)}deg`);
   };
   const leave = () => {
     ref.current?.style.setProperty('--rx', '0deg');
     ref.current?.style.setProperty('--ry', '0deg');
   };
 
-  const style = { '--b0': body[0], '--b1': body[1], '--w0': wall[0], '--w1': wall[1] } as CSSProperties;
-  const inner = (
-    <div className={`pa-body${back ? ' is-back' : ''}`}>
-      <div className="pa-face pa-front">
-        <div className="pa-screen">
-          <i className="pa-hole" />
-          <div className="pa-clock">12:30</div>
-          <div className="pa-date">{phone.brand}</div>
-        </div>
-      </div>
-      <div className="pa-face pa-rear">
-        <Camera kind={cam} lenses={lenses} />
-        <span className="pa-brand">{phone.brand}</span>
-      </div>
-    </div>
-  );
-
-  if (!interactive)
-    return (
-      <div className={`pa pa-${size}`} style={style} aria-hidden="true">
-        {inner}
-      </div>
-    );
+  const { body, cam } = phone.look;
+  const style = { '--b0': body[0], '--b1': body[1] } as CSSProperties;
 
   return (
-    <button
-      type="button"
-      ref={ref as never}
-      className={`pa pa-${size} pa-interactive`}
+    <div
+      ref={ref}
+      className={`pa pa-${size}${phone.photo ? ' has-photo' : ''}`}
       style={style}
-      onPointerMove={move}
-      onPointerLeave={leave}
-      onClick={() => setBack((b) => !b)}
-      aria-label={back ? 'Показать экран' : 'Показать заднюю панель'}
-      title={back ? 'Показать экран' : 'Повернуть'}
+      aria-hidden="true"
+      onPointerMove={interactive ? move : undefined}
+      onPointerLeave={interactive ? leave : undefined}
     >
-      {inner}
-      <span className="pa-hint">
-        <Icon name="flip" size={14} />
-      </span>
-    </button>
+      <div className="pa-body">
+        {phone.photo ? (
+          <img className="pa-photo" src={`${import.meta.env.BASE_URL}phones/${phone.id}.webp`} alt="" draggable={false} loading={size === 'lg' ? 'eager' : 'lazy'} decoding="async" />
+        ) : (
+          <div className="pa-rear">
+            <Camera kind={cam} lenses={lenses} />
+            <span className="pa-brand">{phone.brand}</span>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

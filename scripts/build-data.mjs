@@ -10,64 +10,65 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TSV_DIR = path.join(root, 'research', 'tsv');
 const OUT = path.join(root, 'src', 'data', 'phones.json');
 
-// body — градиент корпуса, wall — обои на экране, cam — раскладка камер на задней панели
+// Для каждого телефона показывается его задняя панель: готовая вырезка из public/phones/<id>.webp
+// (см. scripts/cutout.mjs), а если файла нет — нарисованная: body — градиент корпуса, cam — раскладка камер.
 const PAGES = {
   's26u-17pm.tsv': [
-    { id: 'samsung-galaxy-s26-ultra', brand: 'Samsung', name: 'Galaxy S26 Ultra', look: { body: ['#9d8cff', '#3b2d9e'], wall: ['#c3b5ff', '#4a2fd0'], cam: 'col' } },
-    { id: 'apple-iphone-17-pro-max', brand: 'Apple', name: 'iPhone 17 Pro Max', look: { body: ['#ffa35c', '#c24a0f'], wall: ['#14224a', '#ff7a2f'], cam: 'tri' } },
+    { id: 'samsung-galaxy-s26-ultra', brand: 'Samsung', name: 'Galaxy S26 Ultra', look: { body: ['#9d8cff', '#3b2d9e'], cam: 'col' } },
+    { id: 'apple-iphone-17-pro-max', brand: 'Apple', name: 'iPhone 17 Pro Max', look: { body: ['#ffa35c', '#c24a0f'], cam: 'tri' } },
   ],
   '17pro-17.tsv': [
-    { id: 'apple-iphone-17-pro', brand: 'Apple', name: 'iPhone 17 Pro', look: { body: ['#3a5fa8', '#0d1a38'], wall: ['#0d1a38', '#4b7be0'], cam: 'tri' } },
-    { id: 'apple-iphone-17', brand: 'Apple', name: 'iPhone 17', look: { body: ['#d3def2', '#8fa6cf'], wall: ['#a8c0f0', '#eadcff'], cam: 'duo' } },
+    { id: 'apple-iphone-17-pro', brand: 'Apple', name: 'iPhone 17 Pro', look: { body: ['#3a5fa8', '#0d1a38'], cam: 'tri' } },
+    { id: 'apple-iphone-17', brand: 'Apple', name: 'iPhone 17', look: { body: ['#d3def2', '#8fa6cf'], cam: 'duo' } },
   ],
   'poco.tsv': [
-    { id: 'xiaomi-poco-f9-ultra', brand: 'Xiaomi', name: 'Poco F9 Ultra', look: { body: ['#34343f', '#0d0d12'], wall: ['#ff3355', '#2a0a14'], cam: 'plate' } },
-    { id: 'xiaomi-poco-f8-ultra', brand: 'Xiaomi', name: 'Poco F8 Ultra', look: { body: ['#f2f5fc', '#9bb4e8'], wall: ['#7aa2ff', '#1c2d6b'], cam: 'plate' } },
+    { id: 'xiaomi-poco-f9-ultra', brand: 'Xiaomi', name: 'Poco F9 Ultra', look: { body: ['#34343f', '#0d0d12'], cam: 'plate' } },
+    { id: 'xiaomi-poco-f8-ultra', brand: 'Xiaomi', name: 'Poco F8 Ultra', look: { body: ['#f2f5fc', '#9bb4e8'], cam: 'plate' } },
   ],
   'a57-a56.tsv': [
-    { id: 'samsung-galaxy-a57-5g', brand: 'Samsung', name: 'Galaxy A57 5G', look: { body: ['#3be0cb', '#0e7c72'], wall: ['#7ff0e0', '#134e4a'], cam: 'col' } },
-    { id: 'samsung-galaxy-a56-5g', brand: 'Samsung', name: 'Galaxy A56 5G', look: { body: ['#c2d1b4', '#7c8f6e'], wall: ['#d9e8cb', '#4b5d3f'], cam: 'col' } },
+    { id: 'samsung-galaxy-a57-5g', brand: 'Samsung', name: 'Galaxy A57 5G', look: { body: ['#3be0cb', '#0e7c72'], cam: 'col' } },
+    { id: 'samsung-galaxy-a56-5g', brand: 'Samsung', name: 'Galaxy A56 5G', look: { body: ['#c2d1b4', '#7c8f6e'], cam: 'col' } },
   ],
   'redmi.tsv': [
-    { id: 'xiaomi-redmi-note-17-pro', brand: 'Xiaomi', name: 'Redmi Note 17 Pro', look: { body: ['#ffab57', '#e5561a'], wall: ['#ffc07e', '#7a2a0a'], cam: 'plate' } },
-    { id: 'xiaomi-redmi-note-15-pro-5g', brand: 'Xiaomi', name: 'Redmi Note 15 Pro 5G', look: { body: ['#8a85f5', '#3f3a9e'], wall: ['#b1abff', '#2d2a7a'], cam: 'plate' } },
+    { id: 'xiaomi-redmi-note-17-pro', brand: 'Xiaomi', name: 'Redmi Note 17 Pro', look: { body: ['#ffab57', '#e5561a'], cam: 'plate' } },
+    { id: 'xiaomi-redmi-note-15-pro-5g', brand: 'Xiaomi', name: 'Redmi Note 15 Pro 5G', look: { body: ['#8a85f5', '#3f3a9e'], cam: 'plate' } },
   ],
   'oneplus.tsv': [
-    { id: 'oneplus-16', brand: 'OnePlus', name: '16', look: { body: ['#ece6d6', '#a89f86'], wall: ['#f5ebcd', '#6b5a2e'], cam: 'ring' } },
-    { id: 'oneplus-15', brand: 'OnePlus', name: '15', look: { body: ['#363636', '#0b0b0b'], wall: ['#e0b03f', '#1a1408'], cam: 'ring' } },
+    { id: 'oneplus-16', brand: 'OnePlus', name: '16', look: { body: ['#ece6d6', '#a89f86'], cam: 'ring' } },
+    { id: 'oneplus-15', brand: 'OnePlus', name: '15', look: { body: ['#363636', '#0b0b0b'], cam: 'ring' } },
   ],
   'iphone18-16pm.tsv': [
-    { id: 'apple-iphone-18-pro-max', brand: 'Apple', name: 'iPhone 18 Pro Max', look: { body: ['#a8344d', '#3a0b18'], wall: ['#2a0f1c', '#e0506d'], cam: 'tri' } },
-    { id: 'apple-iphone-16-pro-max', brand: 'Apple', name: 'iPhone 16 Pro Max', look: { body: ['#dcc7a8', '#8c7355'], wall: ['#2b2418', '#ecc98a'], cam: 'tri' } },
+    { id: 'apple-iphone-18-pro-max', brand: 'Apple', name: 'iPhone 18 Pro Max', look: { body: ['#a8344d', '#3a0b18'], cam: 'tri' } },
+    { id: 'apple-iphone-16-pro-max', brand: 'Apple', name: 'iPhone 16 Pro Max', look: { body: ['#dcc7a8', '#8c7355'], cam: 'tri' } },
   ],
   'iphone16-15.tsv': [
-    { id: 'apple-iphone-16', brand: 'Apple', name: 'iPhone 16', look: { body: ['#8aa7ff', '#3a55b8'], wall: ['#6b86ff', '#0f1a52'], cam: 'duo' } },
-    { id: 'apple-iphone-15', brand: 'Apple', name: 'iPhone 15', look: { body: ['#f4d4d8', '#c79aa0'], wall: ['#f7b6c2', '#5a2c3a'], cam: 'duo' } },
+    { id: 'apple-iphone-16', brand: 'Apple', name: 'iPhone 16', look: { body: ['#8aa7ff', '#3a55b8'], cam: 'duo' } },
+    { id: 'apple-iphone-15', brand: 'Apple', name: 'iPhone 15', look: { body: ['#f4d4d8', '#c79aa0'], cam: 'duo' } },
   ],
   's25u-s25.tsv': [
-    { id: 'samsung-galaxy-s25-ultra', brand: 'Samsung', name: 'Galaxy S25 Ultra', look: { body: ['#c1ccdc', '#5d6b82'], wall: ['#8fa8d8', '#1a2547'], cam: 'col' } },
-    { id: 'samsung-galaxy-s25', brand: 'Samsung', name: 'Galaxy S25', look: { body: ['#c8e8dd', '#6aa896'], wall: ['#8fe0c6', '#124a3c'], cam: 'col' } },
+    { id: 'samsung-galaxy-s25-ultra', brand: 'Samsung', name: 'Galaxy S25 Ultra', look: { body: ['#c1ccdc', '#5d6b82'], cam: 'col' } },
+    { id: 'samsung-galaxy-s25', brand: 'Samsung', name: 'Galaxy S25', look: { body: ['#c8e8dd', '#6aa896'], cam: 'col' } },
   ],
   's26fe-s25fe.tsv': [
-    { id: 'samsung-galaxy-s26-fe', brand: 'Samsung', name: 'Galaxy S26 FE', look: { body: ['#7b93ff', '#2c3f9e'], wall: ['#9aaeff', '#1b2670'], cam: 'col' } },
-    { id: 'samsung-galaxy-s25-fe', brand: 'Samsung', name: 'Galaxy S25 FE', look: { body: ['#a9cbea', '#4f7fb0'], wall: ['#7fb2e8', '#12304f'], cam: 'col' } },
+    { id: 'samsung-galaxy-s26-fe', brand: 'Samsung', name: 'Galaxy S26 FE', look: { body: ['#7b93ff', '#2c3f9e'], cam: 'col' } },
+    { id: 'samsung-galaxy-s25-fe', brand: 'Samsung', name: 'Galaxy S25 FE', look: { body: ['#a9cbea', '#4f7fb0'], cam: 'col' } },
   ],
   'pixel10.tsv': [
-    { id: 'google-pixel-10-pro-xl', brand: 'Google', name: 'Pixel 10 Pro XL', look: { body: ['#4a5260', '#14171d'], wall: ['#7fd1b9', '#0d2a26'], cam: 'bar' } },
-    { id: 'google-pixel-10', brand: 'Google', name: 'Pixel 10', look: { body: ['#ece47f', '#b5ab3a'], wall: ['#f2e68a', '#4a4310'], cam: 'bar' } },
+    { id: 'google-pixel-10-pro-xl', brand: 'Google', name: 'Pixel 10 Pro XL', look: { body: ['#4a5260', '#14171d'], cam: 'bar' } },
+    { id: 'google-pixel-10', brand: 'Google', name: 'Pixel 10', look: { body: ['#ece47f', '#b5ab3a'], cam: 'bar' } },
   ],
   // на этой странице источник сам поставил 17T Pro в первую колонку
   'xiaomi17.tsv': [
-    { id: 'xiaomi-17t-pro', brand: 'Xiaomi', name: '17T Pro', look: { body: ['#6a5fe0', '#251f6b'], wall: ['#8a7dff', '#1b1555'], cam: 'plate' } },
-    { id: 'xiaomi-17-pro-max', brand: 'Xiaomi', name: '17 Pro Max', look: { body: ['#f2f4f1', '#9fb3a8'], wall: ['#b6e0cf', '#173a2e'], cam: 'plate' } },
+    { id: 'xiaomi-17t-pro', brand: 'Xiaomi', name: '17T Pro', look: { body: ['#6a5fe0', '#251f6b'], cam: 'plate' } },
+    { id: 'xiaomi-17-pro-max', brand: 'Xiaomi', name: '17 Pro Max', look: { body: ['#f2f4f1', '#9fb3a8'], cam: 'plate' } },
   ],
   'poco-x8.tsv': [
-    { id: 'xiaomi-poco-x8-pro-max', brand: 'Xiaomi', name: 'Poco X8 Pro Max', look: { body: ['#4f86f5', '#1b3a8f'], wall: ['#4d8dff', '#0f2358'], cam: 'plate' } },
-    { id: 'xiaomi-poco-f8-pro', brand: 'Xiaomi', name: 'Poco F8 Pro', look: { body: ['#d6dce8', '#7f8ca6'], wall: ['#aab6d3', '#222c46'], cam: 'plate' } },
+    { id: 'xiaomi-poco-x8-pro-max', brand: 'Xiaomi', name: 'Poco X8 Pro Max', look: { body: ['#4f86f5', '#1b3a8f'], cam: 'plate' } },
+    { id: 'xiaomi-poco-f8-pro', brand: 'Xiaomi', name: 'Poco F8 Pro', look: { body: ['#d6dce8', '#7f8ca6'], cam: 'plate' } },
   ],
   'vivo-oppo.tsv': [
-    { id: 'vivo-x300-ultra', brand: 'Vivo', name: 'X300 Ultra', look: { body: ['#d3ecdc', '#6fa88a'], wall: ['#9fe0c0', '#0f3a2a'], cam: 'ring' } },
-    { id: 'oppo-find-x9-ultra', brand: 'Oppo', name: 'Find X9 Ultra', look: { body: ['#f59a4c', '#9a3c08'], wall: ['#ffb36b', '#4a1c05'], cam: 'ring' } },
+    { id: 'vivo-x300-ultra', brand: 'Vivo', name: 'X300 Ultra', look: { body: ['#d3ecdc', '#6fa88a'], cam: 'ring' } },
+    { id: 'oppo-find-x9-ultra', brand: 'Oppo', name: 'Find X9 Ultra', look: { body: ['#f59a4c', '#9a3c08'], cam: 'ring' } },
   ],
 };
 
@@ -103,6 +104,8 @@ function parse(text) {
   return { rows, bench };
 }
 
+const PHOTO_DIR = path.join(root, 'public', 'phones');
+
 const phones = [];
 for (const [file, pair] of Object.entries(PAGES)) {
   const { rows, bench } = parse(fs.readFileSync(path.join(TSV_DIR, file), 'utf8'));
@@ -110,6 +113,7 @@ for (const [file, pair] of Object.entries(PAGES)) {
     const get = (label) => rows[i].find((r) => r[2] === label)?.[3] ?? '';
     phones.push({
       ...meta,
+      photo: fs.existsSync(path.join(PHOTO_DIR, `${meta.id}.webp`)),
       tier: get('Класс') || 'Флагман',
       released: released(get('Дата выхода')),
       price: num(get('Цена на момент выхода')) ?? 0,
@@ -121,5 +125,5 @@ for (const [file, pair] of Object.entries(PAGES)) {
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(phones));
-console.log(`phones.json: ${phones.length} телефонов, ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ`);
-for (const p of phones) console.log(`  ${p.id.padEnd(30)} ${p.released}  $${p.price}  rows=${p.rows.length} bench=${Object.keys(p.bench).length}`);
+console.log(`phones.json: ${phones.length} телефонов, ${(fs.statSync(OUT).size / 1024).toFixed(1)} КБ, с фото: ${phones.filter((p) => p.photo).length}`);
+for (const p of phones) console.log(`  ${p.id.padEnd(30)} ${p.photo ? 'фото' : '----'}  ${p.released}  $${p.price}  rows=${p.rows.length} bench=${Object.keys(p.bench).length}`);
