@@ -6,6 +6,9 @@ import { chipset, fullName, monthYear, monthsApart, shortName } from './phones.t
 export const fmtInt = (n: number) => Math.round(n).toLocaleString('ru-RU');
 export const fmtHours = (h: number) => `${Math.floor(h)}:${String(Math.round((h % 1) * 60)).padStart(2, '0')}`;
 const wifiName = (n: number) => `Wi-Fi ${Math.floor(n)}${n % 1 ? 'E' : ''}`;
+/** разница без лишних знаков: 4, 2,5 */
+const fmtNum = (n: number) => (Math.round(n * 10) / 10).toLocaleString('ru-RU');
+const years = (n: number) => `${n} ${n % 10 === 1 && n % 100 !== 11 ? 'год' : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 'года' : 'лет'}`;
 
 interface NumRule {
   pick: (m: Metrics) => number | undefined;
@@ -16,44 +19,44 @@ interface NumRule {
 }
 
 const RULES: NumRule[] = [
-  { pick: (m) => m.nits, min: 12, text: ({ pct, w, l }) => `На ${pct}% выше реальная яркость экрана (${fmtInt(w)} против ${fmtInt(l)} нит)` },
-  { pick: (m) => m.antutu, min: 8, text: ({ pct, w, l }) => `На ${pct}% лучше результат в AnTuTu (${fmtInt(w)} против ${fmtInt(l)})` },
-  { pick: (m) => m.gbS, min: 5, text: ({ pct, w, l }) => `На ${pct}% быстрее в одноядерном Geekbench 6 (${fmtInt(w)} против ${fmtInt(l)})` },
-  { pick: (m) => m.gbM, min: 5, text: ({ pct, w, l }) => `На ${pct}% быстрее в многоядерном Geekbench 6 (${fmtInt(w)} против ${fmtInt(l)})` },
-  { pick: (m) => m.gpu, min: 10, text: ({ pct, w, l }) => `На ${pct}% мощнее графика в Geekbench Compute (${fmtInt(w)} против ${fmtInt(l)})` },
+  { pick: (m) => m.nits, min: 12, text: ({ pct }) => `На ${pct}% выше реальная яркость экрана` },
+  { pick: (m) => m.antutu, min: 8, text: ({ pct }) => `На ${pct}% лучше результат в AnTuTu` },
+  { pick: (m) => m.gbS, min: 5, text: ({ pct }) => `На ${pct}% быстрее в одноядерном Geekbench 6` },
+  { pick: (m) => m.gbM, min: 5, text: ({ pct }) => `На ${pct}% быстрее в многоядерном Geekbench 6` },
+  { pick: (m) => m.gpu, min: 10, text: ({ pct }) => `На ${pct}% мощнее графика в Geekbench Compute` },
   {
     pick: (m) => m.endurance,
     min: 8,
     skip: (a, b) => a.enduranceEst || b.enduranceEst,
-    text: ({ pct, w, l }) => `На ${pct}% лучше автономность (${fmtHours(w)} против ${fmtHours(l)} ч.)`,
+    text: ({ pct }) => `На ${pct}% лучше автономность`,
   },
-  { pick: (m) => m.bat, min: 8, text: ({ pct, w, l }) => `Аккумулятор ёмче на ${pct}% (${fmtInt(w)} против ${fmtInt(l)} мАч)` },
-  { pick: (m) => m.charge, min: 15, text: ({ w, l }) => `Поддерживает более мощную зарядку (${w}W vs ${l}W)` },
+  { pick: (m) => m.bat, min: 8, text: ({ pct }) => `Аккумулятор ёмче на ${pct}%` },
+  { pick: (m) => m.charge, min: 15, text: ({ abs }) => `Зарядка мощнее на ${fmtNum(abs)} Вт` },
   { pick: (m) => m.fullMin, dir: 'lo', min: 10, text: ({ abs }) => `Заряжается до 100% на ${abs} мин быстрее` },
-  { pick: (m) => m.hz, min: 10, text: ({ w, l }) => `Выше частота обновления экрана (${w} против ${l} Гц)` },
-  { pick: (m) => m.ppi, min: 8, text: ({ w, l }) => `Выше плотность пикселей (${w} против ${l} ppi)` },
-  { pick: (m) => m.sensor, min: 10, text: ({ w, l }) => `Крупнее сенсор основной камеры (${w}″ против ${l}″)` },
-  { pick: (m) => m.mp, min: 30, text: ({ w, l }) => `Больше мегапикселей в основной камере (${w} против ${l} Мп)` },
-  { pick: (m) => m.frontMp, min: 20, text: ({ w, l }) => `Селфи-камера детальнее (${w} против ${l} Мп)` },
-  { pick: (m) => m.ram, min: 20, text: ({ w, l }) => `Больше оперативной памяти (${w} против ${l} ГБ)` },
-  { pick: (m) => m.updates, min: 20, text: ({ w, l }) => `Дольше обновления системы (${w} против ${l} лет)` },
+  { pick: (m) => m.hz, min: 10, text: ({ abs }) => `Частота обновления экрана выше на ${fmtNum(abs)} Гц` },
+  { pick: (m) => m.ppi, min: 8, text: ({ abs }) => `Плотность пикселей выше на ${fmtNum(abs)} ppi` },
+  { pick: (m) => m.sensor, min: 10, text: ({ pct }) => `Сенсор основной камеры крупнее на ${pct}%` },
+  { pick: (m) => m.mp, min: 30, text: ({ abs }) => `В основной камере на ${fmtNum(abs)} Мп больше` },
+  { pick: (m) => m.frontMp, min: 20, text: ({ abs }) => `Селфи-камера детальнее на ${fmtNum(abs)} Мп` },
+  { pick: (m) => m.ram, min: 20, text: ({ abs }) => `Оперативной памяти больше на ${fmtNum(abs)} ГБ` },
+  { pick: (m) => m.updates, min: 20, text: ({ abs }) => `Обновления системы на ${years(Math.round(abs))} дольше` },
   { pick: (m) => m.weight, dir: 'lo', min: 4, text: ({ abs }) => `Весит на ${Math.round(abs)} г меньше` },
-  { pick: (m) => m.thick, dir: 'lo', min: 6, text: ({ abs }) => `Тоньше на ${abs.toFixed(1)} мм` },
-  { pick: (m) => m.loud, min: 3, text: ({ pct, w, l }) => `Громче динамики на ${pct}% (${w} против ${l} дБ)` },
+  { pick: (m) => m.thick, dir: 'lo', min: 6, text: ({ abs }) => `Тоньше на ${fmtNum(abs)} мм` },
+  { pick: (m) => m.loud, min: 3, text: ({ abs }) => `Динамики громче на ${fmtNum(abs)} дБ` },
 ];
 
 type Feat = (m: Metrics, o: Metrics) => string | null;
 const FEATS: Feat[] = [
   (m, o) => (m.hasTele && !o.hasTele ? 'Есть телеобъектив для зума без потери качества' : null),
-  (m, o) => (m.zoom > o.zoom && o.hasTele ? `Оптический зум ${m.zoom}x (у соперника ${o.zoom}x)` : null),
+  (m, o) => (m.zoom > o.zoom && o.hasTele ? `Оптический зум больше на ${fmtNum(m.zoom - o.zoom)}x` : null),
   (m, o) => (m.fingerprint && !o.fingerprint ? 'Присутствует сканер отпечатков пальцев' : null),
   (m, o) => (m.wireless > 0 && o.wireless === 0 ? 'Поддерживает беспроводную зарядку' : null),
   (m, o) => (m.v8k && !o.v8k ? 'Умеет снимать видео в 8K' : null),
-  (m, o) => ((m.v4k ?? 0) > (o.v4k ?? 0) && (m.v4k ?? 0) >= 60 ? `Видео 4K до ${m.v4k} кадров/с (у соперника ${o.v4k ?? 0})` : null),
-  (m, o) => ((m.ip ?? 0) > (o.ip ?? 0) ? `Лучше защита от воды и пыли (IP${m.ip} против IP${o.ip})` : null),
-  (m, o) => ((m.wifi ?? 0) > (o.wifi ?? 0) ? `Новее Wi-Fi (${wifiName(m.wifi!)} против ${o.wifi ? wifiName(o.wifi) : 'старого'})` : null),
-  (m, o) => ((m.bt ?? 0) > (o.bt ?? 0) ? `Новее Bluetooth (${m.bt} против ${o.bt})` : null),
-  (m, o) => (m.nm != null && o.nm != null && m.nm < o.nm ? `Современнее техпроцесс (${m.nm} нм против ${o.nm} нм)` : null),
+  (m, o) => ((m.v4k ?? 0) > (o.v4k ?? 0) && (m.v4k ?? 0) >= 60 ? `Видео 4K на ${m.v4k! - (o.v4k ?? 0)} кадров/с плавнее` : null),
+  (m, o) => ((m.ip ?? 0) > (o.ip ?? 0) ? `Лучше защита от воды и пыли: IP${m.ip}` : null),
+  (m, o) => ((m.wifi ?? 0) > (o.wifi ?? 0) ? `Поддерживает ${wifiName(m.wifi!)}` : null),
+  (m, o) => ((m.bt ?? 0) > (o.bt ?? 0) ? `Поддерживает Bluetooth ${m.bt}` : null),
+  (m, o) => (m.nm != null && o.nm != null && m.nm < o.nm ? `Техпроцесс тоньше на ${fmtNum(o.nm - m.nm)} нм` : null),
   (m, o) => (m.stereo && !o.stereo ? 'Стереодинамики' : null),
   (m, o) => (m.sdcard && !o.sdcard ? 'Есть слот для карты памяти' : null),
   (m, o) => (m.jack && !o.jack ? 'Есть разъём 3.5 мм' : null),
