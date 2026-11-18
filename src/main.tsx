@@ -6,6 +6,7 @@ import './styles/base.css';
 import './styles/art.css';
 import './styles/home.css';
 import './styles/compare.css';
+import './styles/rating.css';
 import App from './App.tsx';
 
 // Рисуем интерфейс, когда шрифты уже загружены (но ждём не дольше 1,2 с). Иначе текст сначала набирается

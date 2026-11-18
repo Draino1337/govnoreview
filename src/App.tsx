@@ -5,8 +5,9 @@ import { useTheme } from './lib/hooks.ts';
 import { Icon } from './components/Icon.tsx';
 import { Home } from './pages/Home.tsx';
 import { Compare } from './pages/Compare.tsx';
+import { Rating, topOf } from './pages/Rating.tsx';
 
-function Header({ theme, onTheme }: { theme: string; onTheme: () => void }) {
+function Header({ theme, onTheme, rating }: { theme: string; onTheme: () => void; rating: boolean }) {
   return (
     <header className="hdr">
       <div className="wrap">
@@ -17,6 +18,12 @@ function Header({ theme, onTheme }: { theme: string; onTheme: () => void }) {
           </span>
           govno<span>review</span>
         </a>
+        <nav className="hdr-nav" aria-label="Разделы">
+          <a href={hrefOf('/rating')} className={rating ? 'is-on' : undefined} aria-current={rating ? 'page' : undefined}>
+            <Icon name="trophy" size={17} />
+            Рейтинг
+          </a>
+        </nav>
         <button type="button" className="theme" onClick={onTheme} aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'} title="Сменить тему">
           <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
         </button>
@@ -29,23 +36,31 @@ export default function App() {
   const path = usePath();
   const [theme, toggleTheme] = useTheme();
   const isCompare = path.startsWith('/compare/');
-  const isHome = !isCompare;
+  const isRating = path === '/rating' || path.startsWith('/rating/');
+  const isHome = !isCompare && !isRating;
   const pair = isCompare ? parsePair(path.slice('/compare/'.length)) : null;
+  const top = isRating ? topOf(path.slice('/rating/'.length)) : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [path]);
 
   useEffect(() => {
-    document.title = pair ? `${fullName(pair[0])} vs ${fullName(pair[1])} — сравнение · govnoreview` : 'govnoreview — сравнение смартфонов';
-  }, [pair]);
+    document.title = pair
+      ? `${fullName(pair[0])} vs ${fullName(pair[1])} — сравнение · govnoreview`
+      : top
+        ? `${top.title} — рейтинг смартфонов · govnoreview`
+        : 'govnoreview — сравнение смартфонов';
+  }, [pair, top]);
 
   return (
     <>
-      <Header theme={theme} onTheme={toggleTheme} />
+      <Header theme={theme} onTheme={toggleTheme} rating={isRating} />
       <main>
         {isHome ? (
           <Home />
+        ) : top ? (
+          <Rating key={top.id} slug={top.id} />
         ) : pair ? (
           <Compare a={pair[0]} b={pair[1]} />
         ) : (

@@ -82,6 +82,7 @@ const P: Record<string, ReactNode> = {
   close: <path d="M6 6l12 12M18 6L6 18" />,
   check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
   trophy: <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3" />,
+  crown: <path d="M3 7.5l4.5 4L12 4.5l4.5 7L21 7.5 19 18H5zM5 21h14" />,
   bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
   back: <path d="M19 12H5M11 6l-6 6 6 6" />,

@@ -171,6 +171,32 @@ a {
   background: var(--b);
   opacity: 0.88;
 }
+.hdr-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+}
+.hdr-nav a:hover {
+  color: var(--ink);
+  background: var(--soft);
+}
+.hdr-nav a.is-on {
+  color: var(--ink);
+  background: var(--a-soft);
+  border-color: color-mix(in srgb, var(--a) 35%, var(--line));
+}
+.hdr-nav svg {
+  color: var(--gold-1, var(--a));
+}
 .theme {
   margin-left: auto;
   width: 42px;
