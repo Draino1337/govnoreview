@@ -132,6 +132,105 @@ const PAGES = {
     { id: 'google-pixel-11', brand: 'Google', name: 'Pixel 11', look: { body: ['#b9cde6', '#7f9cc2'], cam: 'bar' } },
     { id: 'google-pixel-11-pro-fold', brand: 'Google', name: 'Pixel 11 Pro Fold', look: { body: ['#3a3c3f', '#141517'], cam: 'bar' } },
   ],
+  // остальные iPhone: NanoReview, а iPhone 2G … SE (2016) — с GSMArena (на NanoReview их нет)
+  'iphone2g-3g.tsv': [
+    { id: 'apple-iphone-3g', brand: 'Apple', name: 'iPhone 3G', look: { body: ['#2b2c30', '#0e0f11'], cam: 'col' } },
+    { id: 'apple-iphone-2g', brand: 'Apple', name: 'iPhone 2G', look: { body: ['#c9ccd1', '#8b9097'], cam: 'col' } },
+  ],
+  'iphone3gs-4.tsv': [
+    { id: 'apple-iphone-4', brand: 'Apple', name: 'iPhone 4', look: { body: ['#2a2b2e', '#0d0e10'], cam: 'col' } },
+    { id: 'apple-iphone-3gs', brand: 'Apple', name: 'iPhone 3GS', look: { body: ['#f2f2f2', '#c8c8c8'], cam: 'col' } },
+  ],
+  'iphone4s-5.tsv': [
+    { id: 'apple-iphone-5', brand: 'Apple', name: 'iPhone 5', look: { body: ['#3a3b3f', '#141518'], cam: 'col' } },
+    { id: 'apple-iphone-4s', brand: 'Apple', name: 'iPhone 4S', look: { body: ['#f4f4f4', '#cdcdcd'], cam: 'col' } },
+  ],
+  'iphone5s-5c.tsv': [
+    { id: 'apple-iphone-5s', brand: 'Apple', name: 'iPhone 5s', look: { body: ['#e8d8bf', '#b9a17c'], cam: 'col' } },
+    { id: 'apple-iphone-5c', brand: 'Apple', name: 'iPhone 5c', look: { body: ['#7fb5e8', '#3f7fc2'], cam: 'col' } },
+  ],
+  'iphone6.tsv': [
+    { id: 'apple-iphone-6-plus', brand: 'Apple', name: 'iPhone 6 Plus', look: { body: ['#e9e9ea', '#b4b6ba'], cam: 'col' } },
+    { id: 'apple-iphone-6', brand: 'Apple', name: 'iPhone 6', look: { body: ['#7d7f84', '#45474b'], cam: 'col' } },
+  ],
+  'iphone6s.tsv': [
+    { id: 'apple-iphone-6s-plus', brand: 'Apple', name: 'iPhone 6s Plus', look: { body: ['#f0d2c9', '#c9a096'], cam: 'col' } },
+    { id: 'apple-iphone-6s', brand: 'Apple', name: 'iPhone 6s', look: { body: ['#e8d8bf', '#b9a17c'], cam: 'col' } },
+  ],
+  'iphone-se2016.tsv': [
+    { id: 'apple-iphone-se-2016', brand: 'Apple', name: 'iPhone SE (2016)', look: { body: ['#f0d2c9', '#c9a096'], cam: 'col' } },
+  ],
+  'iphone7.tsv': [
+    { id: 'apple-iphone-7-plus', brand: 'Apple', name: 'iPhone 7 Plus', look: { body: ['#2a2b2e', '#0b0c0e'], cam: 'duo' } },
+    { id: 'apple-iphone-7', brand: 'Apple', name: 'iPhone 7', look: { body: ['#d84a4a', '#8f1f24'], cam: 'col' } },
+  ],
+  'iphone8.tsv': [
+    { id: 'apple-iphone-8-plus', brand: 'Apple', name: 'iPhone 8 Plus', look: { body: ['#efe1d2', '#c4ab92'], cam: 'duo' } },
+    { id: 'apple-iphone-8', brand: 'Apple', name: 'iPhone 8', look: { body: ['#ececec', '#bdbdbd'], cam: 'col' } },
+  ],
+  'iphonex-xr.tsv': [
+    { id: 'apple-iphone-xr', brand: 'Apple', name: 'iPhone XR', look: { body: ['#f7d64a', '#c9a514'], cam: 'col' } },
+    { id: 'apple-iphone-x', brand: 'Apple', name: 'iPhone X', look: { body: ['#e9e9e7', '#b9bab8'], cam: 'duo' } },
+  ],
+  'iphonexs.tsv': [
+    { id: 'apple-iphone-xs-max', brand: 'Apple', name: 'iPhone XS Max', look: { body: ['#f2dcc0', '#c6a67f'], cam: 'duo' } },
+    { id: 'apple-iphone-xs', brand: 'Apple', name: 'iPhone XS', look: { body: ['#3a3b3f', '#141518'], cam: 'duo' } },
+  ],
+  'iphone11pro.tsv': [
+    { id: 'apple-iphone-11-pro-max', brand: 'Apple', name: 'iPhone 11 Pro Max', look: { body: ['#4f6250', '#24302a'], cam: 'tri' } },
+    { id: 'apple-iphone-11-pro', brand: 'Apple', name: 'iPhone 11 Pro', look: { body: ['#e8dccb', '#b9a78e'], cam: 'tri' } },
+  ],
+  'iphone11-se2020.tsv': [
+    { id: 'apple-iphone-11', brand: 'Apple', name: 'iPhone 11', look: { body: ['#c9b9e6', '#9583be'], cam: 'duo' } },
+    { id: 'apple-iphone-se-2020', brand: 'Apple', name: 'iPhone SE (2020)', look: { body: ['#cf2b38', '#86131c'], cam: 'col' } },
+  ],
+  'iphone12pro.tsv': [
+    { id: 'apple-iphone-12-pro-max', brand: 'Apple', name: 'iPhone 12 Pro Max', look: { body: ['#3f5b78', '#1b2a3b'], cam: 'tri' } },
+    { id: 'apple-iphone-12-pro', brand: 'Apple', name: 'iPhone 12 Pro', look: { body: ['#efe0c6', '#c2a97d'], cam: 'tri' } },
+  ],
+  'iphone12.tsv': [
+    { id: 'apple-iphone-12', brand: 'Apple', name: 'iPhone 12', look: { body: ['#2d4f8f', '#13244a'], cam: 'duo' } },
+    { id: 'apple-iphone-12-mini', brand: 'Apple', name: 'iPhone 12 mini', look: { body: ['#c8e6cf', '#8fb99a'], cam: 'duo' } },
+  ],
+  'iphone13pro.tsv': [
+    { id: 'apple-iphone-13-pro-max', brand: 'Apple', name: 'iPhone 13 Pro Max', look: { body: ['#a9c3df', '#6f8db0'], cam: 'tri' } },
+    { id: 'apple-iphone-13-pro', brand: 'Apple', name: 'iPhone 13 Pro', look: { body: ['#5a6b58', '#2c3a2b'], cam: 'tri' } },
+  ],
+  'iphone13.tsv': [
+    { id: 'apple-iphone-13', brand: 'Apple', name: 'iPhone 13', look: { body: ['#f2c6cf', '#c98d99'], cam: 'duo' } },
+    { id: 'apple-iphone-13-mini', brand: 'Apple', name: 'iPhone 13 mini', look: { body: ['#2f4a63', '#13212f'], cam: 'duo' } },
+  ],
+  'iphone14pro.tsv': [
+    { id: 'apple-iphone-14-pro-max', brand: 'Apple', name: 'iPhone 14 Pro Max', look: { body: ['#4a3f5c', '#211b2c'], cam: 'tri' } },
+    { id: 'apple-iphone-14-pro', brand: 'Apple', name: 'iPhone 14 Pro', look: { body: ['#e9e2d4', '#b8ad97'], cam: 'tri' } },
+  ],
+  'iphone14.tsv': [
+    { id: 'apple-iphone-14-plus', brand: 'Apple', name: 'iPhone 14 Plus', look: { body: ['#c9d4ea', '#8d9ec2'], cam: 'duo' } },
+    { id: 'apple-iphone-14', brand: 'Apple', name: 'iPhone 14', look: { body: ['#c9b9e6', '#9583be'], cam: 'duo' } },
+  ],
+  'iphone-se2022-16e.tsv': [
+    { id: 'apple-iphone-16e', brand: 'Apple', name: 'iPhone 16e', look: { body: ['#f2f2f0', '#c4c4c1'], cam: 'col' } },
+    { id: 'apple-iphone-se-2022', brand: 'Apple', name: 'iPhone SE (2022)', look: { body: ['#2a2c30', '#0d0e10'], cam: 'col' } },
+  ],
+  'iphone15pro.tsv': [
+    { id: 'apple-iphone-15-pro-max', brand: 'Apple', name: 'iPhone 15 Pro Max', look: { body: ['#8e8a82', '#55524c'], cam: 'tri' } },
+    { id: 'apple-iphone-15-pro', brand: 'Apple', name: 'iPhone 15 Pro', look: { body: ['#3a4152', '#171b24'], cam: 'tri' } },
+  ],
+  'iphone15plus-16plus.tsv': [
+    { id: 'apple-iphone-16-plus', brand: 'Apple', name: 'iPhone 16 Plus', look: { body: ['#7fd6c9', '#3f9c8f'], cam: 'duo' } },
+    { id: 'apple-iphone-15-plus', brand: 'Apple', name: 'iPhone 15 Plus', look: { body: ['#f5efc4', '#cfc68b'], cam: 'duo' } },
+  ],
+  'iphone16pro-air.tsv': [
+    { id: 'apple-iphone-16-pro', brand: 'Apple', name: 'iPhone 16 Pro', look: { body: ['#c9bba5', '#93836c'], cam: 'tri' } },
+    { id: 'apple-iphone-air', brand: 'Apple', name: 'iPhone Air', look: { body: ['#cfe3f2', '#93b3cc'], cam: 'col' } },
+  ],
+  'iphone18pro-17e.tsv': [
+    { id: 'apple-iphone-18-pro', brand: 'Apple', name: 'iPhone 18 Pro', look: { body: ['#3d3a52', '#191726'], cam: 'tri' } },
+    { id: 'apple-iphone-17e', brand: 'Apple', name: 'iPhone 17e', look: { body: ['#f0e4ec', '#c7aebc'], cam: 'col' } },
+  ],
+  'iphone-duo.tsv': [
+    { id: 'apple-iphone-duo', brand: 'Apple', name: 'iPhone Duo', look: { body: ['#d9d4cc', '#a59f95'], cam: 'duo' } },
+  ],
   // на этой странице источник сам поставил 17T Pro в первую колонку
   'xiaomi17.tsv': [
     { id: 'xiaomi-17t-pro', brand: 'Xiaomi', name: '17T Pro', look: { body: ['#6a5fe0', '#251f6b'], cam: 'plate' } },

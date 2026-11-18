@@ -42,6 +42,19 @@ export const TABLE = {
   'apple-iphone-16-pro-max': { front: 'p975674', back: 'd975661', backOpts: ['--blob=largest'] },
   'apple-iphone-16': { front: 'p975708', back: 'd975712', backOpts: ['--blob=largest'] },
   'apple-iphone-15': { front: 'p820071', back: 'd820072', backOpts: ['--blob=largest'] },
+  // iPhone 7 / 7 Plus: экран и спина вырезаны из одного кадра «экран + профиль + спина»; XS Max и XS — ровная
+  // спина iPhone X (у XS дизайн спины тот же, а их собственные спины у Kimovil сняты под углом), SE (2022) — спина SE (2020) (тот же корпус и красный цвет)
+  'apple-iphone-air': { front: 'p1133126', back: 'd1133124', backOpts: ['--blob=largest'] },
+  'apple-iphone-xs-max': { front: 'p185129', back: 'd87962' },
+  'apple-iphone-xs': { front: 'p185127', back: 'd87962' },
+  'apple-iphone-x': { front: 'p87957', back: 'd87962' },
+  'apple-iphone-se-2022': { front: 'p610658', back: 'd351842' },
+  'apple-iphone-8-plus': { front: 'p88077', back: 'd88092' },
+  // у iPhone 8 ровной спины нет ни на Kimovil, ни на GSMArena — по решению владельца спина SE (2020): тот же корпус,
+  // но логотип по центру и без надписи «iPhone»
+  'apple-iphone-8': { front: 'p87974', back: 'd351843' },
+  'apple-iphone-7-plus': { front: 'd36668', back: 'd36668', frontOpts: ['--crop=55,112,295,575'], backOpts: ['--crop=452,112,295,575'] },
+  'apple-iphone-7': { front: 'd36652', back: 'd36652', frontOpts: ['--crop=50,105,300,590'], backOpts: ['--crop=452,105,300,590'] },
   'google-pixel-10-pro-xl': { front: 'p1120732', back: 'd1120739', opts: ['--mirror=bottom'] },
   'google-pixel-10': { front: 'p1120715', back: 'd1120705', opts: ['--mirror=bottom'] },
   // Google Pixel — от первого до последнего. Пометки к выбору кадров — в research/photo-sources.md.
