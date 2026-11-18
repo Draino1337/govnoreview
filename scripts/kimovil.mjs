@@ -54,6 +54,12 @@ export const TABLE = {
   // но логотип по центру и без надписи «iPhone»
   'apple-iphone-8': { front: 'p87974', back: 'd351843' },
   'apple-iphone-7-plus': { front: 'd36668', back: 'd36668', frontOpts: ['--crop=55,112,295,575'], backOpts: ['--crop=452,112,295,575'] },
+  // iPhone 2G, 3G и 3GS — не с Kimovil (там их нет), файлы положены в research/img-src вручную: gsm-* — GSMArena
+  // (страницы снимков модели), wc-rear — спина 2G с Wikimedia Commons «Original iPhone rear.jpg», Robert Scoble, CC BY 2.0;
+  // снят чуть в перспективе, wc-rear-flat — он же, выпрямленный построчно по левой и правой кромке
+  'apple-iphone-3gs': { front: 'gsm-01', back: 'gsm-01', frontOpts: ['--crop=8,4,164,297'], backOpts: ['--crop=190,4,168,297'] },
+  'apple-iphone-3g': { front: 'gsm-01', back: 'gsm-01', frontOpts: ['--crop=12,4,226,430'], backOpts: ['--crop=312,4,238,420'] },
+  'apple-iphone-2g': { front: 'gsm-00', back: 'wc-rear-flat', frontOpts: ['--crop=18,0,246,500'], backOpts: ['--round=56'] },
   'apple-iphone-7': { front: 'd36652', back: 'd36652', frontOpts: ['--crop=50,105,300,590'], backOpts: ['--crop=452,105,300,590'] },
   'google-pixel-10-pro-xl': { front: 'p1120732', back: 'd1120739', opts: ['--mirror=bottom'] },
   'google-pixel-10': { front: 'p1120715', back: 'd1120705', opts: ['--mirror=bottom'] },
