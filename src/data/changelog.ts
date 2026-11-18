@@ -12,6 +12,13 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.5',
+    date: '2026-11-18',
+    title: 'Лучшие флагманы: 31 новая модель',
+    text: 'Пришли Huawei, Honor, Realme, Sony, Asus, ZTE, Motorola и Nothing, а у Samsung, Xiaomi, Oppo, Vivo и OnePlus стало больше флагманов, в том числе складных: Galaxy Z Fold 8 Ultra, Xiaomi 18 Pro Max, Mate 90 Pro Max, Find X10 Pro Max, X500 Pro Max и другие.',
+    ids: ['samsung-galaxy-s26-plus', 'samsung-galaxy-z-fold-8-ultra', 'samsung-galaxy-z-fold-8', 'samsung-galaxy-z-flip-8', 'motorola-razr-ultra-2026', 'xiaomi-18-pro-max', 'xiaomi-18-pro', 'xiaomi-17-ultra', 'xiaomi-18-fold', 'huawei-mate-90-pro-max', 'huawei-mate-90-pro', 'huawei-pura-90-pro-max', 'huawei-mate-xt-2-ultimate', 'honor-magic-9-pro-max', 'honor-magic-v6', 'oppo-find-x10-pro-max', 'oppo-find-x9-pro', 'oppo-find-n5', 'vivo-x-fold6', 'vivo-x500-pro-max', 'vivo-x500-pro', 'vivo-iqoo-16', 'realme-gt-8-pro', 'oneplus-15t', 'oneplus-13', 'sony-xperia-1-viii', 'asus-zenfone-12-ultra', 'asus-rog-phone-9-pro', 'zte-nubia-red-magic-12-pro-plus', 'zte-nubia-z80-ultra', 'nothing-phone-3'],
+  },
+  {
     version: '1.4',
     date: '2026-11-18',
     title: 'Рейтинг смартфонов',

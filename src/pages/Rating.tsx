@@ -12,7 +12,7 @@ type TopId = 'all' | CatId;
 /** вкладки рейтинга: общий и по категориям оценки (src/lib/score.ts) */
 export const TOPS: { id: TopId; tab: string; icon: string; title: string; desc: string }[] = [
   { id: 'all', tab: 'Общий', icon: 'trophy', title: 'Лучшие смартфоны', desc: 'Итоговая оценка по всем категориям сразу' },
-  { id: 'camera', tab: 'Для фото', icon: 'camera', title: 'Лучшие камеры', desc: 'Сенсор, оптика, зум и видео' },
+  { id: 'camera', tab: 'Для фото', icon: 'camera', title: 'Лучшие камеры', desc: 'По оценке камеры DxOMARK; где DxOMARK не тестировал — по характеристикам' },
   { id: 'gaming', tab: 'Для игр', icon: 'game', title: 'Лучшие для игр', desc: 'Графика и запас мощности в 3D' },
   { id: 'battery', tab: 'Автономность', icon: 'battery', title: 'Дольше всех без розетки', desc: 'Автономность и скорость зарядки' },
   { id: 'display', tab: 'Экран', icon: 'display', title: 'Лучшие экраны', desc: 'Яркость, чёткость, плавность и HDR' },

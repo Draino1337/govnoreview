@@ -4,7 +4,7 @@ export type CatId = 'display' | 'camera' | 'perf' | 'gaming' | 'battery' | 'comm
 
 export const CATS: { id: CatId; title: string; desc: string }[] = [
   { id: 'display', title: 'Дисплей', desc: 'Яркость, чёткость, плавность и HDR' },
-  { id: 'camera', title: 'Камера', desc: 'Сенсор, оптика, зум и видео' },
+  { id: 'camera', title: 'Камера', desc: 'Оценка камеры DxOMARK' },
   { id: 'perf', title: 'Производительность', desc: 'Скорость приложений и системы' },
   { id: 'gaming', title: 'Игры', desc: 'Графика и запас мощности в 3D' },
   { id: 'battery', title: 'Батарея', desc: 'Автономность и скорость зарядки' },
@@ -35,6 +35,29 @@ function wavg(parts: Array<[number | undefined, number]>): number {
 /** лёгкая «растяжка», чтобы шкала не слипалась у верхнего края */
 const curve = (x: number, gamma = 0.85) => Math.round(100 * Math.pow(clamp(x / 100), gamma));
 
+/** оценка камеры по характеристикам, 0..100: сенсор, зум, широкоугольник, светосила, видео, фронталка */
+export function cameraSpec(m: Metrics): number {
+  return wavg([
+    [lin(m.sensor, 0.3, 0.8), 3],
+    [m.mp == null ? undefined : lin(Math.log(m.mp), Math.log(12), Math.log(200)), 0.7],
+    [m.hasTele ? 55 + (lin(m.zoom, 0, 5) ?? 0) * 0.45 : 0, 3],
+    [flag(m.hasUltra), 1.5],
+    [m.aperture == null ? undefined : lin(2.2 - m.aperture, 0, 0.9), 1.5],
+    [lin(m.v4k, 0, 120), 1],
+    [flag(m.v8k), 0.5],
+    [lin(m.frontMp, 8, 32), 0.7],
+  ]);
+}
+
+// Камера — по оценке DxOMARK (research/dxomark.tsv): DXO_LO…DXO_HI баллов → 0…100.
+// Где DxOMARK телефон не тестировал, его оценку предсказываем по характеристикам и году выхода:
+// 98.3 + 0.553 × cameraSpec + 2.85 × (год − 2020). Коэффициенты — наименьшие квадраты по 55 телефонам
+// каталога с оценкой DxOMARK (ошибка ±8.6 балла); год нужен, потому что одни характеристики не отличают
+// iPhone 2007 года от однокамерного 2022-го. При новых оценках в research/dxomark.tsv коэффициенты можно подобрать заново.
+const DXO_LO = 40;
+const DXO_HI = 175;
+const cameraDxoEstimate = (m: Metrics) => 98.3 + 0.553 * cameraSpec(m) + 2.85 * (m.year - 2020);
+
 export function scoreAll(m: Metrics): Scores {
   // реальный замер важнее, но заявленная пиковая яркость тоже учитывается
   const nits =
@@ -47,17 +70,6 @@ export function scoreAll(m: Metrics): Scores {
     [m.hzMin == null ? undefined : m.hzMin <= 10 ? 100 : 55, 1],
     [m.hdr, 1],
     [lin(m.pwm, 120, 480), 1],
-  ]);
-
-  const camera = wavg([
-    [lin(m.sensor, 0.3, 0.8), 3],
-    [m.mp == null ? undefined : lin(Math.log(m.mp), Math.log(12), Math.log(200)), 0.7],
-    [m.hasTele ? 55 + (lin(m.zoom, 0, 5) ?? 0) * 0.45 : 0, 3],
-    [flag(m.hasUltra), 1.5],
-    [m.aperture == null ? undefined : lin(2.2 - m.aperture, 0, 0.9), 1.5],
-    [lin(m.v4k, 0, 120), 1],
-    [flag(m.v8k), 0.5],
-    [lin(m.frontMp, 8, 32), 0.7],
   ]);
 
   const perf = wavg([
@@ -98,7 +110,7 @@ export function scoreAll(m: Metrics): Scores {
 
   return {
     display: curve(display),
-    camera: curve(camera),
+    camera: Math.round(lin(m.dxo ?? cameraDxoEstimate(m), DXO_LO, DXO_HI) ?? 0),
     perf: curve(perf, 0.6),
     gaming: curve(gaming, 0.6),
     battery: curve(battery),

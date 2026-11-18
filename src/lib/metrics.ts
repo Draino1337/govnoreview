@@ -55,6 +55,10 @@ export interface Metrics {
   video?: number;
   game?: number;
   // камера
+  /** оценка камеры DxOMARK, если есть */
+  dxo?: number;
+  /** год выхода с долей месяца: 2024.75 — октябрь 2024 */
+  year: number;
   mp?: number;
   sensor?: number;
   aperture?: number;
@@ -163,6 +167,8 @@ export function getMetrics(p: Phone): Metrics {
     loud: bench('Максимальная громкость'),
     updates: num(g('Программное обеспечение', '', 'Обновления OS')),
 
+    dxo: p.dxo,
+    year: +p.released.slice(0, 4) + (+p.released.slice(5, 7) - 1) / 12,
     price: p.price,
   };
 }

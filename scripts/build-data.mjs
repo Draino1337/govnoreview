@@ -244,6 +244,69 @@ const PAGES = {
     { id: 'vivo-x300-ultra', brand: 'Vivo', name: 'X300 Ultra', look: { body: ['#d3ecdc', '#6fa88a'], cam: 'ring' } },
     { id: 'oppo-find-x9-ultra', brand: 'Oppo', name: 'Find X9 Ultra', look: { body: ['#f59a4c', '#9a3c08'], cam: 'ring' } },
   ],
+  's26plus.tsv': [
+    { id: 'samsung-galaxy-s26-plus', brand: 'Samsung', name: 'Galaxy S26 Plus', look: { body: ['#c9d6ee', '#7d8fb5'], cam: 'col' } },
+  ],
+  'zfold8.tsv': [
+    { id: 'samsung-galaxy-z-fold-8-ultra', brand: 'Samsung', name: 'Galaxy Z Fold 8 Ultra', look: { body: ['#2d3446', '#10131b'], cam: 'col' } },
+    { id: 'samsung-galaxy-z-fold-8', brand: 'Samsung', name: 'Galaxy Z Fold 8', look: { body: ['#b9c3d4', '#6e7a90'], cam: 'col' } },
+  ],
+  'zflip8-razr.tsv': [
+    { id: 'samsung-galaxy-z-flip-8', brand: 'Samsung', name: 'Galaxy Z Flip 8', look: { body: ['#c7d8f0', '#6f8ab8'], cam: 'duo' } },
+    { id: 'motorola-razr-ultra-2026', brand: 'Motorola', name: 'Razr Ultra (2026)', look: { body: ['#7a2b3a', '#3a0f18'], cam: 'duo' } },
+  ],
+  'xiaomi18pro.tsv': [
+    { id: 'xiaomi-18-pro-max', brand: 'Xiaomi', name: '18 Pro Max', look: { body: ['#2c2f35', '#0f1013'], cam: 'plate' } },
+    { id: 'xiaomi-18-pro', brand: 'Xiaomi', name: '18 Pro', look: { body: ['#e9ecef', '#a9b1ba'], cam: 'plate' } },
+  ],
+  'xiaomi17u-18fold.tsv': [
+    { id: 'xiaomi-17-ultra', brand: 'Xiaomi', name: '17 Ultra', look: { body: ['#2a2a2c', '#0c0c0d'], cam: 'ring' } },
+    { id: 'xiaomi-18-fold', brand: 'Xiaomi', name: '18 Fold', look: { body: ['#3d4a5c', '#18202b'], cam: 'plate' } },
+  ],
+  'mate90.tsv': [
+    { id: 'huawei-mate-90-pro-max', brand: 'Huawei', name: 'Mate 90 Pro Max', look: { body: ['#2d3a35', '#101815'], cam: 'ring' } },
+    { id: 'huawei-mate-90-pro', brand: 'Huawei', name: 'Mate 90 Pro', look: { body: ['#e8e2d6', '#b3a88f'], cam: 'ring' } },
+  ],
+  'pura90-matext2.tsv': [
+    { id: 'huawei-pura-90-pro-max', brand: 'Huawei', name: 'Pura 90 Pro Max', look: { body: ['#f0ede6', '#bdb5a3'], cam: 'plate' } },
+    { id: 'huawei-mate-xt-2-ultimate', brand: 'Huawei', name: 'Mate XT 2 Ultimate', look: { body: ['#b5432f', '#5e1a10'], cam: 'plate' } },
+  ],
+  'honor.tsv': [
+    { id: 'honor-magic-9-pro-max', brand: 'Honor', name: 'Magic 9 Pro Max', look: { body: ['#3a4b6b', '#161e2e'], cam: 'ring' } },
+    { id: 'honor-magic-v6', brand: 'Honor', name: 'Magic V6', look: { body: ['#d9cdb6', '#9c8b6b'], cam: 'ring' } },
+  ],
+  'oppo-x10-x9pro.tsv': [
+    { id: 'oppo-find-x10-pro-max', brand: 'Oppo', name: 'Find X10 Pro Max', look: { body: ['#2f3238', '#101114'], cam: 'ring' } },
+    { id: 'oppo-find-x9-pro', brand: 'Oppo', name: 'Find X9 Pro', look: { body: ['#d4d9df', '#8a939d'], cam: 'plate' } },
+  ],
+  'n5-xfold6.tsv': [
+    { id: 'oppo-find-n5', brand: 'Oppo', name: 'Find N5', look: { body: ['#e9e6e1', '#aaa49a'], cam: 'ring' } },
+    { id: 'vivo-x-fold6', brand: 'Vivo', name: 'X Fold6', look: { body: ['#2f4a3e', '#122019'], cam: 'ring' } },
+  ],
+  'vivo-x500.tsv': [
+    { id: 'vivo-x500-pro-max', brand: 'Vivo', name: 'X500 Pro Max', look: { body: ['#26282d', '#0c0d10'], cam: 'ring' } },
+    { id: 'vivo-x500-pro', brand: 'Vivo', name: 'X500 Pro', look: { body: ['#dfe6ee', '#94a3b5'], cam: 'ring' } },
+  ],
+  'iqoo16-gt8pro.tsv': [
+    { id: 'vivo-iqoo-16', brand: 'Vivo', name: 'iQOO 16', look: { body: ['#f2f2f2', '#b9b9b9'], cam: 'plate' } },
+    { id: 'realme-gt-8-pro', brand: 'Realme', name: 'GT 8 Pro', look: { body: ['#ece6d8', '#b0a589'], cam: 'plate' } },
+  ],
+  'oneplus15t-13.tsv': [
+    { id: 'oneplus-15t', brand: 'OnePlus', name: '15T', look: { body: ['#2f3136', '#111215'], cam: 'plate' } },
+    { id: 'oneplus-13', brand: 'OnePlus', name: '13', look: { body: ['#24344f', '#0d1421'], cam: 'ring' } },
+  ],
+  'xperia-zenfone.tsv': [
+    { id: 'sony-xperia-1-viii', brand: 'Sony', name: 'Xperia 1 VIII', look: { body: ['#3d4654', '#171b22'], cam: 'col' } },
+    { id: 'asus-zenfone-12-ultra', brand: 'Asus', name: 'Zenfone 12 Ultra', look: { body: ['#c8ced6', '#7d8794'], cam: 'plate' } },
+  ],
+  'rog9-redmagic12.tsv': [
+    { id: 'asus-rog-phone-9-pro', brand: 'Asus', name: 'ROG Phone 9 Pro', look: { body: ['#2a2b2e', '#0b0b0c'], cam: 'plate' } },
+    { id: 'zte-nubia-red-magic-12-pro-plus', brand: 'ZTE', name: 'Nubia Red Magic 12 Pro Plus', look: { body: ['#25262a', '#09090b'], cam: 'plate' } },
+  ],
+  'z80u-nothing3.tsv': [
+    { id: 'zte-nubia-z80-ultra', brand: 'ZTE', name: 'Nubia Z80 Ultra', look: { body: ['#3a3530', '#15120f'], cam: 'ring' } },
+    { id: 'nothing-phone-3', brand: 'Nothing', name: 'Phone (3)', look: { body: ['#e8e8e8', '#a8a8a8'], cam: 'plate' } },
+  ],
 };
 
 const MONTHS = { Январь: 1, Февраль: 2, Март: 3, Апрель: 4, Май: 5, Июнь: 6, Июль: 7, Август: 8, Сентябрь: 9, Октябрь: 10, Ноябрь: 11, Декабрь: 12 };
@@ -289,6 +352,11 @@ async function photoRatio(id) {
   return +(width / height).toFixed(4);
 }
 
+// оценки камеры DxOMARK: research/dxomark.tsv (id|модель|оценка|ссылка)
+const DXO = new Map(
+  fs.readFileSync(path.join(root, 'research', 'dxomark.tsv'), 'utf8').split(/\r?\n/).filter((l) => l && !l.startsWith('#')).map((l) => l.split('|')).map(([id, , s]) => [id, +s]),
+);
+
 const phones = [];
 for (const [file, pair] of Object.entries(PAGES)) {
   const { rows, bench } = parse(fs.readFileSync(path.join(TSV_DIR, file), 'utf8'));
@@ -300,6 +368,7 @@ for (const [file, pair] of Object.entries(PAGES)) {
       tier: get('Класс') || 'Флагман',
       released: released(get('Дата выхода')),
       price: num(get('Цена на момент выхода')) ?? 0,
+      ...(DXO.has(meta.id) && { dxo: DXO.get(meta.id) }),
       rows: rows[i],
       bench: bench[i],
     });

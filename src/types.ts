@@ -16,6 +16,8 @@ export interface Phone {
   tier: string;
   released: string; // YYYY-MM
   price: number; // USD на момент выхода
+  /** оценка камеры DxOMARK, если телефон там тестировали (research/dxomark.tsv) */
+  dxo?: number;
   look: Look;
   rows: Row[];
   bench: Record<string, string>;
