@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import type { Phone } from '../types.ts';
-import { fullName, searchPhones } from '../lib/phones.ts';
+import { fullName, models, searchPhones } from '../lib/phones.ts';
 import { PhoneArt } from './PhoneArt.tsx';
 import { Icon } from './Icon.tsx';
 
@@ -118,7 +118,7 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
       </div>
       {open && (
         <ul ref={listRef} className="ps-list" role="listbox" id={`${id}-list`} style={{ maxHeight: maxH }}>
-          {list.length === 0 && <li className="ps-empty">Ничего не нашли. В каталоге пока {`${searchPhones('').length}`} моделей.</li>}
+          {list.length === 0 && <li className="ps-empty">Ничего не нашли. В каталоге пока {models(searchPhones('').length)}.</li>}
           {list.map((p, i) => (
             <li key={p.id} id={`${id}-o${i}`} role="option" aria-selected={i === hi} className={i === hi ? 'is-hi' : ''} onMouseEnter={() => setHi(i)} onMouseDown={(e) => e.preventDefault()} onClick={() => pick(p)}>
               <PhoneArt phone={p} size="xs" />

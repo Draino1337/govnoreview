@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Phone } from '../types.ts';
 import { CHANGELOG } from '../data/changelog.ts';
-import { byId, fullName } from '../lib/phones.ts';
+import { byId, fullName, models } from '../lib/phones.ts';
 import { PhoneArt } from './PhoneArt.tsx';
 import { Icon } from './Icon.tsx';
 import { hrefOf } from '../router.ts';
@@ -13,10 +13,6 @@ const MONTHS = ['января', 'февраля', 'марта', 'апреля', 
 const dateRu = (iso: string) => {
   const [y, m, d] = iso.split('-').map(Number);
   return `${d} ${MONTHS[m - 1]} ${y}`;
-};
-const models = (n: number) => {
-  const k = n % 100 > 10 && n % 100 < 20 ? 2 : [2, 0, 1, 1, 1, 2][Math.min(n % 10, 5)];
-  return `${n} ${['модель', 'модели', 'моделей'][k]}`;
 };
 
 function Entry({ e, latest, onPick }: { e: (typeof CHANGELOG)[number]; latest: boolean; onPick: (p: Phone) => void }) {

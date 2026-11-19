@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Phone } from '../types.ts';
-import { PHONES, fullName, monthYear, pairPath } from '../lib/phones.ts';
+import { PHONES, fullName, models, monthYear, pairPath } from '../lib/phones.ts';
 import { analyze } from '../lib/analysis.ts';
 import { overall, type CatId } from '../lib/score.ts';
 import { hrefOf } from '../router.ts';
@@ -78,7 +78,7 @@ export function Rating({ slug }: { slug: string }) {
         </p>
         <h1>{top.title}</h1>
         <p className="rt-lead">
-          {top.desc}. Все {rows.length} моделей каталога, оценка из 100.
+          {top.desc}. Все {models(rows.length)} каталога, оценка из 100.
         </p>
       </header>
 

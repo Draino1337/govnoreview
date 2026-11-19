@@ -65,3 +65,9 @@ export const monthsApart = (a: string, b: string) => {
 };
 
 export const chipset = (p: Phone) => p.rows.find((r) => r[2] === 'Чипсет')?.[3] ?? '—';
+
+/** «1 модель», «3 модели», «163 модели», «142 модели», «11 моделей» */
+export const models = (n: number) => {
+  const k = n % 100 > 10 && n % 100 < 20 ? 2 : [2, 0, 1, 1, 1, 2][Math.min(n % 10, 5)];
+  return `${n} ${['модель', 'модели', 'моделей'][k]}`;
+};

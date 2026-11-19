@@ -307,6 +307,73 @@ const PAGES = {
     { id: 'zte-nubia-z80-ultra', brand: 'ZTE', name: 'Nubia Z80 Ultra', look: { body: ['#3a3530', '#15120f'], cam: 'ring' } },
     { id: 'nothing-phone-3', brand: 'Nothing', name: 'Phone (3)', look: { body: ['#e8e8e8', '#a8a8a8'], cam: 'plate' } },
   ],
+  'huawei-p30pro-p40lite.tsv': [
+    { id: 'huawei-p30-pro', brand: 'Huawei', name: 'P30 Pro', look: { body: ['#9fd3e8', '#5a6fc0'], cam: 'col' } },
+    { id: 'huawei-p40-lite', brand: 'Huawei', name: 'P40 Lite', look: { body: ['#3fc1a5', '#1d6b74'], cam: 'plate' } },
+  ],
+  'huawei-p40.tsv': [
+    { id: 'huawei-p40-pro', brand: 'Huawei', name: 'P40 Pro', look: { body: ['#e9ecef', '#a6b0bb'], cam: 'col' } },
+    { id: 'huawei-p40', brand: 'Huawei', name: 'P40', look: { body: ['#d6d9dd', '#8d949c'], cam: 'col' } },
+  ],
+  'huawei-p50pro-p60.tsv': [
+    { id: 'huawei-p50-pro', brand: 'Huawei', name: 'P50 Pro', look: { body: ['#e8d2a6', '#b09155'], cam: 'col' } },
+    { id: 'huawei-p60', brand: 'Huawei', name: 'P60', look: { body: ['#f0eee9', '#b8b2a6'], cam: 'ring' } },
+  ],
+  'huawei-p60pro-pura70.tsv': [
+    { id: 'huawei-p60-pro', brand: 'Huawei', name: 'P60 Pro', look: { body: ['#e9e3d6', '#b2a88f'], cam: 'ring' } },
+    { id: 'huawei-pura-70', brand: 'Huawei', name: 'Pura 70', look: { body: ['#2d2f35', '#0e0f12'], cam: 'plate' } },
+  ],
+  'huawei-pura70.tsv': [
+    { id: 'huawei-pura-70-ultra', brand: 'Huawei', name: 'Pura 70 Ultra', look: { body: ['#2f3a32', '#0f1511'], cam: 'plate' } },
+    { id: 'huawei-pura-70-pro', brand: 'Huawei', name: 'Pura 70 Pro', look: { body: ['#f2f2f0', '#bdbdb8'], cam: 'plate' } },
+  ],
+  'huawei-pura80.tsv': [
+    { id: 'huawei-pura-80-pro', brand: 'Huawei', name: 'Pura 80 Pro', look: { body: ['#e7d5b8', '#a88d62'], cam: 'plate' } },
+    { id: 'huawei-pura-80', brand: 'Huawei', name: 'Pura 80', look: { body: ['#2b2d33', '#0d0e11'], cam: 'plate' } },
+  ],
+  'huawei-pura80ultra.tsv': [
+    { id: 'huawei-pura-80-ultra', brand: 'Huawei', name: 'Pura 80 Ultra', look: { body: ['#2a2b2f', '#0b0b0d'], cam: 'plate' } },
+    { id: 'huawei-pura-80-pro-plus', brand: 'Huawei', name: 'Pura 80 Pro Plus', look: { body: ['#f0ede6', '#bdb5a3'], cam: 'plate' } },
+  ],
+  'huawei-pura90.tsv': [
+    { id: 'huawei-pura-90-plus', brand: 'Huawei', name: 'Pura 90 Plus', look: { body: ['#d9e4ef', '#8ba2bd'], cam: 'plate' } },
+    { id: 'huawei-pura-90', brand: 'Huawei', name: 'Pura 90', look: { body: ['#2c2e34', '#0e0f12'], cam: 'plate' } },
+  ],
+  'huawei-pura90pro.tsv': [
+    { id: 'huawei-pura-90s-pro', brand: 'Huawei', name: 'Pura 90s Pro', look: { body: ['#e8e2d6', '#b3a88f'], cam: 'plate' } },
+    { id: 'huawei-pura-90-pro', brand: 'Huawei', name: 'Pura 90 Pro', look: { body: ['#2d3a35', '#101815'], cam: 'plate' } },
+  ],
+  'huawei-purax-90spm.tsv': [
+    { id: 'huawei-pura-x-max', brand: 'Huawei', name: 'Pura X Max', look: { body: ['#b5432f', '#5e1a10'], cam: 'plate' } },
+    { id: 'huawei-pura-90s-pro-max', brand: 'Huawei', name: 'Pura 90s Pro Max', look: { body: ['#2a2b2f', '#0b0b0d'], cam: 'plate' } },
+  ],
+  'huawei-purax-view.tsv': [
+    { id: 'huawei-pura-x-view', brand: 'Huawei', name: 'Pura X View', look: { body: ['#e9e6e1', '#aaa49a'], cam: 'plate' } },
+  ],
+  'nothing-cmf2pro-cmf1.tsv': [
+    { id: 'nothing-cmf-phone-2-pro', brand: 'Nothing', name: 'CMF Phone 2 Pro', look: { body: ['#ececec', '#a9a9a9'], cam: 'col' } },
+    { id: 'nothing-cmf-phone-1', brand: 'Nothing', name: 'CMF Phone 1', look: { body: ['#ff7a2f', '#c2470c'], cam: 'col' } },
+  ],
+  'nothing-phone2-phone1.tsv': [
+    { id: 'nothing-phone-2', brand: 'Nothing', name: 'Phone (2)', look: { body: ['#ececec', '#a9a9a9'], cam: 'plate' } },
+    { id: 'nothing-phone-1', brand: 'Nothing', name: 'Phone (1)', look: { body: ['#ececec', '#a9a9a9'], cam: 'plate' } },
+  ],
+  'nothing-phone2aplus-2a.tsv': [
+    { id: 'nothing-phone-2a-plus', brand: 'Nothing', name: 'Phone (2a) Plus', look: { body: ['#9a9a9a', '#5a5a5a'], cam: 'plate' } },
+    { id: 'nothing-phone-2a', brand: 'Nothing', name: 'Phone (2a)', look: { body: ['#ececec', '#a9a9a9'], cam: 'plate' } },
+  ],
+  'nothing-phone3alite-3a.tsv': [
+    { id: 'nothing-phone-3a-lite', brand: 'Nothing', name: 'Phone (3a) Lite', look: { body: ['#2b2b2b', '#0c0c0c'], cam: 'col' } },
+    { id: 'nothing-phone-3a', brand: 'Nothing', name: 'Phone (3a)', look: { body: ['#ececec', '#a9a9a9'], cam: 'col' } },
+  ],
+  'nothing-phone4a-3apro.tsv': [
+    { id: 'nothing-phone-4a', brand: 'Nothing', name: 'Phone (4a)', look: { body: ['#ececec', '#a9a9a9'], cam: 'col' } },
+    { id: 'nothing-phone-3a-pro', brand: 'Nothing', name: 'Phone (3a) Pro', look: { body: ['#9a9a9a', '#5a5a5a'], cam: 'plate' } },
+  ],
+  'nothing-phone4b-4apro.tsv': [
+    { id: 'nothing-phone-4b', brand: 'Nothing', name: 'Phone (4b)', look: { body: ['#ececec', '#a9a9a9'], cam: 'col' } },
+    { id: 'nothing-phone-4a-pro', brand: 'Nothing', name: 'Phone (4a) Pro', look: { body: ['#9a9a9a', '#5a5a5a'], cam: 'plate' } },
+  ],
 };
 
 const MONTHS = { Январь: 1, Февраль: 2, Март: 3, Апрель: 4, Май: 5, Июнь: 6, Июль: 7, Август: 8, Сентябрь: 9, Октябрь: 10, Ноябрь: 11, Декабрь: 12 };

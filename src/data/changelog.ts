@@ -12,6 +12,20 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.7',
+    date: '2026-11-20',
+    title: 'Nothing и CMF: 12 новых моделей',
+    text: 'Вся линейка Nothing от Phone (1) до Phone (4b), включая серии a и бюджетные CMF Phone 1 и CMF Phone 2 Pro.',
+    ids: ['nothing-cmf-phone-2-pro', 'nothing-cmf-phone-1', 'nothing-phone-2', 'nothing-phone-1', 'nothing-phone-2a-plus', 'nothing-phone-2a', 'nothing-phone-3a-lite', 'nothing-phone-3a', 'nothing-phone-4a', 'nothing-phone-3a-pro', 'nothing-phone-4b', 'nothing-phone-4a-pro'],
+  },
+  {
+    version: '1.6',
+    date: '2026-11-20',
+    title: 'Huawei P и Pura: 21 новая модель',
+    text: 'Линейки Huawei P и Pura от P30 Pro до Pura 90s Pro Max, а ещё широкие Pura X Max и Pura X View. У шести моделей оценка камеры — с DxOMARK.',
+    ids: ['huawei-p30-pro', 'huawei-p40-lite', 'huawei-p40-pro', 'huawei-p40', 'huawei-p50-pro', 'huawei-p60', 'huawei-p60-pro', 'huawei-pura-70', 'huawei-pura-70-ultra', 'huawei-pura-70-pro', 'huawei-pura-80-pro', 'huawei-pura-80', 'huawei-pura-80-ultra', 'huawei-pura-80-pro-plus', 'huawei-pura-90-plus', 'huawei-pura-90', 'huawei-pura-90s-pro', 'huawei-pura-90-pro', 'huawei-pura-x-max', 'huawei-pura-90s-pro-max', 'huawei-pura-x-view'],
+  },
+  {
     version: '1.5',
     date: '2026-11-18',
     title: 'Лучшие флагманы: 31 новая модель',
