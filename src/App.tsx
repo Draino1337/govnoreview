@@ -41,9 +41,11 @@ export default function App() {
   const pair = isCompare ? parsePair(path.slice('/compare/'.length)) : null;
   const top = isRating ? topOf(path.slice('/rating/'.length)) : null;
 
+  // наверх — только при переходе на другую страницу; вкладки рейтинга меняют список на месте, без прыжка
+  const page = isRating ? '/rating' : path;
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [path]);
+  }, [page]);
 
   useEffect(() => {
     document.title = pair

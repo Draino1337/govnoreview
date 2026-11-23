@@ -125,7 +125,7 @@ npm run data
 
 На Kimovil у него снимков нет, поэтому в таблицу `scripts/kimovil.mjs` он не входит. Раньше его кадр был собран из снимков Samsung US 554292601 (экран) и 554292598 (спина); сейчас на сайте присланный кадр (`research/parts/samsung-galaxy-s26-fe-user.webp`).
 
-## Asus, Fairphone, Honor (партия из 109 моделей)
+## Asus, Fairphone, Honor (партия из 108 моделей)
 
 Сейчас на сайте присланные кадры всех 108 моделей (`research/parts/<id>-user.webp`). Исходно они собраны из Kimovil по таблице `scripts/kimovil.mjs`, выгружены владельцу PNG в «Фото Asus», «Фото Fairphone», «Фото Honor» и вернулись вырезанными. Файлы Fairphone зовутся без повтора бренда («Fairphone 6.png»), `user-photo.mjs` это понимает.
 
@@ -134,4 +134,3 @@ npm run data
 - Honor X8 (2022) — `honor-x8`; Magic 8 Lite — `honor-magic8-lite`; Play 11 — `honor-play11`; Win RT 2 — `honor-win-rt2`.
 - X5d Plus и X7c 5G: у Kimovil те же галереи, что у X5d и X7c, взята спина другого цвета.
 - Magic 9 и 9 Super, Magic V2 и V3, Win и Win RT делят снимок спереди; складные (V2, V3, V5) — композиции `keep`, ровных спин нет.
-- Honor 500 Smart — на Kimovil нет, кадра пока нет (на сайте рисованная заглушка).

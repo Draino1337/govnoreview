@@ -463,8 +463,7 @@ const PAGES = {
     { id: 'honor-500', brand: 'Honor', name: '500', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
     { id: 'honor-500-pro', brand: 'Honor', name: '500 Pro', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
   ],
-  'honor-500-smart--600.tsv': [
-    { id: 'honor-500-smart', brand: 'Honor', name: '500 Smart', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+  'honor-600.tsv': [
     { id: 'honor-600', brand: 'Honor', name: '600', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
   ],
   'honor-600-lite-5g--600-pro.tsv': [

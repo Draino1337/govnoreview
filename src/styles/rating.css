@@ -37,6 +37,7 @@
   letter-spacing: -0.035em;
 }
 .rt-lead {
+  min-height: 3.1em; /* место под две строки: описания вкладок разной длины, страница не скачет при переключении */
   color: var(--muted);
   font-size: 16px;
   line-height: 1.55;
@@ -144,8 +145,23 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  align-items: flex-end;
+  height: 196px;
   margin: 16px 0 12px;
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pod-2 .pod-art,
+.pod-3 .pod-art {
+  height: 132px;
+}
+/* кадры разной ширины вписываются в рамку постоянной высоты и стоят на «полу» — пьедестал не меняет высоту */
+.pod-art .pa.has-photo {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.pod-art .pa-photo {
+  object-position: center bottom;
 }
 /* мягкое свечение цвета медали за телефоном */
 .pod-art::before {
@@ -160,12 +176,20 @@
 .pod a:hover .pod-art {
   transform: translateY(-6px);
 }
+/* название — всегда две строки по высоте (длиннее — с многоточием), чтобы ступени не прыгали */
 .pod-name {
+  display: -webkit-box;
+  min-height: 2.5em;
+  overflow: hidden;
   font: 800 clamp(12.5px, 1.6vw, 15px) / 1.25 var(--display);
   letter-spacing: -0.02em;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 .pod-meta {
   margin-top: 4px;
+  white-space: nowrap;
   color: var(--muted);
   font-size: 12.5px;
 }
@@ -287,6 +311,25 @@
 }
 
 @media (max-width: 720px) {
+  /* на узком экране заголовок бывает в две строки, описание — в три: место держим под самый длинный вариант */
+  .rt-head h1 {
+    min-height: 2.16em;
+  }
+  .rt-lead {
+    min-height: 4.65em;
+  }
+  .pod-art {
+    height: 148px;
+  }
+  .pod-2 .pod-art,
+  .pod-3 .pod-art {
+    height: 112px;
+  }
+  .pod-name {
+    min-height: 3.75em;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
   .rt-tabs {
     width: auto;
     margin-left: -16px;
