@@ -20,6 +20,9 @@ const phones = JSON.parse(fs.readFileSync(path.join(root, 'src', 'data', 'phones
 const list = Array.isArray(phones) ? phones : phones.phones ?? Object.values(phones);
 const norm = (s) => s.toLowerCase().replace(/[^a-z0-9а-яё]+/g, ' ').trim();
 const byName = new Map(list.map((p) => [norm(`${p.brand} ${p.name}`), p.id]));
+// у Fairphone бренд уже в названии модели («Fairphone 6»): такой файл зовётся просто «Fairphone 6.png»
+for (const p of list) if (norm(p.name).startsWith(norm(p.brand))) byName.set(norm(p.name), p.id);
+console.assert(byName.get('fairphone 6') === 'fairphone-6', 'Fairphone 6.png должен находить fairphone-6');
 
 const files = process.argv
   .slice(2)

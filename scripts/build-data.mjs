@@ -374,6 +374,226 @@ const PAGES = {
     { id: 'nothing-phone-4b', brand: 'Nothing', name: 'Phone (4b)', look: { body: ['#ececec', '#a9a9a9'], cam: 'col' } },
     { id: 'nothing-phone-4a-pro', brand: 'Nothing', name: 'Phone (4a) Pro', look: { body: ['#9a9a9a', '#5a5a5a'], cam: 'plate' } },
   ],
+  // Asus ROG и Zenfone, Fairphone, Honor: NanoReview; недостающие цены — GSMArena и обзоры запуска
+  'asus-rog-phone-5--rog-phone-6.tsv': [
+    { id: 'asus-rog-phone-5', brand: 'Asus', name: 'ROG Phone 5', look: { body: ['#3a3d46', '#121318'], cam: 'plate' } },
+    { id: 'asus-rog-phone-6', brand: 'Asus', name: 'ROG Phone 6', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'plate' } },
+  ],
+  'asus-rog-phone-6d--rog-phone-7.tsv': [
+    { id: 'asus-rog-phone-6d', brand: 'Asus', name: 'ROG Phone 6D', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'plate' } },
+    { id: 'asus-rog-phone-7', brand: 'Asus', name: 'ROG Phone 7', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'plate' } },
+  ],
+  'asus-rog-phone-7-ultimate--rog-phone-8.tsv': [
+    { id: 'asus-rog-phone-7-ultimate', brand: 'Asus', name: 'ROG Phone 7 Ultimate', look: { body: ['#ffc38a', '#c8641e'], cam: 'plate' } },
+    { id: 'asus-rog-phone-8', brand: 'Asus', name: 'ROG Phone 8', look: { body: ['#c9b6ff', '#6447c4'], cam: 'plate' } },
+  ],
+  'asus-rog-phone-8-pro--rog-phone-9.tsv': [
+    { id: 'asus-rog-phone-8-pro', brand: 'Asus', name: 'ROG Phone 8 Pro', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'plate' } },
+    { id: 'asus-rog-phone-9', brand: 'Asus', name: 'ROG Phone 9', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'plate' } },
+  ],
+  'asus-rog-phone-9-fe--zenfone-9.tsv': [
+    { id: 'asus-rog-phone-9-fe', brand: 'Asus', name: 'ROG Phone 9 FE', look: { body: ['#3a3d46', '#121318'], cam: 'plate' } },
+    { id: 'asus-zenfone-9', brand: 'Asus', name: 'Zenfone 9', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'asus-zenfone-10--zenfone-11-ultra.tsv': [
+    { id: 'asus-zenfone-10', brand: 'Asus', name: 'Zenfone 10', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'asus-zenfone-11-ultra', brand: 'Asus', name: 'Zenfone 11 Ultra', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'fairphone-5--6.tsv': [
+    { id: 'fairphone-5', brand: 'Fairphone', name: 'Fairphone 5', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'fairphone-6', brand: 'Fairphone', name: 'Fairphone 6', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'fairphone-6-plus--8a.tsv': [
+    { id: 'fairphone-6-plus', brand: 'Fairphone', name: 'Fairphone 6 Plus', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-8a', brand: 'Honor', name: '8A', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-8x--9x.tsv': [
+    { id: 'honor-8x', brand: 'Honor', name: '8X', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-9x', brand: 'Honor', name: '9X', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-10--10-lite.tsv': [
+    { id: 'honor-10', brand: 'Honor', name: '10', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-10-lite', brand: 'Honor', name: '10 Lite', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-20--20-pro.tsv': [
+    { id: 'honor-20', brand: 'Honor', name: '20', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-20-pro', brand: 'Honor', name: '20 Pro', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-50--70.tsv': [
+    { id: 'honor-50', brand: 'Honor', name: '50', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-70', brand: 'Honor', name: '70', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-90--90-gt.tsv': [
+    { id: 'honor-90', brand: 'Honor', name: '90', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-90-gt', brand: 'Honor', name: '90 GT', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-90-lite--90-pro.tsv': [
+    { id: 'honor-90-lite', brand: 'Honor', name: '90 Lite', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-90-pro', brand: 'Honor', name: '90 Pro', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-90-smart--100.tsv': [
+    { id: 'honor-90-smart', brand: 'Honor', name: '90 Smart', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-100', brand: 'Honor', name: '100', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-100-pro--200.tsv': [
+    { id: 'honor-100-pro', brand: 'Honor', name: '100 Pro', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-200', brand: 'Honor', name: '200', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-200-lite--200-pro.tsv': [
+    { id: 'honor-200-lite', brand: 'Honor', name: '200 Lite', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-200-pro', brand: 'Honor', name: '200 Pro', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-200-smart--300.tsv': [
+    { id: 'honor-200-smart', brand: 'Honor', name: '200 Smart', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-300', brand: 'Honor', name: '300', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-300-pro--300-ultra.tsv': [
+    { id: 'honor-300-pro', brand: 'Honor', name: '300 Pro', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-300-ultra', brand: 'Honor', name: '300 Ultra', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-400--400-lite.tsv': [
+    { id: 'honor-400', brand: 'Honor', name: '400', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-400-lite', brand: 'Honor', name: '400 Lite', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-400-pro--400-smart.tsv': [
+    { id: 'honor-400-pro', brand: 'Honor', name: '400 Pro', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-400-smart', brand: 'Honor', name: '400 Smart', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-500--500-pro.tsv': [
+    { id: 'honor-500', brand: 'Honor', name: '500', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-500-pro', brand: 'Honor', name: '500 Pro', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-500-smart--600.tsv': [
+    { id: 'honor-500-smart', brand: 'Honor', name: '500 Smart', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-600', brand: 'Honor', name: '600', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-600-lite-5g--600-pro.tsv': [
+    { id: 'honor-600-lite-5g', brand: 'Honor', name: '600 Lite 5G', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-600-pro', brand: 'Honor', name: '600 Pro', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-600-smart--gt.tsv': [
+    { id: 'honor-600-smart', brand: 'Honor', name: '600 Smart', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-gt', brand: 'Honor', name: 'GT', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-gt-pro--magic-4-pro.tsv': [
+    { id: 'honor-gt-pro', brand: 'Honor', name: 'GT Pro', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-magic-4-pro', brand: 'Honor', name: 'Magic 4 Pro', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'ring' } },
+  ],
+  'honor-magic-5--magic-5-lite.tsv': [
+    { id: 'honor-magic-5', brand: 'Honor', name: 'Magic 5', look: { body: ['#ffc38a', '#c8641e'], cam: 'ring' } },
+    { id: 'honor-magic-5-lite', brand: 'Honor', name: 'Magic 5 Lite', look: { body: ['#c9b6ff', '#6447c4'], cam: 'ring' } },
+  ],
+  'honor-magic-5-pro--magic-6.tsv': [
+    { id: 'honor-magic-5-pro', brand: 'Honor', name: 'Magic 5 Pro', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'ring' } },
+    { id: 'honor-magic-6', brand: 'Honor', name: 'Magic 6', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'ring' } },
+  ],
+  'honor-magic-6-lite--magic-6-pro.tsv': [
+    { id: 'honor-magic-6-lite', brand: 'Honor', name: 'Magic 6 Lite', look: { body: ['#3a3d46', '#121318'], cam: 'ring' } },
+    { id: 'honor-magic-6-pro', brand: 'Honor', name: 'Magic 6 Pro', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'ring' } },
+  ],
+  'honor-magic-6-ultimate--magic-7.tsv': [
+    { id: 'honor-magic-6-ultimate', brand: 'Honor', name: 'Magic 6 Ultimate', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'ring' } },
+    { id: 'honor-magic-7', brand: 'Honor', name: 'Magic 7', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'ring' } },
+  ],
+  'honor-magic-7-lite--magic-7-pro.tsv': [
+    { id: 'honor-magic-7-lite', brand: 'Honor', name: 'Magic 7 Lite', look: { body: ['#ffc38a', '#c8641e'], cam: 'ring' } },
+    { id: 'honor-magic-7-pro', brand: 'Honor', name: 'Magic 7 Pro', look: { body: ['#c9b6ff', '#6447c4'], cam: 'ring' } },
+  ],
+  'honor-magic-8--magic-8-lite-5g.tsv': [
+    { id: 'honor-magic-8', brand: 'Honor', name: 'Magic 8', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'ring' } },
+    { id: 'honor-magic-8-lite-5g', brand: 'Honor', name: 'Magic 8 Lite 5G', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'ring' } },
+  ],
+  'honor-magic-8-pro--magic-8-pro-air.tsv': [
+    { id: 'honor-magic-8-pro', brand: 'Honor', name: 'Magic 8 Pro', look: { body: ['#3a3d46', '#121318'], cam: 'ring' } },
+    { id: 'honor-magic-8-pro-air', brand: 'Honor', name: 'Magic 8 Pro Air', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'ring' } },
+  ],
+  'honor-magic-9--magic-9-super.tsv': [
+    { id: 'honor-magic-9', brand: 'Honor', name: 'Magic 9', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'ring' } },
+    { id: 'honor-magic-9-super', brand: 'Honor', name: 'Magic 9 Super', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'ring' } },
+  ],
+  'honor-magic-v2--magic-v3.tsv': [
+    { id: 'honor-magic-v2', brand: 'Honor', name: 'Magic V2', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-magic-v3', brand: 'Honor', name: 'Magic V3', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-magic-v5--play-11.tsv': [
+    { id: 'honor-magic-v5', brand: 'Honor', name: 'Magic V5', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-play-11', brand: 'Honor', name: 'Play 11', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-power--power-2.tsv': [
+    { id: 'honor-power', brand: 'Honor', name: 'Power', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-power-2', brand: 'Honor', name: 'Power 2', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-robot-phone--turbo.tsv': [
+    { id: 'honor-robot-phone', brand: 'Honor', name: 'Robot Phone', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-turbo', brand: 'Honor', name: 'Turbo', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-win--win-2.tsv': [
+    { id: 'honor-win', brand: 'Honor', name: 'Win', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-win-2', brand: 'Honor', name: 'Win 2', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-win-rt--win-rt-2.tsv': [
+    { id: 'honor-win-rt', brand: 'Honor', name: 'Win RT', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-win-rt-2', brand: 'Honor', name: 'Win RT 2', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-win-turbo--win-turbo-2.tsv': [
+    { id: 'honor-win-turbo', brand: 'Honor', name: 'Win Turbo', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-win-turbo-2', brand: 'Honor', name: 'Win Turbo 2', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-x5d--x5d-plus.tsv': [
+    { id: 'honor-x5d', brand: 'Honor', name: 'X5d', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-x5d-plus', brand: 'Honor', name: 'X5d Plus', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-x6b--x6c.tsv': [
+    { id: 'honor-x6b', brand: 'Honor', name: 'X6b', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-x6c', brand: 'Honor', name: 'X6c', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-x7--x7a.tsv': [
+    { id: 'honor-x7', brand: 'Honor', name: 'X7', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-x7a', brand: 'Honor', name: 'X7a', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-x7b--x7c.tsv': [
+    { id: 'honor-x7b', brand: 'Honor', name: 'X7b', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-x7c', brand: 'Honor', name: 'X7c', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-x7c-5g--x7d.tsv': [
+    { id: 'honor-x7c-5g', brand: 'Honor', name: 'X7c 5G', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-x7d', brand: 'Honor', name: 'X7d', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'honor-x7e--x8-2022.tsv': [
+    { id: 'honor-x7e', brand: 'Honor', name: 'X7e', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'honor-x8-2022', brand: 'Honor', name: 'X8 (2022)', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'honor-x8a--x8b.tsv': [
+    { id: 'honor-x8a', brand: 'Honor', name: 'X8a', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'honor-x8b', brand: 'Honor', name: 'X8b', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'honor-x8c--x8d.tsv': [
+    { id: 'honor-x8c', brand: 'Honor', name: 'X8c', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'honor-x8d', brand: 'Honor', name: 'X8d', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'honor-x8e--x9a.tsv': [
+    { id: 'honor-x8e', brand: 'Honor', name: 'X8e', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'honor-x9a', brand: 'Honor', name: 'X9a', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'ring' } },
+  ],
+  'honor-x9b--x9c.tsv': [
+    { id: 'honor-x9b', brand: 'Honor', name: 'X9b', look: { body: ['#ffc38a', '#c8641e'], cam: 'ring' } },
+    { id: 'honor-x9c', brand: 'Honor', name: 'X9c', look: { body: ['#c9b6ff', '#6447c4'], cam: 'ring' } },
+  ],
+  'honor-x9d--x9e-pro.tsv': [
+    { id: 'honor-x9d', brand: 'Honor', name: 'X9d', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'ring' } },
+    { id: 'honor-x9e-pro', brand: 'Honor', name: 'X9e Pro', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'ring' } },
+  ],
+  'honor-x9e-s--x60.tsv': [
+    { id: 'honor-x9e-s', brand: 'Honor', name: 'X9e s', look: { body: ['#3a3d46', '#121318'], cam: 'ring' } },
+    { id: 'honor-x60', brand: 'Honor', name: 'X60', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'ring' } },
+  ],
+  'honor-x60-pro--x70.tsv': [
+    { id: 'honor-x60-pro', brand: 'Honor', name: 'X60 Pro', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'ring' } },
+    { id: 'honor-x70', brand: 'Honor', name: 'X70', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'ring' } },
+  ],
+  'honor-x80-pro-max.tsv': [
+    { id: 'honor-x80-pro-max', brand: 'Honor', name: 'X80 Pro Max', look: { body: ['#ffc38a', '#c8641e'], cam: 'ring' } },
+  ],
 };
 
 const MONTHS = { Январь: 1, Февраль: 2, Март: 3, Апрель: 4, Май: 5, Июнь: 6, Июль: 7, Август: 8, Сентябрь: 9, Октябрь: 10, Ноябрь: 11, Декабрь: 12 };

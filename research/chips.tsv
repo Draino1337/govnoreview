@@ -1,6 +1,6 @@
 # чип (как в строке «Чипсет»)|откуда картинка. Картинки ставит node scripts/chip-images.mjs в public/chips/.
 # versus.com — снимки и рендеры самих чипов; Wikimedia Commons — фото кристаллов первых iPhone (общественное достояние, автор Henriok).
-# Близнецы без своей картинки берут картинку базового чипа: 7400 Ultra → 7400, 7300 Pro → 7300, 7200 Pro → 7200, 9500 Super → 9500, Kirin 9000S1 → 9000S.
+# Близнецы без своей картинки берут картинку базового чипа: 7400 Ultra → 7400, 7300 Pro → 7300, 7200 Pro → 7200, 9500 Super → 9500, Kirin 9000S1 → 9000S, 7025 Ultra → 7025, 7100 Elite → 7100, 8500 Elite → 8500, Helio G81 → G81 Ultra, Kirin 710F → 710, 8 Elite (Accelerated) → 8 Elite, 7 Gen 1 Accelerated → 7 Gen 1.
 Qualcomm Snapdragon 8 Elite Gen 5|https://images.versus.io/objects/qualcomm-snapdragon-8-elite-gen-5.front.master2x.1758899235682.webp
 Apple A18 Pro|https://images.versus.io/objects/apple-a18-pro.front.master2x.1725916162979.webp
 Qualcomm Snapdragon 8 Elite|https://images.versus.io/objects/qualcomm-snapdragon-8-elite.front.master2x.1730283932429.webp
@@ -75,3 +75,38 @@ HiSilicon Kirin 980|https://images.versus.io/objects/huawei-hisilicon-kirin-980.
 XRing O3|https://images.versus.io/objects/xiaomi-xring-o3.front.master2x.1788898610431.webp
 HiSilicon Kirin 9000S1|https://images.versus.io/objects/hisilicon-kirin-9000s.front.master2x.1693302033444.webp
 HiSilicon Kirin 990 5G|https://images.versus.io/objects/huawei-kirin-990-5g.front.master2x.1576684641045.webp
+HiSilicon Kirin 710|https://images.versus.io/objects/hisilicon-kirin-710.front.master2x.1576684641045.webp
+HiSilicon Kirin 710F|https://images.versus.io/objects/hisilicon-kirin-710.front.master2x.1576684641045.webp
+HiSilicon Kirin 970|https://images.versus.io/objects/hisilicon-kirin-970.front.master2x.1576684641045.webp
+MediaTek Dimensity 6020|https://images.versus.io/objects/mediatek-dimensity-6020.front.master2x.1678725691292.webp
+MediaTek Dimensity 6080|https://images.versus.io/objects/mediatek-dimensity-6080.front.master2x.1685447019657.webp
+MediaTek Dimensity 6300|https://images.versus.io/objects/mediatek-dimensity-6300.front.master2x.1713532166156.webp
+MediaTek Dimensity 7025 Ultra|https://images.versus.io/objects/mediatek-dimensity-7025.front.master2x.1712848791939.webp
+MediaTek Dimensity 7100 Elite|https://images.versus.io/objects/mediatek-dimensity-7100.front.master2x.1768839858134.webp
+MediaTek Dimensity 8500 Elite|https://images.versus.io/objects/mediatek-dimensity-8500.front.master2x.1770668849795.webp
+MediaTek Dimensity 9000 Plus|https://images.versus.io/objects/mediatek-dimensity-9000-plus.front.master2x.1657200497169.webp
+MediaTek Helio G37|https://images.versus.io/objects/mediatek-helio-g37.front.master2x.1642436485866.webp
+MediaTek Helio G81|https://images.versus.io/objects/mediatek-helio-g81-ultra.front.master2x.1725361325335.webp
+MediaTek Helio G81 Ultra|https://images.versus.io/objects/mediatek-helio-g81-ultra.front.master2x.1725361325335.webp
+MediaTek Helio G85|https://images.versus.io/objects/mediatek-helio-g85.front.master2x.1596191904146.webp
+MediaTek Helio G88|https://images.versus.io/objects/mediatek-helio-g88.front.master2x.1630095266574.webp
+MediaTek Helio P35|https://images.versus.io/objects/mediatek-helio-p35.front.master2x.1576684641045.webp
+Qualcomm QCM6490|https://images.versus.io/objects/qualcomm-qcm6490.front.master2x.1675696382251.webp
+Qualcomm Snapdragon 4 Gen 2|https://images.versus.io/objects/qualcomm-snapdragon-4-gen-2.front.master2x.1722351870313.webp
+Qualcomm Snapdragon 4 Gen 4|https://images.versus.io/objects/qualcomm-snapdragon-4-gen-4.front.master2x.1777993183940.webp
+Qualcomm Snapdragon 6 Gen 1|https://images.versus.io/objects/qualcomm-snapdragon-6-gen-1.front.master2x.1663247068416.webp
+Qualcomm Snapdragon 6 Gen 5|https://images.versus.io/objects/qualcomm-snapdragon-6-gen-5.front.master2x.1778160362500.webp
+Qualcomm Snapdragon 680|https://images.versus.io/objects/qualcomm-snapdragon-680-4g.front.master2x.1640124359214.webp
+Qualcomm Snapdragon 685|https://images.versus.io/objects/qualcomm-snapdragon-685-4g.front.master2x.1679763348994.webp
+Qualcomm Snapdragon 695|https://images.versus.io/objects/qualcomm-snapdragon-695-5g.front.master2x.1637517235753.webp
+Qualcomm Snapdragon 6s 4G Gen 2|https://images.versus.io/objects/qualcomm-snapdragon-6s-4g-gen-2.front.master2x.1779462145691.webp
+Qualcomm Snapdragon 6s Gen 3|https://images.versus.io/objects/qualcomm-snapdragon-6s-gen-3.front.master2x.1718021835024.webp
+Qualcomm Snapdragon 7 Gen 3|https://images.versus.io/objects/qualcomm-snapdragon-7-gen-3.front.master2x.1700482070612.webp
+Qualcomm Snapdragon 778G 5G|https://images.versus.io/objects/qualcomm-snapdragon-778g-5g.front.master2x.1624471448793.webp
+Qualcomm Snapdragon 8 Elite (Accelerated edition)|https://images.versus.io/objects/qualcomm-snapdragon-8-elite.front.master2x.1730283932429.webp
+Qualcomm Snapdragon 8 Gen 1|https://images.versus.io/objects/qualcomm-snapdragon-8-gen-1.front.master2x.1653470137429.webp
+Qualcomm Snapdragon 8 Gen 2|https://images.versus.io/objects/qualcomm-snapdragon-8-gen-2.front.master2x.1668617244819.webp
+Qualcomm Snapdragon 8 Gen 3|https://images.versus.io/objects/qualcomm-snapdragon-8-gen-3.front.master2x.1698246497835.webp
+Qualcomm Snapdragon 888|https://images.versus.io/objects/qualcomm-snapdragon-888.front.master2x.1607515336598.webp
+Qualcomm Snapdragon 8s Gen 3|https://images.versus.io/objects/qualcomm-snapdragon-8s-gen-3.front.master2x.1710759552267.webp
+Snapdragon 7 Gen 1 Accelerated Edition|https://images.versus.io/objects/qualcomm-snapdragon-7-gen-1.front.master2x.1653324120079.webp
