@@ -14,6 +14,11 @@
   overflow: hidden;
   animation: rise 0.6s both;
 }
+/* открытый поиск «Сменить» не обрезается краем карточки и лежит поверх разделов ниже */
+.hero:has(.ps.is-open) {
+  z-index: 45; /* выше липкой навигации разделов (40), ниже шапки (50) */
+  overflow: visible;
+}
 .hero::before {
   content: '';
   position: absolute;
@@ -111,6 +116,13 @@
 }
 .side .ps-label {
   display: none;
+}
+/* панель поиска шире поля и растёт к центру карточки */
+.side .ps-pop {
+  min-width: 360px;
+}
+.side-b .ps-pop {
+  left: auto;
 }
 /* «VS» и кнопка обмена — посередине строки с телефонами */
 .vs {
@@ -718,13 +730,17 @@
     width: 100%;
   }
   /* колонка узкая — выпадающий список шире её и растёт к центру карточки */
-  .side .ps-list {
-    width: min(280px, calc(100vw - 56px));
+  .side .ps-pop {
+    min-width: 0;
+    width: min(300px, calc(100vw - 56px));
   }
-  .side-a .ps-list {
+  .side .ps-price {
+    display: none;
+  }
+  .side-a .ps-pop {
     right: auto;
   }
-  .side-b .ps-list {
+  .side-b .ps-pop {
     left: auto;
   }
   .val-grid {

@@ -529,8 +529,16 @@ a {
 
 /* ───────── поиск телефона (комбобокс) ───────── */
 .ps {
+  --acc: var(--a);
+  --acc-ink: var(--a-ink);
+  --acc-soft: var(--a-soft);
   position: relative;
   min-width: 0;
+}
+.ps-b {
+  --acc: var(--b);
+  --acc-ink: var(--b-ink);
+  --acc-soft: var(--b-soft);
 }
 .ps-label {
   display: flex;
@@ -547,10 +555,8 @@ a {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--a);
-}
-.ps-b .ps-dot {
-  background: var(--b);
+  background: var(--acc);
+  box-shadow: 0 0 0 4px var(--acc-soft);
 }
 .ps-field {
   display: flex;
@@ -563,13 +569,12 @@ a {
   background: var(--solid);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.ps-a .ps-field:focus-within {
-  border-color: var(--a);
-  box-shadow: 0 0 0 4px var(--a-soft);
+.ps-field:hover {
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--line));
 }
-.ps-b .ps-field:focus-within {
-  border-color: var(--b);
-  box-shadow: 0 0 0 4px var(--b-soft);
+.ps-field:focus-within {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 4px var(--acc-soft);
 }
 .ps-lead {
   flex: none;
@@ -577,6 +582,9 @@ a {
   display: grid;
   place-items: center;
   color: var(--muted);
+}
+.ps-field:focus-within .ps-lead {
+  color: var(--acc);
 }
 .ps-lead .pa {
   --ph: 40px;
@@ -608,65 +616,230 @@ a {
   border-radius: 50%;
   background: var(--soft);
   color: var(--muted);
+  transition: color 0.2s, background 0.2s, transform 0.2s;
 }
 .ps-clear:hover {
   color: var(--ink);
+  background: var(--acc-soft);
+  transform: rotate(90deg);
 }
-.ps-list {
+
+/* выпадающая панель: бренды → список → подсказки клавиш */
+.ps-pop {
   position: absolute;
   z-index: 60;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   left: 0;
   right: 0;
-  max-height: 390px;
-  margin: 0;
-  padding: 6px;
-  overflow: auto;
-  list-style: none;
-  border-radius: 18px;
-  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  max-height: 460px;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--acc) 22%, var(--line));
   background: var(--solid);
-  box-shadow: 0 28px 60px -20px rgba(0, 0, 0, 0.55);
-  animation: drop 0.18s ease-out;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--acc) 6%, transparent), 0 32px 70px -24px rgba(10, 8, 40, 0.55);
+  transform-origin: top center;
+  animation: drop 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ps-pop.is-up {
+  top: auto;
+  bottom: calc(100% + 10px);
+  transform-origin: bottom center;
+  animation-name: drop-up;
 }
 @keyframes drop {
   from {
     opacity: 0;
-    transform: translateY(-6px);
+    transform: translateY(-8px) scale(0.98);
   }
+}
+@keyframes drop-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+.ps-brands {
+  flex: none;
+  display: flex;
+  gap: 6px;
+  padding: 10px 10px 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+  /* края ленты растворяются: видно, что её можно листать */
+  mask-image: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 24px), transparent);
+}
+.ps-brands::-webkit-scrollbar {
+  display: none;
+}
+.ps-brands button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.ps-brands button small {
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 800;
+}
+.ps-brands button:hover {
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--line));
+  background: var(--acc-soft);
+}
+.ps-brands button.is-on {
+  border-color: var(--acc);
+  background: var(--acc);
+  color: #fff;
+}
+.ps-b .ps-brands button.is-on {
+  color: #1a1000;
+}
+.ps-brands button.is-on small {
+  color: inherit;
+  opacity: 0.75;
+}
+.ps-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+  padding: 6px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  list-style: none;
 }
 .ps-list li {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 10px;
-  border-radius: 12px;
+  padding: 7px 10px 7px 8px;
+  border-radius: 14px;
   cursor: pointer;
+  transition: background 0.12s, box-shadow 0.12s;
 }
 .ps-list li.is-hi {
-  background: var(--soft);
+  background: var(--acc-soft);
+  box-shadow: inset 3px 0 0 var(--acc);
+}
+.ps-art {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 52px;
+  border-radius: 12px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--acc) 16%, transparent), transparent);
+  transition: transform 0.2s;
+}
+.is-hi .ps-art {
+  transform: scale(1.08);
 }
 .ps-name {
+  flex: 1;
   min-width: 0;
 }
 .ps-name b {
-  display: block;
+  display: -webkit-box;
+  overflow: hidden;
   font-size: 15px;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 .ps-name small {
   color: var(--muted);
   font-size: 12.5px;
 }
+.ps-name em {
+  color: var(--acc-ink);
+  font-style: normal;
+  font-weight: 800;
+}
+.ps-price {
+  flex: none;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+/* оценка — кольцо, заполненное на свою долю из 100 */
+.ps-score {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, var(--solid) 76%, transparent 78%),
+    conic-gradient(var(--acc) calc(var(--v) * 1%), color-mix(in srgb, var(--ink) 10%, transparent) 0);
+  font: 800 12px/1 var(--display);
+  letter-spacing: -0.03em;
+}
 .ps-empty {
-  padding: 14px 10px;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 26px 16px;
   color: var(--muted);
   cursor: default;
   font-size: 14px;
+  text-align: center;
+}
+.ps-foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 14px;
+  border-top: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+.ps-foot > span {
+  white-space: nowrap;
+}
+kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  margin: 0 1px;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background: var(--solid);
+  color: var(--ink);
+  font: 700 11px/1 var(--font);
+}
+/* на сенсорных экранах клавиш нет — подсказки не нужны */
+@media (hover: none) {
+  .ps-keys {
+    display: none;
+  }
 }
 mark {
   padding: 0 1px;
   border-radius: 4px;
-  background: color-mix(in srgb, var(--a) 30%, transparent);
+  background: color-mix(in srgb, var(--acc, var(--a)) 30%, transparent);
   color: inherit;
 }
 
