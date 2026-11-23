@@ -17,8 +17,13 @@ interface Props {
   onDismiss?: () => void;
 }
 
-// бренды для быстрых фильтров: чем больше моделей в каталоге, тем левее
-const BRANDS = [...PHONES.reduce((m, p) => m.set(p.brand, (m.get(p.brand) ?? 0) + 1), new Map<string, number>())].sort((x, y) => y[1] - x[1]);
+// бренды для быстрых фильтров: сначала главные, остальные — чем больше моделей в каталоге, тем левее
+const FIRST = ['Apple', 'Samsung', 'Google', 'Nothing'];
+const rank = (b: string) => (FIRST.includes(b) ? FIRST.indexOf(b) : FIRST.length);
+const BRANDS = [...PHONES.reduce((m, p) => m.set(p.brand, (m.get(p.brand) ?? 0) + 1), new Map<string, number>())].sort(
+  (x, y) => rank(x[0]) - rank(y[0]) || y[1] - x[1],
+);
+if (import.meta.env.DEV) console.assert(BRANDS.slice(0, 4).map(([b]) => b).join() === FIRST.join(), 'первыми должны идти Apple, Samsung, Google, Nothing');
 
 function Mark({ text, q }: { text: string; q: string }) {
   const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -68,6 +73,20 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
   // чипы брендов — пока запрос пустой или это сам бренд из чипа
   const brandQ = BRANDS.some(([b]) => b === q) ? q : '';
   const chips = open && (!q.trim() || brandQ);
+
+  // ленту брендов листает обычное колесо мыши (вертикальный ход → вбок); passive: false — чтобы не крутилась страница
+  const brandsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = brandsRef.current;
+    if (!el) return;
+    const wheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', wheel, { passive: false });
+    return () => el.removeEventListener('wheel', wheel);
+  }, [chips]);
 
   // при выборе стрелками подсвеченная строка не должна уезжать за край прокрутки
   const listRef = useRef<HTMLUListElement>(null);
@@ -147,7 +166,7 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
         // mousedown внутри панели не уводит фокус из поля — иначе она закроется раньше клика
         <div className={`ps-pop${up ? ' is-up' : ''}`} style={{ maxHeight: maxH }} onMouseDown={(e) => e.preventDefault()}>
           {chips && (
-            <div className="ps-brands" role="group" aria-label="Бренды">
+            <div ref={brandsRef} className="ps-brands" role="group" aria-label="Бренды">
               {BRANDS.map(([b, n]) => (
                 <button key={b} type="button" tabIndex={-1} className={b === brandQ ? 'is-on' : undefined} aria-pressed={b === brandQ} onClick={() => query(b === brandQ ? '' : b)}>
                   {b}
