@@ -430,11 +430,33 @@ const DXO = new Map(
   fs.readFileSync(path.join(root, 'research', 'dxomark.tsv'), 'utf8').split(/\r?\n/).filter((l) => l && !l.startsWith('#')).map((l) => l.split('|')).map(([id, , s]) => [id, +s]),
 );
 
+// сенсоры камер: research/sensors.tsv (id|основная|сверхширокоугольная|телевик|источник), пусто — такой камеры нет
+const SENSORS = new Map(
+  fs.readFileSync(path.join(root, 'research', 'sensors.tsv'), 'utf8').split(/\r?\n/).filter((l) => l && !l.startsWith('#')).map((l) => l.split('|')).map(([id, ...s]) => [id, s]),
+);
+const LENS_GROUPS = ['Основной объектив', 'Сверхширокоугольный объектив', 'Телеобъектив'];
+/** строка «Сенсор» — первой в группе объектива (или новой группой, если у модели её нет) */
+function addSensors(id, rows) {
+  const s = SENSORS.get(id);
+  if (!s) return console.warn(`  нет сенсоров в research/sensors.tsv: ${id}`);
+  LENS_GROUPS.forEach((group, k) => {
+    if (!s[k]) return;
+    const at = rows.findIndex((r) => r[0] === 'Основная камера' && r[1] === group);
+    const row = ['Основная камера', group, 'Сенсор', s[k]];
+    if (at >= 0) rows.splice(at, 0, row);
+    else rows.splice(rows.findLastIndex((r) => r[0] === 'Основная камера') + 1 || rows.length, 0, row);
+  });
+}
+
 const phones = [];
 for (const [file, pair] of Object.entries(PAGES)) {
   const { rows, bench } = parse(fs.readFileSync(path.join(TSV_DIR, file), 'utf8'));
   for (const [i, meta] of pair.entries()) {
+    addSensors(meta.id, rows[i]);
     const get = (label) => rows[i].find((r) => r[2] === label)?.[3] ?? '';
+    const chip = get('Чипсет').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (chip && !fs.existsSync(path.join(root, 'public', 'chips', chip + '.webp')))
+      console.warn(`  нет картинки чипа «${get('Чипсет')}»: добавьте строку в research/chips.tsv и запустите node scripts/chip-images.mjs`);
     phones.push({
       ...meta,
       photo: await photoRatio(meta.id),

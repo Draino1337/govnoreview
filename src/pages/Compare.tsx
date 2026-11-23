@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Phone } from '../types.ts';
 import { analyze, type Analysis } from '../lib/analysis.ts';
-import { PHONES, fullName, monthYear, pairPath, shortName } from '../lib/phones.ts';
+import { PHONES, chipset, fullName, monthYear, pairPath, shortName } from '../lib/phones.ts';
 import { CATS, overall, valueIndex, valueLabel } from '../lib/score.ts';
 import { buildSpecs } from '../lib/specs.ts';
 import { introText, keyDiffs, verdictText } from '../lib/insights.ts';
 import { go, hrefOf } from '../router.ts';
 import { Card } from '../components/Card.tsx';
+import { ChipLogo } from '../components/ChipLogo.tsx';
 import { DuelBar } from '../components/DuelBar.tsx';
 import { Icon } from '../components/Icon.tsx';
 import { Legend } from '../components/Legend.tsx';
@@ -60,6 +61,10 @@ function Side({ p, an, score, accent, leader, onPick }: SideProps) {
       <h2 className="side-name">{shortName(p)}</h2>
       <p className="side-meta">
         {p.brand} · {p.tier} · {monthYear(p.released)}
+      </p>
+      <p className="side-chip">
+        <ChipLogo chip={chipset(p)} size={44} />
+        {chipset(p)}
       </p>
       <p className="side-price">
         ${p.price} <small>при выходе</small>

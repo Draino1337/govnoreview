@@ -1,0 +1,77 @@
+# чип (как в строке «Чипсет»)|откуда картинка. Картинки ставит node scripts/chip-images.mjs в public/chips/.
+# versus.com — снимки и рендеры самих чипов; Wikimedia Commons — фото кристаллов первых iPhone (общественное достояние, автор Henriok).
+# Близнецы без своей картинки берут картинку базового чипа: 7400 Ultra → 7400, 7300 Pro → 7300, 7200 Pro → 7200, 9500 Super → 9500, Kirin 9000S1 → 9000S.
+Qualcomm Snapdragon 8 Elite Gen 5|https://images.versus.io/objects/qualcomm-snapdragon-8-elite-gen-5.front.master2x.1758899235682.webp
+Apple A18 Pro|https://images.versus.io/objects/apple-a18-pro.front.master2x.1725916162979.webp
+Qualcomm Snapdragon 8 Elite|https://images.versus.io/objects/qualcomm-snapdragon-8-elite.front.master2x.1730283932429.webp
+Samsung Exynos 2500|https://images.versus.io/objects/samsung-exynos-2500.front.master2x.1752074501988.webp
+Google Tensor G4|https://images.versus.io/objects/google-tensor-g4.front.master2x.1721495256755.webp
+Apple A4|https://images.versus.io/objects/apple-a4.front.master2x.1576684641045.webp
+Apple A12 Bionic|https://images.versus.io/objects/apple-a12-bionic.front.master2x.1576684641045.webp
+MediaTek Dimensity 9500|https://images.versus.io/objects/mediatek-dimensity-9500.front.master2x.1758631796228.webp
+Qualcomm Snapdragon 821|https://images.versus.io/objects/qualcomm-snapdragon-821-msm8996-pro.front.master2x.1576684641045.webp
+Samsung Exynos 1580|https://images.versus.io/objects/samsung-exynos-1580.front.master2x.1741014828517.webp
+Apple A18|https://images.versus.io/objects/apple-a18.front.master2x.1725916041668.webp
+MediaTek Dimensity 7400 Ultra|https://images.versus.io/objects/mediatek-dimensity-7400.front.master2x.1740651454045.webp
+Samsung Exynos 2400|https://images.versus.io/objects/samsung-exynos-2400.front.master2x.1705596815842.webp
+Apple A19|https://images.versus.io/objects/apple-a19.front.master2x.1757587344002.webp
+Apple A19 Pro|https://images.versus.io/objects/apple-a19-pro.front.master2x.1757587068401.webp
+Apple A6|https://images.versus.io/objects/apple-a6.front.master2x.1576684641045.webp
+MediaTek Dimensity 7300 Pro|https://images.versus.io/objects/mediatek-dimensity-7300.front.master2x.1717533054578.webp
+MediaTek Dimensity 7200 Pro|https://images.versus.io/objects/mediatek-dimensity-7200.front.master2x.1676550727671.webp
+Google Tensor G2|https://images.versus.io/objects/google-tensor-g2.front.master2x.1665072672634.webp
+Google Tensor|https://images.versus.io/objects/google-tensor.front.master2x.1634670971720.webp
+Qualcomm Snapdragon 6s Gen 4|https://images.versus.io/objects/qualcomm-snapdragon-6s-gen-4.front.master2x.1761311086266.webp
+Mediatek Dimensity 9500 Super|https://images.versus.io/objects/mediatek-dimensity-9500.front.master2x.1758631796228.webp
+Apple A9|https://images.versus.io/objects/apple-a9.front.master2x.1576684641045.webp
+Apple A7|https://images.versus.io/objects/apple-a7.front.master2x.1576684641045.webp
+Apple A10 Fusion|https://images.versus.io/objects/apple-a10-fusion.front.master2x.1576684641045.webp
+Samsung Exynos 2600|https://images.versus.io/objects/samsung-exynos-2600.front.master2x.1772041763393.webp
+HiSilicon Kirin 9010|https://images.versus.io/objects/hisilicon-kirin-9010.front.master2x.1713446855168.webp
+Qualcomm Snapdragon 7s Gen 3|https://images.versus.io/objects/qualcomm-snapdragon-7s-gen-3.front.master2x.1724844632168.webp
+Google Tensor G6|https://images.versus.io/objects/google-tensor-g6.front.master2x.1784216368222.webp
+Samsung Exynos 1680|https://images.versus.io/objects/samsung-exynos-1680.front.master2x.1774531186991.webp
+Qualcomm Snapdragon 855|https://images.versus.io/objects/qualcomm-snapdragon-855.front.master2x.1576684641045.webp
+Qualcomm Snapdragon 765G|https://images.versus.io/objects/qualcomm-snapdragon-765g.front.master2x.1589184484219.webp
+HiSilicon Kirin 9020|https://images.versus.io/objects/hisilicon-kirin-9020.front.master2x.1732733177436.webp
+Apple A11 Bionic|https://images.versus.io/objects/apple-a11-bionic.front.master2x.1576684641045.webp
+MediaTek Dimensity 9600 Pro|https://images.versus.io/objects/mediatek-dimensity-9600-pro.front.master2x.1789740496097.webp
+Google Tensor G3|https://images.versus.io/objects/google-tensor-g3.front.master2x.1685975648980.webp
+MediaTek Dimensity 7300|https://images.versus.io/objects/mediatek-dimensity-7300.front.master2x.1717533054578.webp
+Google Tensor G5|https://images.versus.io/objects/google-tensor-g5.front.master2x.1754925544739.webp
+Qualcomm Snapdragon 8 Elite Gen 6|https://images.versus.io/objects/qualcomm-snapdragon-8-elite-gen-6.front.master2x.1790179554828.webp
+MediaTek Dimensity 9500s|https://images.versus.io/objects/mediatek-dimensity-9500s.front.master2x.1775057373792.webp
+Apple A14 Bionic|https://images.versus.io/objects/apple-a14-bionic.front.master2x.1603709598622.webp
+Qualcomm Snapdragon 730G|https://images.versus.io/objects/qualcomm-snapdragon-730g.front.master2x.1576684641045.webp
+Apple A16 Bionic|https://images.versus.io/objects/apple-a16-bionic.front.master2x.1662577891775.webp
+Qualcomm Snapdragon 8 Elite Extreme Gen 6|https://images.versus.io/objects/qualcomm-snapdragon-8-elite-extreme-gen-6.front.master2x.1790178707083.webp
+Apple A20 Pro|https://images.versus.io/objects/apple-a20-pro.front.master2x.1789036562372.webp
+Apple A8|https://images.versus.io/objects/apple-a8.front.master2x.1576684641045.webp
+Apple A5|https://images.versus.io/objects/apple-a5-apl0498.front.master2x.1576684641045.webp
+MediaTek Dimensity 7350 Pro|https://images.versus.io/objects/mediatek-dimensity-7350-pro.front.master2x.1722433387687.webp
+HiSilicon Kirin 9030S|https://images.versus.io/objects/huawei-hisilicon-kirin-9030s.front.master2x.1790075554170.webp
+HiSilicon Kirin 9050 Pro|https://images.versus.io/objects/hisilicon-kirin-9050-pro.front.master2x.1788899615355.webp
+Qualcomm Snapdragon 835|https://images.versus.io/objects/qualcomm-snapdragon-835.front.master2x.1576684641045.webp
+Qualcomm Snapdragon 888 4G|https://images.versus.io/objects/qualcomm-snapdragon-888-4g.front.master2x.1640273553928.webp
+HiSilicon Kirin 9030 Pro|https://images.versus.io/objects/hisilicon-kirin-9030-pro.front.master2x.1764673751161.webp
+HiSilicon Kirin 9025|https://images.versus.io/objects/hisilicon-kirin-9025.front.master2x.1793103898892.webp
+Samsung S5PC100|https://upload.wikimedia.org/wikipedia/commons/f/fd/Apple_SoC_S5L8920.jpg
+Apple A15 Bionic|https://images.versus.io/objects/apple-a15-bionic.front.master2x.1631698765988.webp
+Apple A17 Pro|https://images.versus.io/objects/apple-a17-pro.front.master2x.1694602858598.webp
+Qualcomm Snapdragon 778G Plus|https://images.versus.io/objects/qualcomm-snapdragon-778g-plus-5g.front.master2x.1638399344750.webp
+Qualcomm Snapdragon 6 Gen 4|https://images.versus.io/objects/qualcomm-snapdragon-6-gen-4.front.master2x.1739370830142.webp
+Qualcomm Snapdragon 7 Gen 4|https://images.versus.io/objects/qualcomm-snapdragon-7-gen-4.front.master2x.1747395510053.webp
+Qualcomm Snapdragon 7s Gen 4|https://images.versus.io/objects/qualcomm-snapdragon-7s-gen-4.front.master2x.1755702132415.webp
+Apple A13 Bionic|https://images.versus.io/objects/apple-a13-bionic.front.master2x.1576684641045.webp
+Qualcomm Snapdragon 670|https://images.versus.io/objects/qualcomm-snapdragon-670.front.master2x.1576684641045.webp
+Qualcomm Snapdragon 8 Plus Gen 1|https://images.versus.io/objects/qualcomm-snapdragon-8-plus-gen-1.front.master2x.1657036044684.webp
+HiSilicon Kirin 9035|https://images.versus.io/objects/hisilicon-kirin-9035.front.master2x.1790865911467.webp
+Qualcomm Snapdragon 845|https://images.versus.io/objects/qualcomm-snapdragon-845.front.master2x.1576684641045.webp
+Qualcomm Snapdragon 8s Gen 4|https://images.versus.io/objects/qualcomm-snapdragon-8s-gen-4.front.master2x.1743606831994.webp
+HiSilicon Kirin 810|https://images.versus.io/objects/hisilicon-kirin-810.front.master2x.1576684641045.webp
+Samsung S5L8900|https://upload.wikimedia.org/wikipedia/commons/f/fe/S5L8900.jpg
+HiSilicon Kirin 9010s|https://images.versus.io/objects/hisilicon-kirin-9010s.front.master2x.1767100274197.webp
+HiSilicon Kirin 980|https://images.versus.io/objects/huawei-hisilicon-kirin-980.front.master2x.1576684641045.webp
+XRing O3|https://images.versus.io/objects/xiaomi-xring-o3.front.master2x.1788898610431.webp
+HiSilicon Kirin 9000S1|https://images.versus.io/objects/hisilicon-kirin-9000s.front.master2x.1693302033444.webp
+HiSilicon Kirin 990 5G|https://images.versus.io/objects/huawei-kirin-990-5g.front.master2x.1576684641045.webp

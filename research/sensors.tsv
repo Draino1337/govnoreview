@@ -1,0 +1,177 @@
+# сенсоры камер: id|основная|сверхширокоугольная|телевик|источник
+# пусто — такой камеры нет; «не раскрыт» — модель сенсора нигде не названа
+samsung-galaxy-s26-ultra|Samsung ISOCELL HP2|Samsung ISOCELL JN3|Sony IMX854|nanoreview
+apple-iphone-17-pro-max|Sony IMX903|Sony IMX972|Sony IMX973|nanoreview
+apple-iphone-17-pro|Sony IMX903|Sony IMX972|Sony IMX973|nanoreview
+apple-iphone-17|Sony IMX904|Sony IMX972||nanoreview
+xiaomi-poco-f9-ultra|Samsung ISOCELL HP5|OmniVision OV50M40|Samsung ISOCELL JN5|nanoreview
+xiaomi-poco-f8-ultra|OmniVision Light Hunter 950|OmniVision OV50M40|Samsung ISOCELL JN5|nanoreview
+samsung-galaxy-a57-5g|Sony IMX906|Sony IMX258||nanoreview
+samsung-galaxy-a56-5g|Sony IMX906|Sony IMX258||nanoreview
+xiaomi-redmi-note-17-pro|Samsung ISOCELL JN5|не раскрыт||nanoreview
+xiaomi-redmi-note-15-pro-5g|Samsung ISOCELL HPE|OmniVision OV08F10||nanoreview
+oneplus-16|Samsung ISOCELL HPE|OmniVision OV50D40|Sony LYT-600|nanoreview
+oneplus-15|Sony IMX906|OmniVision OV50D|Samsung ISOCELL JN5|nanoreview
+apple-iphone-18-pro-max|Sony IMX905|Sony IMX972|Sony IMX973|nanoreview
+apple-iphone-16-pro-max|Sony IMX803|Sony IMX972|Sony IMX913|nanoreview
+apple-iphone-16|Sony IMX904|Sony IMX633||Kimovil
+apple-iphone-15|Sony IMX904|Sony IMX633||Kimovil, nanoreview
+samsung-galaxy-s25-ultra|Samsung ISOCELL HP2|Samsung ISOCELL JN3|Sony IMX854|nanoreview
+samsung-galaxy-s25|Samsung ISOCELL GN3|Sony IMX564|Samsung ISOCELL 3K1|nanoreview
+samsung-galaxy-s26-fe|Samsung ISOCELL GN3|Samsung ISOCELL 3L6|OmniVision OV08A10|nanoreview
+samsung-galaxy-s25-fe|Samsung ISOCELL GN3|Samsung ISOCELL 3L6|OmniVision OV08A10|nanoreview
+google-pixel-10-pro-xl|Samsung ISOCELL GNV|Samsung ISOCELL GM5|Samsung ISOCELL GM5|nanoreview
+google-pixel-10|Samsung ISOCELL GN8|Sony IMX712|Samsung ISOCELL 3J1|nanoreview
+google-pixel-xl|Sony IMX378|||Kimovil
+google-pixel|Sony IMX378|||Kimovil
+google-pixel-2-xl|Sony IMX362|||как у google-pixel-2
+google-pixel-2|Sony IMX362|||Kimovil
+google-pixel-3-xl|Sony IMX363|||nanoreview
+google-pixel-3|Sony IMX363|||nanoreview
+google-pixel-3a-xl|Sony IMX363|||Kimovil
+google-pixel-3a|Sony IMX363|||nanoreview
+google-pixel-4-xl|Sony IMX363||Sony IMX481|nanoreview
+google-pixel-4|Sony IMX363||Sony IMX481|nanoreview
+google-pixel-4a-5g|Sony IMX363|Sony IMX481||nanoreview, как у google-pixel-5
+google-pixel-4a|Sony IMX363|||nanoreview
+google-pixel-5|Sony IMX363|Sony IMX481||nanoreview
+google-pixel-6-pro|Samsung ISOCELL GN1|Sony IMX386|Sony IMX586|nanoreview
+google-pixel-6|Samsung ISOCELL GN1|Sony IMX386||nanoreview
+google-pixel-7-pro|Samsung ISOCELL GN1|Sony IMX381|Samsung ISOCELL GM1|nanoreview
+google-pixel-7|Samsung ISOCELL GN1|Sony IMX381||nanoreview
+google-pixel-7a|Sony IMX787|Sony IMX712||nanoreview
+google-pixel-6a|Sony IMX363|Sony IMX386||nanoreview
+google-pixel-8-pro|Samsung ISOCELL GNV|Sony IMX787|Samsung ISOCELL GM5|nanoreview, Kimovil
+google-pixel-8|Samsung ISOCELL GNV|Sony IMX386||nanoreview
+google-pixel-9a|Samsung ISOCELL GN8|Sony IMX712||nanoreview
+google-pixel-8a|Sony IMX787|Sony IMX712||nanoreview
+google-pixel-9-pro-xl|Samsung ISOCELL GN1|Samsung ISOCELL GM5|Samsung ISOCELL GM5|nanoreview
+google-pixel-9-pro|Samsung ISOCELL GN1|Samsung ISOCELL GM5|Samsung ISOCELL GM5|nanoreview
+google-pixel-9|Samsung ISOCELL GNK|Sony IMX858||nanoreview, Kimovil
+google-pixel-10a|Samsung ISOCELL GN8|Sony IMX712||nanoreview
+google-pixel-10-pro|Samsung ISOCELL GNV|Samsung ISOCELL GM5|Samsung ISOCELL GM5|nanoreview
+google-pixel-10-pro-fold|Samsung ISOCELL GN8|Samsung ISOCELL 3J1|Samsung ISOCELL 3J1|nanoreview
+google-pixel-9-pro-fold|Sony IMX787|Samsung ISOCELL 3LU|Samsung ISOCELL 3J1|Kimovil, nanoreview
+google-pixel-fold|Sony IMX787|Sony IMX386|Samsung ISOCELL 3J1|nanoreview
+google-pixel-11-pro-xl|не раскрыт|не раскрыт|не раскрыт|
+google-pixel-11-pro|не раскрыт|не раскрыт|не раскрыт|
+google-pixel-11|не раскрыт|Sony IMX712|Samsung ISOCELL 3J1|nanoreview
+google-pixel-11-pro-fold|не раскрыт|Samsung ISOCELL 3J1|Samsung ISOCELL 3J1|nanoreview
+apple-iphone-3g|Micron, модель не раскрыта|||разборы и обзоры
+apple-iphone-2g|Micron MT9D112|||разборы и обзоры
+apple-iphone-4|OmniVision OV5650|||разборы и обзоры
+apple-iphone-3gs|OmniVision, модель не раскрыта|||разборы и обзоры
+apple-iphone-5|Sony IMX145|||Kimovil
+apple-iphone-4s|Sony IMX145|||разборы и обзоры
+apple-iphone-5s|Sony IMX145|||Kimovil
+apple-iphone-5c|Sony IMX145|||как у apple-iphone-5
+apple-iphone-6-plus|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-6|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-6s-plus|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-6s|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-se-2016|Sony IMX315|||Kimovil
+apple-iphone-7-plus|Sony, модель не раскрыта||Sony, модель не раскрыта|разборы и обзоры
+apple-iphone-7|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-8-plus|Sony, модель не раскрыта||Sony, модель не раскрыта|разборы и обзоры
+apple-iphone-8|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-xr|Sony, модель не раскрыта|||разборы и обзоры
+apple-iphone-x|Sony, модель не раскрыта||Sony, модель не раскрыта|разборы и обзоры
+apple-iphone-xs-max|Sony, модель не раскрыта||Sony, модель не раскрыта|разборы и обзоры
+apple-iphone-xs|Sony, модель не раскрыта||Sony, модель не раскрыта|разборы и обзоры
+apple-iphone-11-pro-max|Sony IMX503|Sony IMX372|Sony IMX356|Kimovil
+apple-iphone-11-pro|Sony IMX503|Sony IMX372|Sony IMX356|Kimovil
+apple-iphone-11|Sony IMX503|Sony IMX372||Kimovil
+apple-iphone-se-2020|Sony IMX315|||Kimovil
+apple-iphone-12-pro-max|Sony IMX603|Sony IMX372|Sony IMX613|nanoreview
+apple-iphone-12-pro|Sony IMX503|Sony IMX372|не раскрыт|разборы и обзоры
+apple-iphone-12|Sony IMX503|Sony IMX372||разборы и обзоры
+apple-iphone-12-mini|Sony IMX503|Sony IMX372||nanoreview
+apple-iphone-13-pro-max|Sony IMX703|Sony IMX772|Sony IMX713|nanoreview
+apple-iphone-13-pro|Sony IMX703|Sony IMX772|Sony IMX713|nanoreview
+apple-iphone-13|Sony IMX603|Sony IMX372||nanoreview
+apple-iphone-13-mini|Sony IMX603|Sony IMX372||nanoreview
+apple-iphone-14-pro-max|Sony IMX803|Sony IMX633|Sony IMX713|nanoreview
+apple-iphone-14-pro|Sony IMX803|Sony IMX633|Sony IMX713|nanoreview
+apple-iphone-14-plus|Sony IMX703|Sony IMX372||nanoreview
+apple-iphone-14|Sony IMX703|Sony IMX372||nanoreview
+apple-iphone-16e|Sony IMX972|||nanoreview
+apple-iphone-se-2022|Sony IMX315|||Kimovil
+apple-iphone-15-pro-max|Sony IMX803|Sony IMX633|Sony IMX913|nanoreview
+apple-iphone-15-pro|Sony IMX803|Sony IMX633|Sony IMX713|nanoreview
+apple-iphone-16-plus|Sony IMX904|Sony IMX633||Kimovil
+apple-iphone-15-plus|Sony IMX904|Sony IMX633||nanoreview
+apple-iphone-16-pro|Sony IMX803|Sony IMX972|Sony IMX913|nanoreview
+apple-iphone-air|Sony IMX904|||nanoreview
+apple-iphone-18-pro|Sony IMX905|Sony IMX972|Sony IMX973|nanoreview
+apple-iphone-17e|Sony IMX972|||как у apple-iphone-16e
+apple-iphone-duo|не раскрыт|не раскрыт||
+xiaomi-17t-pro|OmniVision 950 LightHunter|OmniVision OV13B|Samsung ISOCELL JN5|nanoreview
+xiaomi-17-pro-max|OmniVision Light Fusion 950L|OmniVision OV50M40|Samsung ISOCELL GN8|nanoreview
+xiaomi-poco-x8-pro-max|OmniVision Light Fusion 600|SmartSens SC821CS||nanoreview
+xiaomi-poco-f8-pro|OmniVision OV50 Light Hunter 800|OmniVision OV08F|OmniVision OV50M|nanoreview
+vivo-x300-ultra|Sony LYT-901|Sony LYT-818|Samsung ISOCELL HP0|nanoreview
+oppo-find-x9-ultra|Sony LYT-901|Sony LYT-600|OmniVision OV52A|nanoreview
+samsung-galaxy-s26-plus|Samsung ISOCELL GN3|Sony IMX564|Samsung ISOCELL 3K1|Kimovil
+samsung-galaxy-z-fold-8-ultra|Samsung ISOCELL HP2|не раскрыт|Samsung ISOCELL 3K1|nanoreview
+samsung-galaxy-z-fold-8|Samsung ISOCELL GN3|не раскрыт||разборы и обзоры
+samsung-galaxy-z-flip-8|Samsung ISOCELL GN3|Samsung ISOCELL 3LU||nanoreview
+motorola-razr-ultra-2026|не раскрыт|не раскрыт||
+xiaomi-18-pro-max|Light Fusion 960L (SmartSens SCC90XS)|OmniVision OV51D|Samsung ISOCELL HP5|nanoreview
+xiaomi-18-pro|Light Fusion 960L (SmartSens SCC90XS)|OmniVision OV51D|Samsung ISOCELL HP5|nanoreview
+xiaomi-17-ultra|OmniVision OVX10500|Samsung ISOCELL JN5|Samsung ISOCELL HPE|nanoreview
+xiaomi-18-fold|Samsung ISOCELL HP5|OmniVision OV50M|Samsung ISOCELL JN5|nanoreview
+huawei-mate-90-pro-max|SmartSens SC595XS|OmniVision OV40A|SmartSens SCC85XS|nanoreview
+huawei-mate-90-pro|SmartSens SC595XS|OmniVision OV40A|не раскрыт|nanoreview
+huawei-pura-90-pro-max|OmniVision 950L LightHunter|OmniVision OV40A|SmartSens SCC80XS|разборы и обзоры, nanoreview
+huawei-mate-xt-2-ultimate|не раскрыт|не раскрыт|не раскрыт|
+honor-magic-9-pro-max|OmniVision OV52A|не раскрыт|Samsung ISOCELL HPE|разборы и обзоры
+honor-magic-v6|Sony IMX906|не раскрыт|OmniVision OV64B|nanoreview
+oppo-find-x10-pro-max|Samsung ISOCELL HPC|Samsung ISOCELL HP5|Samsung ISOCELL HP5|nanoreview
+oppo-find-x9-pro|Sony LYT-828|Samsung ISOCELL JN5|Samsung ISOCELL HP5|nanoreview
+oppo-find-n5|Sony LYT-700C|OmniVision OV08D10|Samsung ISOCELL JN5|nanoreview
+vivo-x-fold6|Samsung ISOCELL HPB|Samsung ISOCELL JN1|Sony IMX885|nanoreview
+vivo-x500-pro-max|Sony LYT-910|Samsung ISOCELL JN5|Samsung ISOCELL HP0|nanoreview
+vivo-x500-pro|Sony LYT-910|Samsung ISOCELL JN5|Sony LYT-610|nanoreview
+vivo-iqoo-16|OmniVision OV50Q|GalaxyCore GC50D1|Sony LYT-600|nanoreview
+realme-gt-8-pro|Sony IMX906|OmniVision OV50D|Samsung ISOCELL HP5|разборы и обзоры
+oneplus-15t|Sony IMX906||Samsung ISOCELL JN5|nanoreview
+oneplus-13|Sony LYT-808|Samsung ISOCELL JN5|Sony LYT-600|nanoreview
+sony-xperia-1-viii|Sony IMX888|Sony IMX906|Sony IMX906|nanoreview
+asus-zenfone-12-ultra|Sony LYT-700|OmniVision OV13B10|OmniVision OV32C|nanoreview, Kimovil
+asus-rog-phone-9-pro|Sony LYT-700|OmniVision OV13B|OmniVision OV32C|nanoreview
+zte-nubia-red-magic-12-pro-plus|OmniVision OV50E40|OmniVision OV50E40||nanoreview
+zte-nubia-z80-ultra|OmniVision OV990 Light and Shadow Master|OmniVision OV50E|OmniVision OV64B|nanoreview
+nothing-phone-3|OmniVision OV50H|Samsung ISOCELL JN1|Samsung ISOCELL JN5|nanoreview
+huawei-p30-pro|Sony IMX650|не раскрыт|не раскрыт|nanoreview
+huawei-p40-lite|Sony IMX586|не раскрыт||nanoreview
+huawei-p40-pro|Sony IMX700|Sony IMX650|не раскрыт|nanoreview
+huawei-p40|Sony IMX700|не раскрыт|не раскрыт|nanoreview
+huawei-p50-pro|OmniVision OV50A|OmniVision OV13B10|OmniVision OV64B|nanoreview
+huawei-p60|Sony IMX888|Sony IMX688|Sony IMX688|nanoreview
+huawei-p60-pro|Sony IMX888|Sony IMX688|OmniVision OV64B|nanoreview
+huawei-pura-70|OmniVision OV50H|не раскрыт|не раскрыт|nanoreview
+huawei-pura-70-ultra|Sony IMX989|OmniVision OV40A|не раскрыт|nanoreview
+huawei-pura-70-pro|OmniVision OV50H|не раскрыт|не раскрыт|nanoreview
+huawei-pura-80-pro|SmartSens SC5AOCS|не раскрыт|не раскрыт|Kimovil
+huawei-pura-80|не раскрыт|не раскрыт|не раскрыт|
+huawei-pura-80-ultra|SmartSens SC5AOCS|OmniVision OV40A|не раскрыт|nanoreview
+huawei-pura-80-pro-plus|SmartSens SC5AOCS|не раскрыт|не раскрыт|Kimovil
+huawei-pura-90-plus|OmniVision OV50H|OmniVision OV50H|не раскрыт|nanoreview, Kimovil
+huawei-pura-90|Sony IMX989|не раскрыт|не раскрыт|Kimovil
+huawei-pura-90s-pro|не раскрыт|не раскрыт|не раскрыт|
+huawei-pura-90-pro|OmniVision LightHunter 950L|не раскрыт|не раскрыт|nanoreview
+huawei-pura-x-max|не раскрыт|не раскрыт|не раскрыт|
+huawei-pura-90s-pro-max|OmniVision 950L LightHunter|OmniVision OV40A|SmartSens SCC80XS|Kimovil, nanoreview
+huawei-pura-x-view|не раскрыт|не раскрыт|не раскрыт|
+nothing-cmf-phone-2-pro|Samsung ISOCELL GN9|GalaxyCore GC08A8|OmniVision OV50D|nanoreview
+nothing-cmf-phone-1|Sony IMX882|||nanoreview
+nothing-phone-2|Sony IMX890|Samsung ISOCELL JN1||nanoreview
+nothing-phone-1|Sony IMX766|Samsung ISOCELL JN1||nanoreview
+nothing-phone-2a-plus|Samsung ISOCELL GN9|Samsung ISOCELL JN1||nanoreview
+nothing-phone-2a|Samsung ISOCELL GN9|Samsung ISOCELL JN1||nanoreview
+nothing-phone-3a-lite|Samsung ISOCELL GN9|GalaxyCore GC08A8||nanoreview
+nothing-phone-3a|Samsung ISOCELL GN9|Sony IMX355|Samsung ISOCELL JN5|nanoreview, Kimovil
+nothing-phone-4a|Samsung ISOCELL GN9|Sony IMX355|Samsung ISOCELL JN5|nanoreview
+nothing-phone-3a-pro|Samsung ISOCELL GNJ|Sony IMX355|Sony LYT-600|nanoreview
+nothing-phone-4b|Samsung ISOCELL GNS|Sony IMX355||разборы и обзоры, nanoreview
+nothing-phone-4a-pro|Sony IMX896|Sony IMX355|Samsung ISOCELL JN5|nanoreview

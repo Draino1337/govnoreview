@@ -31,7 +31,7 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  grid-template-rows: auto auto auto auto auto auto;
+  grid-template-rows: repeat(7, auto); /* кольцо, кадр, имя, бренд, чип, цена, кнопка */
   gap: 10px 8px;
   transition: opacity 0.28s, transform 0.28s;
 }
@@ -41,7 +41,7 @@
 }
 .side {
   position: relative;
-  grid-row: 1 / span 6;
+  grid-row: 1 / span 7;
   display: grid;
   grid-template-columns: minmax(0, 1fr); /* единственная колонка ровно по ширине .side: широкая картинка не раздвигает её */
   grid-template-rows: subgrid;
@@ -76,6 +76,21 @@
 .side-meta {
   color: var(--muted);
   font-size: 14px;
+}
+.side-chip,
+.chip-v {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.side-chip {
+  max-width: 100%;
+  font-size: 14px;
+  font-weight: 700;
+}
+.chip-logo {
+  flex: none;
+  border-radius: 7px;
 }
 .side-price {
   font-size: 17px;
