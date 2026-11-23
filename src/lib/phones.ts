@@ -13,7 +13,7 @@ export const shortName = (p: Phone) => (BRAND_IN_SHORT.has(p.brand) || /^\d/.tes
 const ALIASES: Record<string, string> = {
   Apple: 'эппл айфон iphone',
   Samsung: 'самсунг галакси galaxy',
-  Xiaomi: 'сяоми ксиаоми ксиоми редми поко redmi poco mi',
+  Xiaomi: 'сяоми ксиаоми ксиоми mi',
   OnePlus: 'ванплас ван плас oneplus',
   Google: 'гугл пиксель google pixel',
   Vivo: 'виво vivo',
@@ -32,9 +32,23 @@ const hay = (p: Phone) => `${fullName(p)} ${ALIASES[p.brand] ?? ''}`.toLowerCase
 // по алфавиту, числа — как числа: iPhone 15, 16, 17 (а не 15, 17, 16 Pro…)
 const byName = (a: Phone, b: Phone) => fullName(a).localeCompare(fullName(b), 'en', { numeric: true, sensitivity: 'base' });
 
+// слова из названий моделей, набранные по-русски: «айфон 15 про», «поко ф8»
+const WORDS: Record<string, string> = {
+  про: 'pro', ультра: 'ultra', макс: 'max', плюс: 'plus', лайт: 'lite', мини: 'mini', фолд: 'fold', флип: 'flip', поко: 'poco', редми: 'redmi', пура: 'pura',
+};
+// номер модели с русскими буквами («с25», «ф8», «3а», «х300») — латиницей по звучанию
+const LAT: Record<string, string> = { а: 'a', в: 'v', е: 'e', з: 'z', и: 'i', к: 'k', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'x' };
+const queryTokens = (q: string) =>
+  q
+    .toLowerCase()
+    .replace(/([a-zа-яё]{3,})(\d)/g, '$1 $2') // «iphone15» → «iphone 15»
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((t) => WORDS[t] ?? (/\d/.test(t) ? t.replace(/[а-яё]/g, (c) => LAT[c] ?? c) : t));
+
 /** Телефоны, подходящие под запрос (пустой запрос — весь каталог), по алфавиту. */
 export function searchPhones(q: string, limit = Infinity): Phone[] {
-  const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const tokens = queryTokens(q);
   return PHONES.filter((p) => {
     const h = hay(p);
     return tokens.every((t) => h.includes(t));
@@ -43,7 +57,14 @@ export function searchPhones(q: string, limit = Infinity): Phone[] {
     .slice(0, limit);
 }
 
-export const pairPath = (a: string, b: string) => `/compare/${a}-vs-${b}`;
+// самопроверка поиска при разработке: русские запросы должны находить модели
+if (import.meta.env.DEV) {
+  for (const q of ['айфон 15 про', 'самсунг с25 ультра', 'поко ф8', 'iphone15', 'пиксель 9 про', 'хуавей пура 70 ультра'])
+    console.assert(searchPhones(q).length > 0, `поиск «${q}» ничего не нашёл`);
+  console.assert(searchPhones('поко').every((p) => /poco/i.test(p.name)), 'поиск «поко» находит не только Poco');
+}
+
+export const pairPath =(a: string, b: string) => `/compare/${a}-vs-${b}`;
 
 export function parsePair(slug: string): [Phone, Phone] | null {
   const i = slug.indexOf('-vs-');

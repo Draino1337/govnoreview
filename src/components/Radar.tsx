@@ -3,8 +3,9 @@ import { useTweenArray } from '../lib/hooks.ts';
 
 interface Props {
   labels: string[];
-  a: number[];
-  b: number[];
+  /** undefined — данных нет: точка в центре, в подписи «н/д» */
+  a: (number | undefined)[];
+  b: (number | undefined)[];
   nameA: string;
   nameB: string;
 }
@@ -18,8 +19,8 @@ const poly = (vals: number[]) => vals.map((v, i) => pt(i, vals.length, v / 100).
 
 export function Radar({ labels, a, b, nameA, nameB }: Props) {
   const n = labels.length;
-  const ta = useTweenArray(a);
-  const tb = useTweenArray(b);
+  const ta = useTweenArray(a.map((v) => v ?? 0));
+  const tb = useTweenArray(b.map((v) => v ?? 0));
   const [hot, setHot] = useState<number | null>(null);
 
   return (
@@ -57,9 +58,9 @@ export function Radar({ labels, a, b, nameA, nameB }: Props) {
         ) : (
           <>
             <b>{labels[hot]}</b>
-            <span className="dot-a">{a[hot]}</span>
+            <span className="dot-a">{a[hot] ?? 'н/д'}</span>
             <span className="muted">против</span>
-            <span className="dot-b">{b[hot]}</span>
+            <span className="dot-b">{b[hot] ?? 'н/д'}</span>
           </>
         )}
       </figcaption>

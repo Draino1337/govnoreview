@@ -33,7 +33,7 @@ const MEDALS = [
 
 interface Row {
   p: Phone;
-  score: number;
+  score?: number;
   total: number;
 }
 
@@ -42,7 +42,7 @@ function ranking(id: TopId): Row[] {
     const s = analyze(p).s;
     const total = overall(s);
     return { p, score: id === 'all' ? total : s[id], total };
-  }).sort((x, y) => y.score - x.score || y.total - x.total || y.p.released.localeCompare(x.p.released));
+  }).sort((x, y) => (y.score ?? -1) - (x.score ?? -1) || y.total - x.total || y.p.released.localeCompare(x.p.released));
 }
 
 const meta = (p: Phone) => `${p.brand} · ${monthYear(p.released)}`;
@@ -105,7 +105,7 @@ export function Rating({ slug }: { slug: string }) {
               <span className="pod-name">{fullName(r.p)}</span>
               <span className="pod-meta">{meta(r.p)}</span>
               <span className="pod-step">
-                <b className="pod-score">{r.score}</b>
+                <b className="pod-score">{r.score ?? 'н/д'}</b>
                 <small>{i + 1} место</small>
               </span>
             </a>
@@ -124,9 +124,9 @@ export function Rating({ slug }: { slug: string }) {
                 <small>{meta(r.p)}</small>
               </span>
               <span className="rt-bar" aria-hidden="true">
-                <i style={{ width: `${r.score}%` }} />
+                <i style={{ width: `${r.score ?? 0}%` }} />
               </span>
-              <span className="rt-score">{r.score}</span>
+              <span className="rt-score">{r.score ?? 'н/д'}</span>
             </a>
           </li>
         ))}

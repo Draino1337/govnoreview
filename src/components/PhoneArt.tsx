@@ -83,7 +83,7 @@ export function PhoneArt({ phone, lenses = 3, size = 'md', interactive = false }
   };
 
   const body = ratio ? (
-    <img className="pa-photo" src={`${import.meta.env.BASE_URL}phones/${phone.id}.webp`} alt="" draggable={false} decoding="async" loading={interactive ? undefined : 'lazy'} />
+    <img className="pa-photo" src={`${import.meta.env.BASE_URL}phones/${size === 'xs' ? 'sm/' : ''}${phone.id}.webp`} alt="" draggable={false} decoding="async" loading={interactive ? undefined : 'lazy'} />
   ) : (
     <div className="pa-rear">
       <Camera kind={phone.look.cam} lenses={lenses} />

@@ -416,6 +416,12 @@ async function photoRatio(id) {
   const file = path.join(PHOTO_DIR, `${id}.webp`);
   if (!fs.existsSync(file)) return 0;
   const { width, height } = await sharp(file).metadata();
+  // миниатюра для списков (PhoneArt size="xs", 46 px в высоту): 140 px хватает и для экранов 3x
+  const sm = path.join(PHOTO_DIR, 'sm', `${id}.webp`);
+  if (!fs.existsSync(sm) || fs.statSync(sm).mtimeMs < fs.statSync(file).mtimeMs) {
+    fs.mkdirSync(path.dirname(sm), { recursive: true });
+    await sharp(file).resize({ height: 140 }).webp({ quality: 82 }).toFile(sm);
+  }
   return +(width / height).toFixed(4);
 }
 

@@ -11,17 +11,18 @@ export const CATS: { id: CatId; title: string; desc: string }[] = [
   { id: 'comms', title: 'Связь и звук', desc: 'Wi-Fi, Bluetooth, NFC и динамики' },
 ];
 
-export type Scores = Record<CatId, number>;
+/** оценка категории 0..100; undefined — данных нет (у старых моделей нет бенчмарков) */
+export type Scores = Record<CatId, number | undefined>;
 
 /** вес каждой категории в итоговой оценке */
-const WEIGHTS: Scores = { display: 20, camera: 20, perf: 15, gaming: 10, battery: 20, comms: 15 };
+const WEIGHTS: Record<CatId, number> = { display: 20, camera: 20, perf: 15, gaming: 10, battery: 20, comms: 15 };
 
 const clamp = (x: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
 /** значение → 0..100 между lo и hi; undefined, если данных нет */
 const lin = (v: number | undefined, lo: number, hi: number) => (v == null ? undefined : clamp((v - lo) / (hi - lo)) * 100);
 const flag = (b: boolean, ifYes = 100, ifNo = 0) => (b ? ifYes : ifNo);
 
-function wavg(parts: Array<[number | undefined, number]>): number {
+function wavg(parts: Array<[number | undefined, number]>): number | undefined {
   let s = 0;
   let w = 0;
   for (const [v, k] of parts) {
@@ -29,11 +30,11 @@ function wavg(parts: Array<[number | undefined, number]>): number {
     s += v * k;
     w += k;
   }
-  return w ? s / w : 0;
+  return w ? s / w : undefined;
 }
 
 /** лёгкая «растяжка», чтобы шкала не слипалась у верхнего края */
-const curve = (x: number, gamma = 0.85) => Math.round(100 * Math.pow(clamp(x / 100), gamma));
+const curve = (x: number | undefined, gamma = 0.85) => (x == null ? undefined : Math.round(100 * Math.pow(clamp(x / 100), gamma)));
 
 /** оценка камеры по характеристикам, 0..100: сенсор, зум, широкоугольник, светосила, видео, фронталка */
 export function cameraSpec(m: Metrics): number {
@@ -46,7 +47,7 @@ export function cameraSpec(m: Metrics): number {
     [lin(m.v4k, 0, 120), 1],
     [flag(m.v8k), 0.5],
     [lin(m.frontMp, 8, 32), 0.7],
-  ]);
+  ])!; // флаги зума и широкоугольника есть у каждого телефона, так что пустым не бывает
 }
 
 // Камера — по оценке DxOMARK (research/dxomark.tsv): DXO_LO…DXO_HI баллов → 0…100.
@@ -72,7 +73,11 @@ export function scoreAll(m: Metrics): Scores {
     [lin(m.pwm, 120, 480), 1],
   ]);
 
-  const perf = wavg([
+  // скорость и игры судим по бенчмаркам: без них одна ОЗУ или 60 Гц дали бы ноль, а это не замер, а «нет данных»
+  const perfBench = [m.antutu, m.gbS, m.gbM].some((v) => v != null);
+  const gameBench = [m.gpu, m.flops, m.nomad, m.solar, m.antutu].some((v) => v != null);
+
+  const perf = !perfBench ? undefined : wavg([
     [lin(m.antutu, 400000, 4800000), 4],
     [lin(m.gbS, 900, 4200), 3],
     [lin(m.gbM, 2500, 12000), 3],
@@ -80,7 +85,7 @@ export function scoreAll(m: Metrics): Scores {
     [lin(m.storageGen, 2, 4.1), 1],
   ]);
 
-  const gaming = wavg([
+  const gaming = !gameBench ? undefined : wavg([
     [lin(m.gpu, 2500, 48000), 4],
     [lin(m.flops, 400, 4500), 3],
     [lin(m.nomad, 500, 2800), 2],
@@ -122,10 +127,12 @@ export function overall(s: Scores): number {
   let sum = 0;
   let w = 0;
   for (const c of CATS) {
-    sum += s[c.id] * WEIGHTS[c.id];
+    const v = s[c.id];
+    if (v == null) continue; // нет данных — категория не тянет итог ни вверх, ни вниз
+    sum += v * WEIGHTS[c.id];
     w += WEIGHTS[c.id];
   }
-  return Math.round(sum / w);
+  return w ? Math.round(sum / w) : 0;
 }
 
 /** «цена/качество»: оценка в квадрате, делённая на цену (нормировано на $800) */
@@ -135,3 +142,7 @@ export function valueIndex(score: number, price: number): number {
 }
 
 export const valueLabel = (v: number) => (v >= 80 ? 'Отличный' : v >= 60 ? 'Хороший' : v >= 40 ? 'Средний' : 'Слабый');
+
+// самопроверка при разработке: категория без данных не тянет итог к нулю
+if (import.meta.env?.DEV) // ?. — файл импортирует и Node (scripts/check-scores.ts), там env нет
+  console.assert(overall({ display: 50, camera: 50, perf: undefined, gaming: undefined, battery: 50, comms: 50 }) === 50, 'overall учитывает пустые категории как 0');

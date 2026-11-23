@@ -104,8 +104,9 @@ export function introText(a: Phone, b: Phone, ma: Metrics, mb: Metrics): string 
   return `Сравниваем ${fullName(a)} (${monthYear(a.released)}; ${chip(a, ma)}) и ${fullName(b)} (${monthYear(b.released)}; ${chip(b, mb)}). ${when} Ниже — характеристики, замеры, сильные и слабые стороны каждого.`;
 }
 
+// NaN: если у одного из двух нет данных в категории, это не победа
 export function verdictText(a: Phone, b: Phone, sa: Scores, sb: Scores): string {
-  const wins = (x: Scores, y: Scores) => CATS.filter((c) => x[c.id] - y[c.id] >= 3).map((c) => c.title.toLowerCase());
+  const wins = (x: Scores, y: Scores) => CATS.filter((c) => (x[c.id] ?? NaN) - (y[c.id] ?? NaN) >= 3).map((c) => c.title.toLowerCase());
   const wa = wins(sa, sb);
   const wb = wins(sb, sa);
   if (!wa.length && !wb.length) return `${shortName(a)} и ${shortName(b)} идут почти вровень во всех категориях — выбирайте по цене и дизайну.`;

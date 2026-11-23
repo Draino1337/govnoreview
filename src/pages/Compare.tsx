@@ -264,7 +264,7 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
         <div className="final">
           <DuelBar label="Итоговая оценка" a={scoreA} b={scoreB} max={100} fmt={(n) => String(n)} />
         </div>
-        <p className="foot">Оценки считаются автоматически по характеристикам и замерам — это не экспертное мнение. У камеры учитываются спецификации, а не качество снимков.</p>
+        <p className="foot">Оценки считаются автоматически по характеристикам и замерам — это не экспертное мнение. Камера — по оценке DxOMARK, а где её нет — по характеристикам.</p>
       </Card>
 
       <ValueCard key={a.id + b.id} a={a} b={b} A={A} B={B} />
