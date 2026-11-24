@@ -1,32 +1,42 @@
 import { useEffect } from 'react';
 import { usePath, hrefOf } from './router.ts';
 import { fullName, parsePair } from './lib/phones.ts';
-import { useTheme } from './lib/hooks.ts';
-import { Icon } from './components/Icon.tsx';
+import { CHANGELOG } from './data/changelog.ts';
 import { Home } from './pages/Home.tsx';
 import { Compare } from './pages/Compare.tsx';
 import { Rating, topOf } from './pages/Rating.tsx';
+import { Starfield } from './components/Starfield.tsx';
+import { LogoMark, toNews } from './components/Brand.tsx';
 
-function Header({ theme, onTheme, rating }: { theme: string; onTheme: () => void; rating: boolean }) {
+function Header({ rating, home }: { rating: boolean; home: boolean }) {
+  const latest = CHANGELOG[0];
   return (
     <header className="hdr">
-      <div className="wrap">
+      <div className="hdr-in">
         <a href={hrefOf('/')} className="logo" aria-label="govnoreview — на главную">
-          <span className="logo-mark" aria-hidden="true">
-            <i />
-            <i />
-          </span>
-          govno<span>review</span>
+          <LogoMark />
+          <b>
+            govno<span>review</span>
+          </b>
+        </a>
+        <a href="#cl" className="hdr-ver" onClick={toNews} title="Что нового">
+          v{latest.version}
+        </a>
+        <a href="#cl" className="hdr-news hov" onClick={toNews}>
+          <b aria-hidden="true">+</b>
+          <span>{latest.title}</span>
         </a>
         <nav className="hdr-nav" aria-label="Разделы">
+          <a href={hrefOf('/')} className={home ? 'is-on' : undefined} aria-current={home ? 'page' : undefined}>
+            Сравнение
+          </a>
           <a href={hrefOf('/rating')} className={rating ? 'is-on' : undefined} aria-current={rating ? 'page' : undefined}>
-            <Icon name="trophy" size={17} />
             Рейтинг
           </a>
+          <a href="#cl" onClick={toNews}>
+            Что нового
+          </a>
         </nav>
-        <button type="button" className="theme" onClick={onTheme} aria-label={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'} title="Сменить тему">
-          <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} />
-        </button>
       </div>
     </header>
   );
@@ -34,7 +44,6 @@ function Header({ theme, onTheme, rating }: { theme: string; onTheme: () => void
 
 export default function App() {
   const path = usePath();
-  const [theme, toggleTheme] = useTheme();
   const isCompare = path.startsWith('/compare/');
   const isRating = path === '/rating' || path.startsWith('/rating/');
   const isHome = !isCompare && !isRating;
@@ -57,8 +66,10 @@ export default function App() {
 
   return (
     <>
-      <Header theme={theme} onTheme={toggleTheme} rating={isRating} />
-      <main>
+      <Starfield />
+      <Header rating={isRating} home={isHome} />
+      {/* ключ по разделу: при переходе главная ↔ рейтинг ↔ сравнение страница заново всплывает */}
+      <main key={isHome ? 'home' : isRating ? 'rating' : 'compare'} className="page">
         {isHome ? (
           <Home />
         ) : top ? (

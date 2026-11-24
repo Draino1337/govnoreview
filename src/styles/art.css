@@ -55,9 +55,19 @@
   -webkit-user-drag: none;
   filter: drop-shadow(0 calc(var(--ph) * 0.045) calc(var(--ph) * 0.06) rgba(10, 10, 40, 0.4));
 }
-/* в тёмной теме тёмный корпус сливается с фоном — подсвечиваем кромку */
-:root[data-theme='dark'] .pa-photo {
+/* тёмный корпус сливается с тёмным фоном — подсвечиваем кромку */
+:root .pa-photo {
   filter: drop-shadow(0 0 0.6px rgba(255, 255, 255, 0.55)) drop-shadow(0 calc(var(--ph) * 0.045) calc(var(--ph) * 0.06) rgba(0, 0, 0, 0.6));
+}
+
+/* миниатюры в списках: без теней-фильтров и 3D — их сотни, а на размере 46 px тени всё равно не видно */
+.pa-xs .pa-photo {
+  filter: none;
+}
+.pa-xs .pa-body {
+  transform: none;
+  transform-style: flat;
+  transition: none;
 }
 
 /* запасной вариант: нарисованная задняя панель */

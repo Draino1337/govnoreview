@@ -1,45 +1,39 @@
-/* ───────── токены ───────── */
+/* ───────── токены ─────────
+   Тёмная пиксельная тема: почти чёрный фон, графитовые панели с углами, вырезанными ступенькой,
+   лавандовый акцент. Второй телефон в сравнении — янтарный. Светлой темы больше нет. */
 :root {
   --hdr: 64px;
   --nav: 56px;
-  --r: 22px;
-  --font: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --display: 'Unbounded Variable', 'Manrope Variable', system-ui, sans-serif;
+  --r: 0px;
+  --font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --display: 'Inter Variable', system-ui, sans-serif;
+  --mono: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
 
-  --bg: #f2f3fb;
-  --ink: #151833;
-  --muted: #5d6280;
-  --line: rgba(21, 24, 51, 0.1);
-  --card: rgba(255, 255, 255, 0.84);
-  --solid: #ffffff;
-  --soft: rgba(21, 24, 51, 0.05);
-  --a: #6b57ff;
-  --a-ink: #4a36e0;
-  --a-soft: rgba(107, 87, 255, 0.13);
-  --b: #ff8a1f;
-  --b-ink: #b85400;
-  --b-soft: rgba(255, 138, 31, 0.16);
-  --good: #12a15a;
-  --shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 18px 40px -24px rgba(36, 32, 100, 0.35);
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  --bg: #090a14;
-  --ink: #eef0fb;
-  --muted: #9aa0bd;
-  --line: rgba(255, 255, 255, 0.1);
-  --card: rgba(21, 23, 42, 0.74);
-  --solid: #14162a;
-  --soft: rgba(255, 255, 255, 0.06);
-  --a: #8f7fff;
-  --a-ink: #b6abff;
-  --a-soft: rgba(143, 127, 255, 0.17);
-  --b: #ffa24a;
-  --b-ink: #ffc184;
-  --b-soft: rgba(255, 162, 74, 0.17);
-  --good: #3ddc97;
-  --shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 22px 50px -26px rgba(0, 0, 0, 0.85);
+  --bg: #0a0a0c;
+  --ink: #ecebf1;
+  --muted: #a29fae;
+  --dim: #8d8a99;
+  --faint: #6f6c7a;
+  --line: #1f1e24;
+  --line2: #2c2b32;
+  --line3: #5b5a66;
+  --card: #0f0f12;
+  --solid: #0f0f12;
+  --surf2: #1c1b21;
+  --well: #0b0b0d;
+  --soft: rgba(255, 255, 255, 0.04);
+  --a: #b8a7f0;
+  --a-ink: #d9cffd;
+  --a-deep: #7e6fc4;
+  --a-f: #2a2442;
+  --a-soft: rgba(184, 167, 240, 0.13);
+  --b: #e0b64a;
+  --b-ink: #f1d488;
+  --b-deep: #9c7a25;
+  --b-soft: rgba(224, 182, 74, 0.14);
+  --good: #3fb950;
+  --bad: #f24d5c;
+  --shadow: none;
   color-scheme: dark;
 }
 
@@ -71,10 +65,8 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(56rem 38rem at 8% -8%, color-mix(in srgb, var(--a) 24%, transparent), transparent 62%),
-    radial-gradient(50rem 34rem at 102% 6%, color-mix(in srgb, var(--b) 18%, transparent), transparent 62%),
-    radial-gradient(44rem 30rem at 50% 112%, color-mix(in srgb, var(--a) 13%, transparent), transparent 62%);
+  /* звёзды рисует <Starfield>, сверху — едва заметная виньетка */
+  background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55));
 }
 h1,
 h2,
@@ -129,88 +121,162 @@ a {
   z-index: 50;
   height: var(--hdr);
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  backdrop-filter: blur(18px) saturate(1.5);
+  /* почти сплошной фон вместо размытия: blur пересчитывался бы на каждом кадре звёздного неба под шапкой */
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
 }
-.hdr .wrap {
+/* шапка — во всю ширину окна: логотип слева, плашка «Новое» по центру, ссылки справа */
+.hdr-in {
+  position: relative;
   height: 100%;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
+  padding: 0 32px;
 }
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
+  color: var(--ink);
   text-decoration: none;
-  font: 800 17px/1 var(--display);
-  letter-spacing: -0.03em;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
-.logo span:not(.logo-mark) {
-  font-weight: 400;
+.logo svg {
+  flex: none;
+  color: var(--a);
+}
+.logo b span {
   color: var(--muted);
+  font-weight: 500;
 }
-.logo-mark {
-  position: relative;
-  width: 34px;
-  height: 34px;
+.hdr-ver {
+  --c: 2px;
+  padding: 3px 7px;
+  color: var(--muted);
+  font: 600 11.5px/1 var(--mono);
+  text-decoration: none;
 }
-.logo-mark i {
+.hdr-ver:hover {
+  color: var(--ink);
+}
+/* плашка новостей по центру шапки */
+.hdr-news {
+  --c: 3px;
   position: absolute;
-  top: 6px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  max-width: min(420px, 40vw);
+  height: 32px;
+  padding: 0 14px 0 4px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
 }
-.logo-mark i:first-child {
-  left: 0;
+/* pixel.css делает панели position: relative — здесь плашка должна висеть по центру шапки */
+.hdr-in > .hdr-news {
+  position: absolute;
+  animation: news-in 0.5s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes news-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -160%);
+  }
+}
+/* квадратик с плюсом мерцает, как индикатор «есть новое» */
+.hdr-news b {
+  animation: news-dot 2.4s steps(1) infinite;
+}
+@keyframes news-dot {
+  50% {
+    background: var(--a-ink);
+  }
+}
+.hdr-news b {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
   background: var(--a);
+  color: var(--bg);
 }
-.logo-mark i:last-child {
-  right: 0;
-  background: var(--b);
-  opacity: 0.88;
+.hdr-news span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hdr-nav {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 .hdr-nav a {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 38px;
-  padding: 0 14px;
-  border: 1px solid transparent;
-  border-radius: 999px;
+  height: 32px;
+  padding: 0 10px;
   color: var(--muted);
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13.5px;
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.15s;
 }
-.hdr-nav a:hover {
-  color: var(--ink);
-  background: var(--soft);
+/* точка-разделитель перед каждой ссылкой */
+.hdr-nav a::before {
+  content: '';
+  width: 3px;
+  height: 3px;
+  background: var(--line3);
 }
+.hdr-nav a:hover,
 .hdr-nav a.is-on {
   color: var(--ink);
-  background: var(--a-soft);
-  border-color: color-mix(in srgb, var(--a) 35%, var(--line));
 }
-.hdr-nav svg {
-  color: var(--gold-1, var(--a));
+.hdr-nav a.is-on::before {
+  background: var(--a);
 }
-.theme {
-  margin-left: auto;
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--soft);
-  transition: transform 0.4s, background 0.2s;
+@media (max-width: 720px) {
+  .hdr-in {
+    padding: 0 16px;
+  }
+  .hdr-news {
+    display: none;
+  }
+  .hdr-ver {
+    display: none;
+  }
+  /* на главную ведёт логотип — ссылку «Сравнение» на телефоне прячем, иначе шапка не влезает */
+  .hdr-nav a:first-child {
+    display: none;
+  }
+  .hdr-nav a {
+    padding: 0 6px;
+  }
 }
-.theme:hover {
-  transform: rotate(25deg);
-  background: var(--a-soft);
+.logo {
+  flex: none;
+}
+/* совсем узкие экраны: от логотипа остаётся значок, чтобы влезли ссылки */
+@media (max-width: 359px) {
+  .logo b {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+.hdr-nav a {
+  white-space: nowrap;
 }
 
 /* ───────── кнопки и чипы ───────── */
@@ -221,85 +287,113 @@ a {
   gap: 8px;
   height: 48px;
   padding: 0 22px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  font-weight: 800;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-weight: 700;
   font-size: 15.5px;
+  letter-spacing: -0.01em;
   text-decoration: none;
   white-space: nowrap;
-  transition: transform 0.15s, box-shadow 0.25s, background 0.2s, border-color 0.2s;
 }
+/* главная кнопка: лавандовая плашка со ступенчатыми углами и «стопкой» штрихованных теней.
+   При наведении светлеет, при нажатии проваливается в тень. */
 .btn-primary {
-  color: #fff;
-  background: linear-gradient(135deg, var(--a), color-mix(in srgb, var(--a) 55%, #ff5da2));
-  box-shadow: 0 12px 28px -12px var(--a);
+  --c: 4px;
+  --off: 6px;
+  position: relative;
+  isolation: isolate;
+  margin: 0 var(--off) var(--off) 0;
+  color: var(--bg);
+  font-weight: 800;
 }
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 32px -12px var(--a);
+.btn-primary::before,
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--px);
+  pointer-events: none;
+  transition: transform 0.12s steps(2), background-color 0.15s;
+}
+.btn-primary::before {
+  z-index: -2;
+  transform: translate(var(--off), var(--off));
+  background: repeating-linear-gradient(0deg, var(--a-deep) 0 2px, var(--a-f) 2px 4px);
+}
+/* заливка + блик: раз в несколько секунд по кнопке ступеньками пробегает светлая полоса */
+.btn-primary::after {
+  z-index: -1;
+  background-color: var(--a);
+  background-image: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.5) 46%, rgba(255, 255, 255, 0.5) 51%, transparent 57%);
+  background-repeat: no-repeat;
+  background-size: 260% 100%;
+  background-position: 170% 0;
+  animation: shine 5s 1.8s steps(12) infinite;
+}
+@keyframes shine {
+  0% {
+    background-position: 170% 0;
+  }
+  24%,
+  100% {
+    background-position: -70% 0;
+  }
+}
+.btn-primary:disabled::after {
+  animation: none;
+  background-image: none;
+}
+.btn-primary:hover:not(:disabled)::after {
+  background-color: var(--a-ink);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translate(calc(var(--off) - 2px), calc(var(--off) - 2px));
+}
+.btn-primary:active:not(:disabled)::before {
+  transform: translate(2px, 2px);
 }
 .btn-primary:disabled {
-  opacity: 0.4;
+  color: var(--faint);
   cursor: not-allowed;
-  box-shadow: none;
+}
+.btn-primary:disabled::after {
+  background-color: var(--surf2);
+}
+.btn-primary:disabled::before {
+  background: repeating-linear-gradient(0deg, var(--line2) 0 2px, var(--line) 2px 4px);
 }
 .btn-ghost {
-  background: var(--soft);
-  border-color: var(--line);
+  --c: 3px;
 }
 .btn-ghost:hover {
-  background: var(--a-soft);
-  border-color: color-mix(in srgb, var(--a) 40%, var(--line));
-}
-.btn-picked {
-  background: var(--ink);
-  color: var(--bg);
-}
-.is-b .btn-picked,
-.pc.is-b .btn-picked {
-  background: var(--b);
-  color: #1a1000;
-}
-.pc.is-a .btn-picked {
-  background: var(--a);
-  color: #fff;
+  --rim: var(--line3);
 }
 .btn-sm {
   height: 40px;
   padding: 0 16px;
   font-size: 14px;
 }
-.select {
-  height: 40px;
-  padding: 0 12px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--solid);
-  font-weight: 700;
-  font-size: 14px;
-}
 .link-btn {
   padding: 4px;
   border: 0;
   background: none;
-  color: var(--muted);
-  font-size: 13px;
-  text-decoration: underline;
+  color: var(--a);
+  font: 600 12.5px var(--mono);
+  text-decoration: none;
 }
 .link-btn:hover {
-  color: var(--ink);
+  color: var(--a-ink);
 }
 
 /* ───────── карточки ───────── */
+/* карточка — пиксельная панель (см. pixel.css): рамка и заливка нарисованы псевдоэлементами,
+   так что выпадающие списки внутри не обрезаются */
 .card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
+  --c: 4px;
 }
 .sec {
-  margin-top: 20px;
+  margin-top: 16px;
   scroll-margin-top: calc(var(--hdr) + var(--nav) + 18px);
 }
 .card-head {
@@ -311,17 +405,17 @@ a {
 }
 .card-ico {
   flex: none;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  color: var(--a-ink);
-  background: linear-gradient(135deg, var(--a-soft), var(--b-soft));
+  border: 1px solid var(--a-deep);
+  background: var(--a-f);
+  color: var(--a);
 }
 .card-head h2 {
-  font: 800 20px/1.2 var(--display);
-  letter-spacing: -0.02em;
+  font: 600 20px/1.2 var(--font);
+  letter-spacing: -0.025em;
 }
 .card-head p {
   margin-top: 3px;
@@ -333,7 +427,7 @@ a {
 }
 .foot {
   margin-top: 16px;
-  color: var(--muted);
+  color: var(--faint);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -346,10 +440,9 @@ a {
   align-items: center;
   gap: 8px;
   margin: 6px 0 2px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.07em;
+  color: var(--dim);
+  font: 600 11px/1.3 var(--mono);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -358,88 +451,87 @@ a {
   gap: 16px;
   margin-bottom: 8px;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
 }
 .legend span::before {
   content: '';
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   margin-right: 7px;
-  border-radius: 50%;
   background: currentColor;
 }
 .legend .is-a {
-  color: var(--a-ink);
+  color: var(--a);
 }
 .legend .is-b {
-  color: var(--b-ink);
+  color: var(--b);
 }
 
-/* ───────── кольцо оценки ───────── */
+/* ───────── плашка оценки (компонент Ring) ─────────
+   Квадрат-«колодец»: число из квадратиков, подпись и шкала из десяти делений по низу. */
 .ring {
-  position: relative;
+  --c: 3px;
   display: grid;
-  place-items: center;
   flex: none;
 }
-.ring svg {
-  display: block;
-}
-.ring-track {
-  fill: none;
-  stroke: color-mix(in srgb, var(--muted) 24%, transparent);
-  stroke-width: 8;
-}
-.ring-bar {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 8;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, currentColor 50%, transparent));
-}
 .ring-text {
-  position: absolute;
-  inset: 0;
   display: grid;
   align-content: center;
   justify-items: center;
-  color: var(--ink);
+  padding-bottom: 0.5em;
 }
 .ring-text b {
-  font: 800 1.75em/1 var(--display);
+  color: inherit; /* цвет плашки задаёт Ring через style, перебиваем лавандовый у .dither */
+  font: 800 2.1em/1 var(--mono);
   font-variant-numeric: tabular-nums;
 }
 .ring-text small {
-  margin-top: 0.25em;
-  color: var(--muted);
-  font-size: 0.7em;
-  font-weight: 700;
+  margin-top: 0.4em;
+  color: var(--dim);
+  font: 600 0.62em/1.2 var(--mono);
+  letter-spacing: 0.06em;
+  text-align: center;
 }
 .ring-text small:empty {
   display: none;
 }
+.ring-seg {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 11%;
+  display: flex;
+  gap: 2px;
+  height: 0.3em;
+}
+.ring-seg s {
+  flex: 1;
+  background: var(--line2);
+  transition: background-color 0.1s;
+}
+.ring-seg s.is-on {
+  background: currentColor;
+}
 .ring-crown {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 28px;
-  height: 28px;
+  top: -7px;
+  right: -7px;
+  width: 26px;
+  height: 26px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ffd35c, #ff9d2e);
-  color: #3a2400;
-  box-shadow: 0 6px 14px -4px rgba(255, 160, 40, 0.7);
-  animation: pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  background: #e0b64a;
+  color: #2b1d07;
+  animation: pop 0.4s steps(3) both;
 }
 @keyframes pop {
   from {
-    transform: scale(0) rotate(-40deg);
+    transform: scale(0);
   }
 }
 
-/* ───────── «дуэльные» полоски ───────── */
+/* ───────── «дуэльные» полоски: шкала из делений ───────── */
 .duel {
   padding: 13px 0;
 }
@@ -454,29 +546,29 @@ a {
   margin-bottom: 8px;
 }
 .duel-label {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 15px;
 }
 .duel-label small {
   display: block;
   margin-top: 2px;
-  color: var(--muted);
+  color: var(--faint);
   font-size: 12.5px;
   font-weight: 500;
 }
 .duel-badge {
   flex: none;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
+  padding: 4px 7px;
+  font: 700 10.5px/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .duel-badge.is-a {
-  background: var(--a-soft);
+  background: var(--a-f);
   color: var(--a-ink);
 }
 .duel-badge.is-b {
-  background: var(--b-soft);
+  background: color-mix(in srgb, var(--b) 16%, var(--bg));
   color: var(--b-ink);
 }
 .duel-line {
@@ -486,45 +578,41 @@ a {
   gap: 12px;
   margin-top: 6px;
 }
+/* дорожка и заливка — деления 6 px через 2 px */
 .duel-track {
   height: 10px;
   overflow: hidden;
-  border-radius: 999px;
-  background: var(--soft);
+  background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 8px);
 }
 .duel-track i {
   display: block;
-  width: 0;
-  height: 100%;
-  border-radius: 999px;
-  transition: width 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.sec.in .duel-track i {
   width: var(--w);
+  height: 100%;
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
+  mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
 }
 .duel-line.is-a i {
-  background: linear-gradient(90deg, color-mix(in srgb, var(--a) 55%, transparent), var(--a));
+  background: color-mix(in srgb, var(--a) 55%, var(--bg));
 }
 .duel-line.is-b i {
-  background: linear-gradient(90deg, color-mix(in srgb, var(--b) 55%, transparent), var(--b));
+  background: color-mix(in srgb, var(--b) 55%, var(--bg));
 }
 .duel-line b {
   min-width: 70px;
   text-align: right;
-  font-size: 15px;
-  font-weight: 600;
+  font: 600 14px var(--mono);
   font-variant-numeric: tabular-nums;
-  color: var(--muted);
+  color: var(--dim);
 }
 .duel-line.is-win b {
   color: var(--ink);
   font-weight: 800;
 }
 .duel-line.is-win.is-a .duel-track i {
-  box-shadow: 0 0 14px -2px var(--a);
+  background: var(--a);
 }
 .duel-line.is-win.is-b .duel-track i {
-  box-shadow: 0 0 14px -2px var(--b);
+  background: var(--b);
 }
 
 /* ───────── поиск телефона (комбобокс) ───────── */
@@ -532,6 +620,8 @@ a {
   --acc: var(--a);
   --acc-ink: var(--a-ink);
   --acc-soft: var(--a-soft);
+  --acc-f: var(--a-f);
+  --notch: polygon(2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 2px 2px);
   position: relative;
   min-width: 0;
 }
@@ -539,52 +629,76 @@ a {
   --acc: var(--b);
   --acc-ink: var(--b-ink);
   --acc-soft: var(--b-soft);
+  --acc-f: color-mix(in srgb, var(--b) 16%, var(--bg));
 }
 .ps-label {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
-  color: var(--muted);
-  font-size: 12.5px;
-  font-weight: 800;
-  letter-spacing: 0.07em;
+  color: var(--dim);
+  font: 600 11px/1 var(--mono);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 .ps-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
   background: var(--acc);
-  box-shadow: 0 0 0 4px var(--acc-soft);
 }
+/* поле: колодец со ступенчатыми углами; в фокусе по низу пробегает полоса цвета слота */
 .ps-field {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 58px;
-  padding: 0 10px 0 14px;
-  border-radius: 16px;
-  border: 1.5px solid var(--line);
-  background: var(--solid);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  height: 52px;
+  padding: 0 8px 0 14px;
+  border: 1px solid var(--line2);
+  background: var(--well);
+  clip-path: var(--notch);
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.ps-field::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--acc);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.28s steps(8);
 }
 .ps-field:hover {
-  border-color: color-mix(in srgb, var(--acc) 45%, var(--line));
+  border-color: var(--line3);
 }
 .ps-field:focus-within {
-  border-color: var(--acc);
-  box-shadow: 0 0 0 4px var(--acc-soft);
+  border-color: color-mix(in srgb, var(--acc) 60%, var(--line2));
+  background: color-mix(in srgb, var(--acc) 4%, var(--well));
+}
+.ps-field:focus-within::after {
+  transform: none;
 }
 .ps-lead {
   flex: none;
   min-width: 26px;
   display: grid;
   place-items: center;
-  color: var(--muted);
+  color: var(--dim);
+  transition: color 0.15s;
 }
 .ps-field:focus-within .ps-lead {
   color: var(--acc);
+}
+.ps-field:focus-within .ps-lead svg {
+  animation: lens 0.5s steps(4);
+}
+@keyframes lens {
+  50% {
+    transform: rotate(-18deg) scale(1.15);
+  }
 }
 .ps-lead .pa {
   --ph: 40px;
@@ -599,77 +713,85 @@ a {
   border: 0;
   outline: 0;
   background: transparent;
-  font-size: 16px;
-  font-weight: 700;
+  caret-color: var(--acc);
+  font-size: 15.5px;
+  font-weight: 600;
 }
 .ps-field input::placeholder {
-  color: var(--muted);
+  color: var(--faint);
   font-weight: 500;
 }
 .ps-clear {
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: var(--soft);
-  color: var(--muted);
-  transition: color 0.2s, background 0.2s, transform 0.2s;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--dim);
+  transition: color 0.15s, border-color 0.15s, transform 0.15s steps(2);
 }
 .ps-clear:hover {
+  border-color: var(--line2);
   color: var(--ink);
-  background: var(--acc-soft);
   transform: rotate(90deg);
 }
 
-/* выпадающая панель: бренды → список → подсказки клавиш */
+/* выпадающая панель: бренды → список → подсказки клавиш.
+   Раскрывается шторкой сверху вниз (вверх — если открылась над полем), по верху — полоса цвета слота. */
 .ps-pop {
   position: absolute;
   z-index: 60;
-  top: calc(100% + 10px);
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   max-height: 460px;
   overflow: hidden;
-  border-radius: 20px;
-  border: 1px solid color-mix(in srgb, var(--acc) 22%, var(--line));
-  background: var(--solid);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--acc) 6%, transparent), 0 32px 70px -24px rgba(10, 8, 40, 0.55);
-  transform-origin: top center;
-  animation: drop 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border: 1px solid var(--line3);
+  border-top: 2px solid var(--acc);
+  background:
+    var(--tex, none) 0 0 / 96px 96px,
+    var(--surf2);
+  image-rendering: pixelated;
+  box-shadow:
+    8px 8px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(0, 0, 0, 0.4);
+  animation: ps-unfold 0.24s steps(6) both;
 }
 .ps-pop.is-up {
   top: auto;
-  bottom: calc(100% + 10px);
-  transform-origin: bottom center;
-  animation-name: drop-up;
+  bottom: calc(100% + 8px);
+  border-top-width: 1px;
+  border-bottom: 2px solid var(--acc);
+  animation-name: ps-unfold-up;
 }
-@keyframes drop {
+@keyframes ps-unfold {
   from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.98);
+    clip-path: inset(0 -20px 100% 0);
+  }
+  to {
+    clip-path: inset(0 -20px -20px 0);
   }
 }
-@keyframes drop-up {
+@keyframes ps-unfold-up {
   from {
-    opacity: 0;
-    transform: translateY(8px) scale(0.98);
+    clip-path: inset(100% -20px -20px 0);
+  }
+  to {
+    clip-path: inset(0 -20px -20px 0);
   }
 }
 .ps-brands {
   flex: none;
   display: flex;
-  gap: 6px;
-  padding: 10px 10px 8px;
+  gap: 5px;
+  padding: 10px 8px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line2);
   scrollbar-width: none;
-  /* края ленты растворяются: видно, что её можно листать */
-  mask-image: linear-gradient(90deg, transparent, #000 10px, #000 calc(100% - 24px), transparent);
 }
 .ps-brands::-webkit-scrollbar {
   display: none;
@@ -679,60 +801,104 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 32px;
-  padding: 0 11px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--soft);
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--line2);
+  background: var(--well);
   color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  font-size: 12.5px;
+  font-weight: 600;
+  clip-path: var(--notch);
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s, transform 0.14s steps(2);
+  animation: chip-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 28ms + 60ms);
+}
+@keyframes chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }
 .ps-brands button small {
-  color: var(--muted);
-  font-size: 11.5px;
-  font-weight: 800;
+  color: var(--faint);
+  font: 600 10.5px var(--mono);
 }
 .ps-brands button:hover {
-  border-color: color-mix(in srgb, var(--acc) 45%, var(--line));
-  background: var(--acc-soft);
+  border-color: color-mix(in srgb, var(--acc) 50%, var(--line3));
+  color: var(--acc-ink);
+  transform: translateY(-2px);
 }
 .ps-brands button.is-on {
   border-color: var(--acc);
   background: var(--acc);
-  color: #fff;
-}
-.ps-b .ps-brands button.is-on {
-  color: #1a1000;
+  color: var(--bg);
+  transform: none;
 }
 .ps-brands button.is-on small {
   color: inherit;
-  opacity: 0.75;
+  opacity: 0.7;
 }
 .ps-list {
   flex: 1 1 auto;
   min-height: 0;
   margin: 0;
-  padding: 6px;
+  padding: 4px;
   overflow: auto;
+  background: var(--surf2); /* непрозрачный фон — прокрутка идёт на видеокарте, без перерисовки */
   overscroll-behavior: contain;
   list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line3) transparent;
 }
+/* строки выезжают слева каскадом; подсвеченная — с полосой и фоном цвета слота, телефон чуть подпрыгивает */
 .ps-list li {
+  position: relative;
+  /* строки за краем прокрутки браузер не рисует, пока до них не долистали */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 64px;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 7px 10px 7px 8px;
-  border-radius: 14px;
+  padding: 6px 10px 6px 10px;
   cursor: pointer;
-  transition: background 0.12s, box-shadow 0.12s;
+  animation: row-in 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 22ms + 70ms);
+}
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+.ps-list li + li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 70px;
+  right: 10px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line2) 0 2px, transparent 2px 5px);
+}
+.ps-list li::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 3px;
+  background: var(--acc);
+  transform: scaleY(0);
+  transition: transform 0.16s steps(3);
 }
 .ps-list li.is-hi {
-  background: var(--acc-soft);
-  box-shadow: inset 3px 0 0 var(--acc);
+  background: linear-gradient(90deg, var(--acc-f), color-mix(in srgb, var(--acc-f) 40%, transparent));
+}
+.ps-list li.is-hi::after {
+  transform: none;
+}
+.ps-list li.is-hi::before,
+.ps-list li.is-hi + li::before {
+  opacity: 0;
 }
 .ps-art {
   flex: none;
@@ -740,55 +906,121 @@ a {
   place-items: center;
   width: 48px;
   height: 52px;
-  border-radius: 12px;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--acc) 16%, transparent), transparent);
-  transition: transform 0.2s;
+  transition: transform 0.16s steps(2);
 }
-.is-hi .ps-art {
-  transform: scale(1.08);
+.ps-list li.is-hi .ps-art {
+  transform: translateY(-3px) rotate(-4deg);
 }
 .ps-name {
   flex: 1;
   min-width: 0;
+  transition: transform 0.16s steps(2);
+}
+.ps-list li.is-hi .ps-name {
+  transform: translateX(3px);
 }
 .ps-name b {
   display: -webkit-box;
   overflow: hidden;
-  font-size: 15px;
+  font-size: 14.5px;
+  font-weight: 600;
   line-height: 1.3;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  transition: color 0.15s;
+}
+.ps-list li.is-hi .ps-name b {
+  color: var(--acc-ink);
 }
 .ps-name small {
-  color: var(--muted);
-  font-size: 12.5px;
+  color: var(--faint);
+  font: 500 11.5px var(--mono);
 }
 .ps-name em {
-  color: var(--acc-ink);
+  margin-left: 6px;
+  padding: 1px 5px;
+  background: var(--acc);
+  color: var(--bg);
   font-style: normal;
   font-weight: 800;
 }
 .ps-price {
   flex: none;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
+  color: var(--dim);
+  font: 600 12.5px var(--mono);
   font-variant-numeric: tabular-nums;
 }
-/* оценка — кольцо, заполненное на свою долю из 100 */
+/* оценка — число и шкала из пяти квадратиков под ним */
 .ps-score {
   flex: none;
   display: grid;
+  justify-items: center;
+  gap: 5px;
+  width: 42px;
+  padding: 6px 0 5px;
+  border: 1px solid var(--line2);
+  background: var(--well);
+  clip-path: var(--notch);
+  transition: border-color 0.15s;
+}
+.ps-score b {
+  font: 800 13px/1 var(--mono);
+}
+.ps-score i {
+  display: flex;
+  gap: 2px;
+}
+.ps-score s {
+  width: 4px;
+  height: 4px;
+  background: var(--line2);
+}
+.ps-score s.is-on {
+  background: var(--acc);
+}
+.ps-list li.is-hi .ps-score {
+  border-color: color-mix(in srgb, var(--acc) 60%, var(--line2));
+}
+/* при наведении деления загораются по очереди */
+.ps-list li.is-hi .ps-score s.is-on {
+  animation: seg-on 0.3s steps(1) both;
+}
+.ps-list li.is-hi .ps-score s:nth-child(2) {
+  animation-delay: 40ms;
+}
+.ps-list li.is-hi .ps-score s:nth-child(3) {
+  animation-delay: 80ms;
+}
+.ps-list li.is-hi .ps-score s:nth-child(4) {
+  animation-delay: 120ms;
+}
+.ps-list li.is-hi .ps-score s:nth-child(5) {
+  animation-delay: 160ms;
+}
+@keyframes seg-on {
+  0% {
+    background: var(--line2);
+  }
+  50% {
+    background: #fff;
+  }
+}
+/* стрелка «выбрать» выдвигается у подсвеченной строки */
+.ps-go {
+  flex: none;
+  display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background:
-    radial-gradient(closest-side, var(--solid) 76%, transparent 78%),
-    conic-gradient(var(--acc) calc(var(--v) * 1%), color-mix(in srgb, var(--ink) 10%, transparent) 0);
-  font: 800 12px/1 var(--display);
-  letter-spacing: -0.03em;
+  width: 16px;
+  margin-left: -4px;
+  color: var(--acc);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.16s steps(3), transform 0.16s steps(3);
+}
+.ps-list li.is-hi .ps-go {
+  opacity: 1;
+  transform: none;
 }
 .ps-empty {
   display: grid;
@@ -800,22 +1032,36 @@ a {
   font-size: 14px;
   text-align: center;
 }
+.ps-empty svg {
+  color: var(--acc);
+  animation: bob 1.2s steps(2) infinite;
+}
 .ps-foot {
   flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 9px 14px;
-  border-top: 1px solid var(--line);
-  background: var(--soft);
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
+  padding: 8px 12px;
+  border-top: 1px solid var(--line2);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--faint);
+  font: 500 11.5px/1 var(--mono);
 }
 .ps-foot > span {
   white-space: nowrap;
 }
+@media (prefers-reduced-motion: reduce) {
+  .ps-pop,
+  .ps-brands button,
+  .ps-list li,
+  .ps-score s,
+  .ps-empty svg,
+  .ps-lead svg {
+    animation: none !important;
+  }
+}
+
 kbd {
   display: inline-grid;
   place-items: center;
@@ -823,12 +1069,11 @@ kbd {
   height: 20px;
   margin: 0 1px;
   padding: 0 5px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line3);
   border-bottom-width: 2px;
-  border-radius: 6px;
-  background: var(--solid);
+  background: var(--well);
   color: var(--ink);
-  font: 700 11px/1 var(--font);
+  font: 700 10.5px/1 var(--mono);
 }
 /* на сенсорных экранах клавиш нет — подсказки не нужны */
 @media (hover: none) {
@@ -838,7 +1083,6 @@ kbd {
 }
 mark {
   padding: 0 1px;
-  border-radius: 4px;
   background: color-mix(in srgb, var(--acc, var(--a)) 30%, transparent);
   color: inherit;
 }
@@ -850,14 +1094,12 @@ mark {
   gap: 8px;
   height: 42px;
   padding: 0 12px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--soft);
-  color: var(--muted);
+  border: 1px solid var(--line2);
+  background: var(--well);
+  color: var(--dim);
 }
 .spec-search:focus-within {
   border-color: var(--a);
-  box-shadow: 0 0 0 3px var(--a-soft);
 }
 .spec-search input {
   flex: 1;
@@ -874,9 +1116,8 @@ mark {
   width: 24px;
   height: 24px;
   border: 0;
-  border-radius: 50%;
-  background: var(--soft);
-  color: var(--muted);
+  background: none;
+  color: var(--dim);
 }
 
 .toast {
@@ -885,14 +1126,14 @@ mark {
   bottom: 26px;
   z-index: 90;
   padding: 12px 18px;
-  border-radius: 14px;
-  background: var(--ink);
+  background: var(--a);
   color: var(--bg);
   font-weight: 700;
+  box-shadow: 6px 6px 0 var(--a-f);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, 20px);
-  transition: opacity 0.25s, transform 0.25s;
+  transition: opacity 0.2s steps(3), transform 0.2s steps(3);
 }
 .toast.is-on {
   opacity: 1;
@@ -907,19 +1148,27 @@ mark {
   text-align: center;
 }
 .lost h1 {
-  font: 800 28px var(--display);
+  font: 300 clamp(32px, 5vw, 52px) / 1.1 var(--font);
+  letter-spacing: -0.04em;
 }
 .lost p {
   color: var(--muted);
 }
 
+/* подвал: тонкая линия сверху, мелкий приглушённый текст */
 .ftr {
   margin-top: 72px;
   padding: 30px 0 56px;
   border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 13.5px;
+  color: var(--faint);
+  font-size: 13px;
   line-height: 1.7;
+}
+.ftr a {
+  color: var(--dim);
+}
+.ftr a:hover {
+  color: var(--ink);
 }
 .ftr .wrap {
   display: grid;
@@ -945,9 +1194,6 @@ mark {
   }
   .card-body {
     padding: 16px;
-  }
-  .logo span:not(.logo-mark) {
-    display: none;
   }
 }
 

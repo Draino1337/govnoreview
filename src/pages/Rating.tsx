@@ -5,6 +5,7 @@ import { analyze } from '../lib/analysis.ts';
 import { overall, type CatId } from '../lib/score.ts';
 import { hrefOf } from '../router.ts';
 import { Icon } from '../components/Icon.tsx';
+import { Flip } from '../components/Flip.tsx';
 import { PhoneArt } from '../components/PhoneArt.tsx';
 
 type TopId = 'all' | CatId;
@@ -70,11 +71,10 @@ export function Rating({ slug }: { slug: string }) {
   return (
     <div className="wrap rt">
       <header className="rt-head">
-        <p className="eyebrow">
-          <Icon name="trophy" size={15} />
-          Рейтинг смартфонов
-        </p>
-        <h1>{top.title}</h1>
+        <p className="label">Рейтинг смартфонов</p>
+        <h1>
+          <Flip text={top.title} delay={0.05} step={0.025} />
+        </h1>
         <p className="rt-lead">
           {top.desc}. Все {models(rows.length)} каталога, оценка из 100.
         </p>
@@ -103,7 +103,7 @@ export function Rating({ slug }: { slug: string }) {
               <span className="pod-name">{fullName(r.p)}</span>
               <span className="pod-meta">{meta(r.p)}</span>
               <span className="pod-step">
-                <b className="pod-score">{r.score ?? 'н/д'}</b>
+                <b className="pod-score dither dither-sm">{r.score ?? 'н/д'}</b>
                 <small>{i + 1} место</small>
               </span>
             </a>
@@ -114,7 +114,7 @@ export function Rating({ slug }: { slug: string }) {
       <ol className="rt-list" start={4} aria-label="Остальные места">
         {shown.map((r, k) => (
           <li key={r.p.id}>
-            <a className="rt-row" {...link(k + 3)}>
+            <a className="rt-row rv" {...link(k + 3)}>
               <span className="rt-rank">{k + 4}</span>
               <PhoneArt phone={r.p} size="xs" />
               <span className="rt-name">

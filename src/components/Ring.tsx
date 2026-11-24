@@ -9,20 +9,21 @@ interface Props {
   leader?: boolean;
 }
 
+/** Оценка в пиксельной плашке: число из квадратиков и шкала из десяти делений, которая набирается вместе с числом. */
 export function Ring({ value, color, size = 96, caption = 'из 100', leader = false }: Props) {
   const v = useTween(value, 900);
-  const r = 44;
-  const c = 2 * Math.PI * r;
+  const lit = Math.round(v / 10);
   return (
-    <div className={`ring${leader ? ' is-leader' : ''}`} style={{ width: size, height: size, fontSize: (size / 96) * 16, color }} role="img" aria-label={`${value} — ${caption}`}>
-      <svg viewBox="0 0 100 100" width={size} height={size}>
-        <circle cx="50" cy="50" r={r} className="ring-track" />
-        <circle cx="50" cy="50" r={r} className="ring-bar" strokeDasharray={c} strokeDashoffset={c * (1 - v / 100)} transform="rotate(-90 50 50)" />
-      </svg>
+    <div className={`ring px px-well${leader ? ' is-leader' : ''}`} style={{ width: size, height: size, fontSize: (size / 96) * 16, color }} role="img" aria-label={`${value} — ${caption}`}>
       <div className="ring-text">
-        <b>{Math.round(v)}</b>
+        <b className="dither dither-sm">{Math.round(v)}</b>
         <small>{caption}</small>
       </div>
+      <i className="ring-seg" aria-hidden="true">
+        {Array.from({ length: 10 }, (_, i) => (
+          <s key={i} className={i < lit ? 'is-on' : undefined} />
+        ))}
+      </i>
       {leader && (
         <span className="ring-crown" title="Лидер сравнения">
           <Icon name="trophy" size={14} />

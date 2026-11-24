@@ -9,25 +9,14 @@
 
 /* ───────── шапка сравнения ───────── */
 .hero {
-  position: relative;
+  --c: 6px;
+  --fill: #111114;
+  --rim: #34333b;
   padding: 30px 24px 24px;
-  overflow: hidden;
-  animation: rise 0.6s both;
 }
-/* открытый поиск «Сменить» не обрезается краем карточки и лежит поверх разделов ниже */
+/* открытый поиск «Сменить» лежит поверх разделов ниже */
 .hero:has(.ps.is-open) {
   z-index: 45; /* выше липкой навигации разделов (40), ниже шапки (50) */
-  overflow: visible;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: -20% -10% auto;
-  height: 80%;
-  pointer-events: none;
-  background:
-    radial-gradient(38% 60% at 24% 42%, var(--a-soft), transparent 72%),
-    radial-gradient(38% 60% at 76% 42%, var(--b-soft), transparent 72%);
 }
 /* Шесть общих строк: кольцо, телефон, название, параметры, цена, кнопка. Обе колонки (.side) берут их
    через subgrid, поэтому строка одинаково высокая слева и справа — даже если название или параметры
@@ -69,18 +58,18 @@
   align-self: center; /* кадры у двух телефонов разной ширины, а значит и высоты: держим их по центру строки */
 }
 .side-name {
-  font: 800 22px/1.15 var(--display);
-  letter-spacing: -0.025em;
+  font: 600 24px/1.15 var(--font);
+  letter-spacing: -0.035em;
 }
 .side-a .side-name {
-  color: var(--a-ink);
+  color: var(--a);
 }
 .side-b .side-name {
-  color: var(--b-ink);
+  color: var(--b);
 }
 .side-meta {
-  color: var(--muted);
-  font-size: 14px;
+  color: var(--faint);
+  font: 500 12px/1.4 var(--mono);
 }
 .side-chip,
 .chip-v {
@@ -95,17 +84,16 @@
 }
 .chip-logo {
   flex: none;
-  border-radius: 7px;
+  border-radius: 2px;
 }
 .side-price {
-  font-size: 17px;
-  font-weight: 800;
+  font: 800 18px var(--mono);
 }
 .side-price small {
   display: inline-block; /* «при выходе» переносится целиком, а не по слову */
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 600;
+  color: var(--faint);
+  font-size: 11.5px;
+  font-weight: 500;
 }
 .side .ps {
   width: min(100%, 300px);
@@ -135,31 +123,30 @@
   gap: 14px;
 }
 .vs span {
-  font: 800 30px var(--display);
-  background: linear-gradient(135deg, var(--a), var(--b));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--dim);
+  font: 800 26px var(--mono);
 }
 .swap {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--solid);
-  box-shadow: var(--shadow);
-  transition: transform 0.4s, border-color 0.2s;
+  border: 1px solid var(--line2);
+  background: var(--well);
+  color: var(--muted);
+  transition: transform 0.3s steps(4), border-color 0.15s, color 0.15s;
 }
 .swap:hover {
   transform: rotate(180deg);
   border-color: var(--a);
+  color: var(--a);
 }
 .hero-intro {
   position: relative;
   max-width: 780px;
-  margin: 20px auto 0;
+  margin: 22px auto 0;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line2);
   color: var(--muted);
   line-height: 1.65;
   text-align: center;
@@ -176,12 +163,9 @@
   gap: 12px;
   height: var(--nav);
   margin-top: 16px;
-  padding: 0 10px;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 84%, transparent);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(16px);
+  padding: 0 8px;
+  border: 1px solid var(--line2);
+  background: color-mix(in srgb, var(--solid) 97%, transparent);
 }
 .subnav-pills {
   display: flex;
@@ -194,23 +178,21 @@
   display: none;
 }
 .subnav-pills button {
-  height: 38px;
-  padding: 0 14px;
+  height: 36px;
+  padding: 0 13px;
   border: 0;
-  border-radius: 12px;
   background: transparent;
   color: var(--muted);
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 13.5px;
   white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
+  transition: color 0.15s;
 }
 .subnav-pills button:hover {
   color: var(--ink);
-  background: var(--soft);
 }
 .subnav-pills button.is-on {
-  background: var(--ink);
+  background: var(--a);
   color: var(--bg);
 }
 .subnav .legend {
@@ -245,8 +227,7 @@
   align-items: flex-start;
   gap: 10px;
   padding: 11px 13px;
-  border-radius: 12px;
-  background: var(--soft);
+  background: var(--well);
   font-size: 14.5px;
   line-height: 1.45;
 }
@@ -272,8 +253,8 @@
 .final {
   margin-top: 14px;
   padding: 8px 18px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--a-soft), var(--b-soft));
+  border-left: 3px solid var(--a);
+  background: var(--a-f);
 }
 .radar {
   margin: 0;
@@ -295,9 +276,8 @@
   stroke: var(--line);
 }
 .radar-axis text {
-  fill: var(--muted);
-  font-size: 12.5px;
-  font-weight: 700;
+  fill: var(--dim);
+  font: 600 11.5px var(--mono);
 }
 .radar-axis.is-hot text {
   fill: var(--ink);
@@ -306,8 +286,8 @@
   stroke: var(--muted);
 }
 .radar-poly {
-  stroke-width: 2.5;
-  stroke-linejoin: round;
+  stroke-width: 2;
+  stroke-linejoin: miter;
 }
 .radar-poly.radar-a {
   fill: color-mix(in srgb, var(--a) 24%, transparent);
@@ -366,8 +346,8 @@
   color: var(--b-ink);
 }
 .val-vs {
-  color: var(--muted);
-  font: 800 20px var(--display);
+  color: var(--dim);
+  font: 800 20px var(--mono);
 }
 .money {
   display: flex;
@@ -375,11 +355,9 @@
   gap: 6px;
   height: 48px;
   padding: 0 14px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--soft);
-  font-size: 18px;
-  font-weight: 800;
+  border: 1px solid var(--line2);
+  background: var(--well);
+  font: 800 18px var(--mono);
 }
 .money input {
   width: 104px;
@@ -391,7 +369,6 @@
 }
 .money:focus-within {
   border-color: var(--a);
-  box-shadow: 0 0 0 3px var(--a-soft);
 }
 
 /* ───────── таблица характеристик ───────── */
@@ -417,30 +394,29 @@
 }
 .switch-ui {
   position: relative;
-  width: 46px;
-  height: 27px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--soft);
-  transition: background 0.2s;
+  width: 44px;
+  height: 24px;
+  border: 1px solid var(--line2);
+  background: var(--well);
+  transition: background-color 0.15s;
 }
 .switch-ui::after {
   content: '';
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 21px;
-  height: 21px;
-  border-radius: 50%;
-  background: var(--ink);
-  transition: transform 0.2s, background 0.2s;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: var(--dim);
+  transition: transform 0.15s steps(3), background-color 0.15s;
 }
 .switch input:checked + .switch-ui {
-  background: var(--a);
+  border-color: var(--a);
+  background: var(--a-f);
 }
 .switch input:checked + .switch-ui::after {
-  transform: translateX(19px);
-  background: #fff;
+  transform: translateX(20px);
+  background: var(--a);
 }
 .switch input:focus-visible + .switch-ui {
   outline: 2px solid var(--a);
@@ -464,11 +440,10 @@
   gap: 0 8px;
   margin-bottom: 8px;
   padding: 11px 6px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--solid);
+  border: 1px solid var(--line2);
+  background: var(--surf2);
   font-size: 13.5px;
-  font-weight: 800;
+  font-weight: 700;
 }
 .spec-head span {
   padding-left: 8px;
@@ -478,10 +453,10 @@
   padding-left: 10px;
 }
 .spec-head .is-a {
-  color: var(--a-ink);
+  color: var(--a);
 }
 .spec-head .is-b {
-  color: var(--b-ink);
+  color: var(--b);
 }
 .spec-sec {
   margin-top: 8px;
@@ -501,19 +476,21 @@
 .spec-sec-head b {
   display: block;
   font-size: 16px;
+  font-weight: 600;
 }
 .spec-sec-head small {
-  color: var(--muted);
-  font-size: 13px;
+  color: var(--faint);
+  font: 500 11.5px var(--mono);
 }
 .spec-sec-ico {
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
-  border-radius: 11px;
-  background: var(--soft);
+  border: 1px solid var(--line2);
+  background: var(--well);
+  color: var(--a);
 }
 .spec-chev {
   margin-left: auto;
@@ -524,11 +501,10 @@
   transform: rotate(-90deg);
 }
 .spec-cap {
-  padding: 12px 8px 6px;
-  color: var(--muted);
-  font-size: 12.5px;
-  font-weight: 800;
-  letter-spacing: 0.07em;
+  padding: 14px 8px 6px;
+  color: var(--dim);
+  font: 600 11px/1.3 var(--mono);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 .spec-row {
@@ -536,7 +512,6 @@
   grid-template-columns: minmax(130px, 1.1fr) 1fr 1fr;
   gap: 0 8px;
   padding: 0 6px;
-  border-radius: 10px;
   font-size: 14.5px;
 }
 .spec-row:hover {
@@ -549,14 +524,13 @@
 .spec-v {
   margin: 3px 0;
   padding: 8px 10px;
-  border-radius: 10px;
   overflow-wrap: anywhere;
 }
 .spec-v.is-na {
-  color: var(--muted);
+  color: var(--faint);
 }
 .spec-v.is-win {
-  font-weight: 800;
+  font-weight: 700;
 }
 .spec-v.is-win::before {
   content: '▲';
@@ -565,11 +539,13 @@
   vertical-align: 2px;
 }
 .spec-v.is-win.is-a {
-  background: var(--a-soft);
+  box-shadow: inset 2px 0 0 var(--a);
+  background: var(--a-f);
   color: var(--a-ink);
 }
 .spec-v.is-win.is-b {
-  background: var(--b-soft);
+  box-shadow: inset 2px 0 0 var(--b);
+  background: color-mix(in srgb, var(--b) 13%, var(--bg));
   color: var(--b-ink);
 }
 
@@ -586,9 +562,8 @@
 }
 .lens-card {
   padding: 4px 6px 8px;
-  border-radius: 16px;
   border: 1px solid var(--line);
-  background: var(--soft);
+  background: var(--well);
 }
 .lens-card .spec-row,
 .lens-head {
@@ -609,17 +584,17 @@
   line-height: 1.25;
 }
 .lens-head .is-a {
-  color: var(--a-ink);
+  color: var(--a);
 }
 .lens-head .is-b {
-  color: var(--b-ink);
+  color: var(--b);
 }
 
 /* ───────── итоги ───────── */
 .verdict {
   padding: 18px 20px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--a-soft), var(--b-soft));
+  border-left: 3px solid var(--a);
+  background: var(--a-f);
   font-size: 17px;
   line-height: 1.65;
 }
@@ -631,14 +606,14 @@
 }
 .rivals-col h3 {
   margin-bottom: 10px;
-  color: var(--muted);
-  font-size: 13px;
-  letter-spacing: 0.07em;
+  color: var(--dim);
+  font: 600 11px/1.3 var(--mono);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 .rivals-col ul {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   list-style: none;
 }
 .rivals-col a {
@@ -646,23 +621,21 @@
   align-items: center;
   gap: 12px;
   padding: 8px 14px 8px 10px;
-  border-radius: 14px;
   border: 1px solid var(--line);
-  background: var(--soft);
-  font-weight: 700;
+  background: var(--well);
+  font-weight: 600;
   text-decoration: none;
-  transition: transform 0.15s, border-color 0.2s, background 0.2s;
+  transition: border-color 0.15s, background-color 0.15s;
 }
 .rivals-col a:hover {
-  transform: translateX(4px);
-  border-color: var(--a);
-  background: var(--a-soft);
+  border-color: var(--a-deep);
+  background: var(--a-f);
 }
 .rivals-col em {
   margin-left: auto;
-  color: var(--muted);
+  color: var(--dim);
+  font: 800 14px var(--mono);
   font-style: normal;
-  font-weight: 800;
 }
 
 /* ───────── узкие экраны ───────── */

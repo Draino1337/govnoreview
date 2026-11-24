@@ -1,74 +1,204 @@
-/* Главный экран — ровно в одно окно: пока заголовок и выбор телефонов помещаются, страница не прокручивается.
-   Если окно слишком низкое, она прокручивается как обычная — ничего не обрезается (раньше высоту порога
-   приходилось угадывать, и на части экранов терялась сноска внизу). */
+/* ───────── главная ─────────
+   Первый экран — ровно в одно окно: слева огромный заголовок, кнопка и счётчики, справа «окно приложения»
+   с выбором двух телефонов. Если окно низкое, страница просто прокручивается. */
+.home {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
 .home-first {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100svh - var(--hdr));
-}
-.home-hero {
-  margin: auto 0; /* по центру между шапкой и заметкой */
-  padding: 20px 0;
-  text-align: center;
-}
-.eyebrow {
-  display: inline-flex;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 620px);
+  gap: 56px;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--soft);
-  color: var(--muted);
-  font-size: 13px;
+  min-height: calc(100svh - var(--hdr));
+  padding: 40px 0 84px;
+}
+.hero-copy {
+  min-width: 0;
+}
+.hero-title {
+  margin: 22px 0 24px;
+  font: 300 clamp(52px, 6.6vw, 104px) / 0.98 var(--font);
+  letter-spacing: -0.045em;
+}
+/* второе слово — с новой строки, жирное и набранное квадратиками */
+.hero-title .dither {
+  display: block;
   font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.home-hero h1 {
-  max-width: 900px;
-  margin: clamp(10px, 2.4vh, 18px) auto clamp(10px, 2vh, 16px);
-  font: 800 clamp(30px, min(5.4vw, 9vh), 60px) / 1.08 var(--display);
-  letter-spacing: -0.035em;
-}
-.rainbow {
-  background: linear-gradient(90deg, #ff3b30 0%, #ff9500 17%, #ffd60a 33%, #34c759 50%, #00c7be 62%, #0a84ff 78%, #bf5af2 90%, #ff2d92 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  letter-spacing: -0.04em;
 }
 .lead {
-  max-width: 640px;
-  margin: 0 auto clamp(18px, 4vh, 32px);
+  max-width: 440px;
+  margin-bottom: 40px;
   color: var(--muted);
   font-size: 18px;
-  line-height: 1.6;
+  line-height: 1.55;
 }
-/* выбор пары: два слота-витрины, между ними VS */
-.picker {
-  position: relative;
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 26px;
+}
+.hero-btn {
+  --c: 5px;
+  --off: 8px;
+  height: 72px;
+  padding: 0 40px 0 32px;
+  gap: 14px;
+  font-size: 26px;
+  letter-spacing: -0.025em;
+}
+/* счётчик: пунктир слева, цифры из квадратиков */
+.hero-stat {
+  display: grid;
+  gap: 8px;
+  padding-left: 22px;
+  border-left: 2px dotted var(--line3);
+}
+.hero-stat b {
+  color: #d7d4df;
+  font: 800 42px/1 var(--mono);
+  letter-spacing: 0.02em;
+}
+.hero-stat small {
+  color: var(--dim);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.hero-src {
+  margin-top: 26px;
+  color: var(--faint);
+  font: 500 12px/1 var(--mono);
+  letter-spacing: 0.04em;
+}
+.hero-down {
+  position: absolute;
+  left: 0;
+  bottom: 24px;
+  display: grid;
+  color: var(--a);
+  animation: bob 1.6s steps(4) infinite;
+}
+.hero-down svg + svg {
+  margin-top: -11px;
+}
+
+/* ───────── «окно» выбора пары ───────── */
+.win {
+  --c: 6px;
+  --fill: #111114;
+  --rim: #34333b;
   z-index: 5;
+  min-width: 0;
+}
+/* по окну изредка сверху вниз проходит тусклая полоса развёртки, как по старому монитору */
+.win-scan {
+  position: absolute;
+  z-index: 3;
+  top: 40px;
+  left: 1px;
+  right: 1px;
+  bottom: 6px;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* полоса — верхние 2 px слоя во всю высоту окна; слой едет через transform, без пересчёта раскладки */
+.win-scan::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(184, 167, 240, 0.16) 20%, rgba(184, 167, 240, 0.16) 80%, transparent) 0 0 / 100% 2px no-repeat;
+  opacity: 0;
+  animation: win-scan 8s 2s linear infinite;
+}
+@keyframes win-scan {
+  0% {
+    transform: none;
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  32% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  34%,
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+.win-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font: 600 11.5px/1 var(--mono);
+  letter-spacing: 0.02em;
+}
+.win-bar svg {
+  color: var(--a);
+}
+/* сколько моделей выбрано: два квадратика загораются цветами слотов */
+.win-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+.win-stat i {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--line3);
+}
+.win-stat i.is-a,
+.win-stat i.is-b {
+  border-color: transparent;
+  background: var(--a);
+  animation: stat-pop 0.4s steps(4) both;
+}
+.win-stat i.is-b {
+  background: var(--b);
+}
+.win-stat i + i {
+  margin-right: 4px;
+}
+@keyframes stat-pop {
+  0% {
+    transform: scale(0.2);
+  }
+  50% {
+    transform: scale(1.6);
+  }
+}
+
+.picker {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 0 14px;
-  align-items: center;
-  max-width: 920px;
-  margin: 0 auto;
+  gap: 10px;
+  align-items: stretch;
   padding: 16px;
-  text-align: left;
 }
 .slot {
   --acc: var(--a);
   --acc-soft: var(--a-soft);
-  position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: radial-gradient(120% 80% at 50% 0%, var(--acc-soft), transparent 70%), var(--soft);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  padding: 12px;
+  transition: transform 0.18s steps(3);
 }
 .slot-b {
   --acc: var(--b);
@@ -76,8 +206,7 @@
 }
 .slot.is-set,
 .slot:focus-within {
-  border-color: color-mix(in srgb, var(--acc) 45%, var(--line));
-  box-shadow: 0 18px 40px -26px var(--acc);
+  --rim: color-mix(in srgb, var(--acc) 55%, var(--line2));
 }
 /* поиск поднимается над соседним слотом, чтобы его панель была сверху */
 .slot:focus-within {
@@ -87,129 +216,250 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  color: var(--dim);
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 .slot-tag i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
   background: var(--acc);
-  box-shadow: 0 0 0 4px var(--acc-soft);
 }
+.slot:focus-within .slot-tag i {
+  animation: blink 0.8s steps(1) infinite;
+}
+/* номер слота справа: тусклый, у выбранного — в цвет слота */
+.slot-n {
+  margin-left: auto;
+  color: var(--line3);
+  font: 800 11px/1 var(--mono);
+  letter-spacing: 0.1em;
+  transition: color 0.2s steps(2);
+}
+.slot.is-set .slot-n,
+.slot:focus-within .slot-n {
+  color: var(--acc);
+}
+
 .slot-stage {
   position: relative;
   display: grid;
   place-items: center;
-  height: clamp(120px, 20vh, 168px);
-  margin: 10px 0 8px;
+  height: clamp(150px, 23vh, 204px);
+  margin: 10px 0 6px;
   cursor: pointer;
 }
-/* мягкий ореол цвета слота за телефоном */
-.slot-stage::before {
-  content: '';
+/* рамка прицела: четыре уголка. Под курсором и в фокусе сжимаются к краям, при выборе — защёлкиваются */
+.slot-aim {
+  --l: 14px;
+  --t: 2px;
+  --cc: color-mix(in srgb, var(--acc) 38%, transparent);
   position: absolute;
-  inset: 6% 22%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--acc) 40%, transparent), transparent);
-  filter: blur(20px);
-  opacity: 0;
-  transition: opacity 0.4s;
+  inset: 12px 14%;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--cc) 0 0) 0 0 / var(--l) var(--t),
+    linear-gradient(var(--cc) 0 0) 0 0 / var(--t) var(--l),
+    linear-gradient(var(--cc) 0 0) 100% 0 / var(--l) var(--t),
+    linear-gradient(var(--cc) 0 0) 100% 0 / var(--t) var(--l),
+    linear-gradient(var(--cc) 0 0) 0 100% / var(--l) var(--t),
+    linear-gradient(var(--cc) 0 0) 0 100% / var(--t) var(--l),
+    linear-gradient(var(--cc) 0 0) 100% 100% / var(--l) var(--t),
+    linear-gradient(var(--cc) 0 0) 100% 100% / var(--t) var(--l);
+  background-repeat: no-repeat;
+  transition: inset 0.2s steps(4);
 }
-.is-set .slot-stage::before {
-  opacity: 1;
+.slot-stage:hover .slot-aim,
+.slot:focus-within .slot-aim {
+  --cc: color-mix(in srgb, var(--acc) 70%, transparent);
+  inset: 4px 8%;
+}
+.slot.is-set .slot-aim {
+  --cc: var(--acc);
+  inset: 0 6%;
+  animation: aim-lock 0.5s steps(5) backwards;
+}
+@keyframes aim-lock {
+  0% {
+    inset: -14px -2%;
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    inset: 4px 9%;
+  }
+}
+/* площадка под телефоном: дизерное пятно света цвета слота */
+.slot-floor {
+  position: absolute;
+  left: 16%;
+  right: 16%;
+  bottom: 0;
+  height: 22px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--acc) 70%, transparent), transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 2px, transparent 0), linear-gradient(#000 2px, transparent 0);
+  mask-image: linear-gradient(90deg, #000 2px, transparent 0), linear-gradient(#000 2px, transparent 0);
+  -webkit-mask-size: 3px 3px;
+  mask-size: 3px 3px;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: 0.18;
+  pointer-events: none;
+  transition: opacity 0.3s steps(3);
+}
+.slot.is-set .slot-floor {
+  opacity: 0.9;
 }
 .slot-phone {
   position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 100%;
   height: 100%;
-  animation: slot-in 0.45s cubic-bezier(0.2, 0.9, 0.25, 1.2);
+  animation: phone-drop 0.55s cubic-bezier(0.25, 1.5, 0.4, 1) both;
 }
-@keyframes slot-in {
+@keyframes phone-drop {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.92);
+    transform: translateY(-26px);
+  }
+  35% {
+    opacity: 1;
   }
 }
 .slot-phone .pa {
-  --ph: clamp(112px, 18vh, 156px);
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ph: clamp(128px, 20vh, 176px);
+  transition: transform 0.2s steps(3);
 }
 .slot-stage:hover .pa {
-  transform: translateY(-4px) rotate(-2deg);
+  transform: translateY(-5px);
 }
 .slot-score {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 6px;
+  right: 6%;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 4px;
   background: var(--acc);
-  color: #fff;
-  font: 800 15px/1 var(--display);
-  letter-spacing: -0.03em;
-  box-shadow: 0 0 0 4px var(--solid), 0 10px 22px -8px var(--acc);
+  color: var(--bg);
+  font: 800 15px/1 var(--mono);
+  clip-path: polygon(3px 0, calc(100% - 3px) 0, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0 calc(100% - 3px), 0 3px, 3px 3px);
+  box-shadow: 0 0 0 2px var(--bg);
+  animation: score-pop 0.45s 0.25s steps(5) both;
 }
-.slot-b .slot-score {
-  color: #1a1000;
+@keyframes score-pop {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.18);
+  }
 }
-/* пустой слот: пунктирный силуэт телефона с плюсом */
+/* пустой слот: силуэт телефона, по которому сверху вниз бежит луч сканера */
 .slot-ghost {
+  position: relative;
+  z-index: 1;
   display: grid;
   justify-items: center;
-  gap: 10px;
-  color: var(--muted);
-  font-size: 13.5px;
-  font-weight: 700;
-  transition: color 0.2s;
+  gap: 12px;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.15s;
 }
-.slot-ghost span {
+.slot-sil {
+  position: relative;
   display: grid;
   place-items: center;
-  width: clamp(54px, 9vh, 70px);
+  overflow: hidden;
+  width: clamp(56px, 9vh, 72px);
   aspect-ratio: 9 / 18;
-  border: 2px dashed color-mix(in srgb, var(--acc) 45%, var(--line));
-  border-radius: 16px;
+  border: 2px solid color-mix(in srgb, var(--acc) 35%, var(--line2));
+  background: repeating-linear-gradient(transparent 0 3px, color-mix(in srgb, var(--acc) 6%, transparent) 3px 4px);
   color: var(--acc);
-  background: color-mix(in srgb, var(--acc) 7%, transparent);
-  transition: transform 0.3s, background 0.2s;
+  clip-path: polygon(4px 0, calc(100% - 4px) 0, calc(100% - 4px) 2px, calc(100% - 2px) 2px, calc(100% - 2px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 2px) calc(100% - 4px), calc(100% - 2px) calc(100% - 2px), calc(100% - 4px) calc(100% - 2px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 2px), 2px calc(100% - 2px), 2px calc(100% - 4px), 0 calc(100% - 4px), 0 4px, 2px 4px, 2px 2px, 4px 2px);
+  transition: transform 0.15s steps(2), background-color 0.15s, border-color 0.15s;
 }
-.slot-stage:hover .slot-ghost {
+/* «камера» силуэта */
+.slot-sil::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 10px;
+  height: 3px;
+  margin-left: -5px;
+  background: color-mix(in srgb, var(--acc) 40%, var(--line2));
+}
+.slot-sil svg {
+  animation: bob 1.4s steps(2) infinite;
+}
+/* луч — линия со свечением в верхних 10 px слоя высотой с силуэт; слой едет через transform */
+.slot-scan {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(var(--acc), var(--acc)) 0 4px / 100% 2px no-repeat,
+    linear-gradient(transparent, color-mix(in srgb, var(--acc) 35%, transparent) 4px 6px, transparent) 0 0 / 100% 10px no-repeat;
+  opacity: 0.8;
+  animation: scan 2.6s steps(26) infinite;
+}
+@keyframes scan {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+.slot-stage:hover .slot-ghost,
+.slot:focus-within .slot-ghost {
   color: var(--ink);
 }
-.slot-stage:hover .slot-ghost span {
+.slot-stage:hover .slot-sil,
+.slot:focus-within .slot-sil {
   transform: translateY(-3px);
-  background: var(--acc-soft);
+  border-color: var(--acc);
+  background-color: var(--acc-soft);
 }
 .slot-meta {
   overflow: hidden;
   margin-bottom: 10px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 600;
+  color: var(--faint);
+  font: 500 11.5px/1.4 var(--mono);
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.slot.is-set .slot-meta {
+  color: var(--dim);
 }
 /* выбранный телефон уже стоит на витрине — мини-фото в поле лишнее, место отдаём названию */
 .slot .ps-lead:has(.pa) {
   display: none;
 }
 .slot .ps-field:not(:focus-within) {
-  padding-left: 16px;
+  padding-left: 14px;
 }
-/* панель поиска — во всю ширину слота */
+/* слот узкий — панель поиска шире него и ложится поверх соседнего слота */
 .slot .ps-pop {
-  left: -14px;
-  right: -14px;
+  left: -12px;
+  right: auto;
+  width: min(460px, calc(100vw - 32px));
+}
+.slot-b .ps-pop {
+  left: auto;
+  right: -12px;
 }
 /* подпись поля уже есть сверху слота — у поля оставляем её только для экранных дикторов */
 .slot .ps-label {
@@ -220,213 +470,179 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* VS между слотами: пунктирные «провода» сверху и снизу текут к значку */
 .picker-vs {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: conic-gradient(from 200deg, var(--a), var(--b), var(--a));
-  box-shadow: 0 10px 30px -10px var(--a), 0 10px 30px -12px var(--b);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 40px;
+  padding: 18px 0;
 }
-.picker-vs span {
-  display: grid;
-  place-items: center;
-  width: calc(100% - 5px);
-  height: calc(100% - 5px);
-  border-radius: 50%;
-  background: var(--solid);
-  font: 800 15px/1 var(--display);
-  letter-spacing: -0.02em;
+.picker-vs i {
+  flex: 1;
+  width: 2px;
+  background: repeating-linear-gradient(var(--line3) 0 4px, transparent 4px 8px);
+  background-size: 2px 8px;
+  opacity: 0.6;
+  animation: wire 0.9s steps(4) infinite;
 }
-.picker-vs.is-ready {
-  animation: vs-pulse 2.4s ease-in-out infinite;
+.picker-vs i:last-child {
+  animation-direction: reverse;
 }
-@keyframes vs-pulse {
-  50% {
-    transform: scale(1.08);
-    box-shadow: 0 10px 40px -6px var(--a), 0 10px 40px -8px var(--b);
+@keyframes wire {
+  to {
+    background-position: 0 8px;
   }
 }
-.picker-actions {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
+.picker-vs b {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background: var(--well);
+  color: var(--dim);
+  font: 800 13px/1 var(--mono);
+  box-shadow: inset 0 0 0 1px var(--line2);
+  clip-path: polygon(3px 0, calc(100% - 3px) 0, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0 calc(100% - 3px), 0 3px, 3px 3px);
+}
+/* обе модели выбраны — провода загораются цветами слотов, VS вспыхивает и мигает */
+.picker-vs.is-ready i {
+  opacity: 1;
+  background-image: repeating-linear-gradient(var(--a) 0 4px, transparent 4px 8px);
+  animation-duration: 0.45s;
+}
+.picker-vs.is-ready i:last-child {
+  background-image: repeating-linear-gradient(var(--b) 0 4px, transparent 4px 8px);
+}
+.picker-vs.is-ready b {
+  box-shadow: none;
+  color: var(--bg);
+  background: var(--a);
+  animation:
+    vs-in 0.5s steps(5) both,
+    vs-flip 1.2s 0.5s steps(1) infinite;
+}
+@keyframes vs-in {
+  0% {
+    transform: scale(0.4) rotate(-90deg);
+    background: #fff;
+  }
+  60% {
+    transform: scale(1.3);
+  }
+}
+@keyframes vs-flip {
+  50% {
+    background: var(--b);
+  }
+}
+.win-foot {
+  padding: 0 22px 24px 16px;
 }
 .picker-go {
-  min-width: min(100%, 300px);
-  height: 54px;
+  width: 100%;
+  height: 56px;
   font-size: 16px;
-  background: linear-gradient(120deg, var(--a), color-mix(in srgb, var(--a) 45%, var(--b)) 55%, var(--b));
 }
 .picker-go:not(:disabled) svg {
-  transition: transform 0.2s;
+  transition: transform 0.15s steps(2);
 }
 .picker-go:hover:not(:disabled) svg {
   transform: translateX(4px);
 }
+
 @media (prefers-reduced-motion: reduce) {
+  .hero-down,
+  .win-scan::before,
+  .slot-scan,
+  .slot-sil svg,
+  .slot-aim,
   .slot-phone,
-  .picker-vs.is-ready {
+  .slot-score,
+  .win-stat i,
+  .picker-vs i,
+  .picker-vs.is-ready b {
     animation: none;
   }
-}
-.home-note {
-  padding: 8px 0 18px;
-  color: var(--muted);
-  font-size: 12.5px;
-  text-align: center;
+  .win-scan,
+  .slot-scan {
+    display: none;
+  }
 }
 
-/* ───────── Changelog: под первым экраном ───────── */
-/* ссылка на него с первого экрана */
-.cl-teaser {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  align-self: center;
-  margin-bottom: 10px;
-  padding: 6px 14px 6px 6px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--soft);
-  color: var(--ink);
-  font-size: 13.5px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.cl-teaser:hover {
-  background: var(--a-soft);
-}
-.cl-teaser svg {
-  transform: rotate(90deg);
-  color: var(--muted);
-}
+/* ───────── «Что нового» под первым экраном ───────── */
 .cl {
-  max-width: 880px;
-  margin: 8px auto 0;
-  padding: 36px 0 56px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 48px 0 96px;
   scroll-margin-top: var(--hdr);
 }
 .cl-top {
-  margin-bottom: 26px;
-  text-align: center;
+  margin-bottom: 30px;
 }
 .cl-top h2 {
-  margin: 14px 0 8px;
-  font: 800 clamp(24px, 3.4vw, 34px) / 1.15 var(--display);
-  letter-spacing: -0.03em;
+  margin: 16px 0 10px;
+  font: 500 clamp(30px, 4vw, 46px) / 1.08 var(--font);
+  letter-spacing: -0.04em;
 }
 .cl-sub {
   max-width: 560px;
-  margin: 0 auto;
   color: var(--muted);
   font-size: 15px;
   line-height: 1.6;
 }
-/* лента: вертикальная линия слева, у каждой записи — точка */
 .cl-list {
-  position: relative;
   display: grid;
-  gap: 18px;
+  gap: 14px;
   margin: 0;
-  padding: 0 0 0 30px;
+  padding: 0;
   list-style: none;
 }
-.cl-list::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 8px;
-  width: 2px;
-  border-radius: 2px;
-  background: linear-gradient(var(--a), var(--b) 60%, var(--line));
-  opacity: 0.55;
-}
-.cl-item {
-  position: relative;
-}
 .cl-dot {
-  position: absolute;
-  top: 24px;
-  left: -28px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 3px solid var(--bg);
-  background: var(--muted);
-  box-shadow: 0 0 0 1px var(--line);
-}
-.is-latest .cl-dot {
-  background: linear-gradient(135deg, var(--a), var(--b));
-  box-shadow: 0 0 0 4px var(--a-soft);
+  display: none;
 }
 .cl-card {
-  padding: 20px 22px 22px;
-}
-.is-latest .cl-card {
-  border-color: color-mix(in srgb, var(--a) 35%, var(--line));
+  padding: 22px 26px 24px;
 }
 .cl-head {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 10px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
+  gap: 8px 12px;
+  color: var(--dim);
+  font: 500 12px/1 var(--mono);
 }
 .cl-ver {
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--a-soft), var(--b-soft));
-  color: var(--a-ink);
-  font: 800 12.5px var(--display);
+  font: 800 28px/1 var(--mono);
   letter-spacing: 0.02em;
-}
-.cl-new {
-  padding: 4px 9px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--a), var(--b));
-  color: #fff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 .cl-count {
   margin-left: auto;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--good) 14%, transparent);
   color: var(--good);
-  font-weight: 800;
+  font-weight: 700;
 }
 .cl-card h3 {
-  margin: 12px 0 6px;
-  font: 800 20px/1.25 var(--display);
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font: 600 19px/1.3 var(--font);
   letter-spacing: -0.02em;
 }
 .cl-card > p {
-  margin: 0;
+  max-width: 760px;
   color: var(--muted);
   font-size: 14.5px;
   line-height: 1.6;
 }
-/* запись о новой возможности: кнопка-ссылка вместо плиток моделей */
 .cl-link {
-  margin-top: 16px;
+  margin-top: 18px;
 }
-/* модели: плитки в несколько колонок */
 .cl-phones {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 8px;
-  margin: 16px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 6px;
+  margin: 18px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -435,91 +651,89 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  min-height: 60px;
-  padding: 7px 12px 7px 8px;
+  min-height: 58px;
+  padding: 6px 12px 6px 8px;
   border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--soft);
+  background: var(--well);
   color: var(--ink);
-  font: inherit;
   font-size: 13.5px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
   text-align: left;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  transition: border-color 0.15s, background-color 0.15s;
 }
 .cl-phones button:hover {
-  background: var(--a-soft);
-  border-color: color-mix(in srgb, var(--a) 40%, var(--line));
-  transform: translateY(-1px);
-}
-.cl-phones button:focus-visible {
-  outline: 2px solid var(--a);
-  outline-offset: 2px;
+  border-color: var(--a-deep);
+  background: var(--a-f);
 }
 .cl-phones .pa {
   flex: none;
 }
 .cl-more {
-  display: block;
-  margin: 14px auto 0;
-  padding: 9px 18px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--a-ink);
-  font: inherit;
-  font-size: 14px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background 0.2s;
+  display: inline-flex;
+  margin-top: 14px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--a);
+  font: 600 12.5px/1 var(--mono);
+  letter-spacing: 0.04em;
 }
 .cl-more:hover {
-  background: var(--a-soft);
-}
-@media (max-width: 720px) {
-  .cl {
-    padding: 24px 0 40px;
-  }
-  .cl-list {
-    padding-left: 24px;
-  }
-  .cl-dot {
-    left: -22px;
-  }
-  .cl-card {
-    padding: 16px;
-  }
-  .cl-phones {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-  }
-  .cl-phones button {
-    gap: 8px;
-    padding: 6px 8px 6px 6px;
-    font-size: 12.5px;
-  }
+  color: var(--a-ink);
 }
 
+/* ───────── узкие экраны ───────── */
+@media (max-width: 1000px) {
+  .home-first {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    min-height: 0;
+    padding: 36px 0 48px;
+  }
+  .hero-down {
+    display: none;
+  }
+}
 @media (max-width: 720px) {
-  .home-hero {
-    padding: 12px 0;
+  .home {
+    padding: 0 16px;
+  }
+  .home-first {
+    padding-top: 24px;
+  }
+  .hero-title {
+    margin: 16px 0 16px;
+    font-size: clamp(44px, 13vw, 64px);
   }
   .lead {
+    margin-bottom: 28px;
     font-size: 16px;
   }
-  /* на телефоне слоты друг под другом: витрина слева, поле — во всю ширину под ней */
+  /* кнопка — во всю ширину, счётчики — парой под ней */
+  .hero-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-btn {
+    grid-column: 1 / -1;
+    height: 60px;
+    padding: 0 28px 0 22px;
+    font-size: 21px;
+  }
+  .hero-stat b {
+    font-size: 32px;
+  }
+  /* слоты друг под другом: витрина слева, поле — во всю ширину под ней */
   .picker {
     grid-template-columns: 1fr;
-    padding: 10px;
+    padding: 12px;
   }
   .slot {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: 2px 12px;
-    padding: 12px;
+    gap: 4px 12px;
   }
   .slot-tag,
   .slot-meta {
@@ -539,17 +753,15 @@
     top: auto;
     right: -8px;
     bottom: -4px;
-    width: 30px;
-    height: 30px;
+    min-width: 28px;
+    height: 28px;
     font-size: 11.5px;
-    box-shadow: 0 0 0 3px var(--solid);
   }
   .slot-ghost {
     font-size: 0;
   }
-  .slot-ghost span {
+  .slot-sil {
     width: 40px;
-    border-radius: 11px;
   }
   .slot-meta {
     margin: 0;
@@ -561,26 +773,45 @@
   }
   .picker-vs {
     z-index: 1;
-    width: 40px;
-    height: 40px;
-    margin: -12px auto;
+    flex-direction: row;
+    width: auto;
+    margin: -8px auto;
+    padding: 0;
   }
-  .picker-vs span {
-    font-size: 12px;
-  }
-  .picker-actions {
-    margin-top: 12px;
-  }
-  .picker-go {
-    width: 100%;
-  }
-}
-/* невысокие телефоны: описание под заголовком убираем, чтобы выбор телефонов помещался без прокрутки */
-@media (max-width: 720px) and (max-height: 760px) {
-  .lead {
+  .picker-vs i,
+  .slot-floor,
+  .slot-n {
     display: none;
   }
-  .home-hero h1 {
-    margin-bottom: 16px;
+  .picker-vs b {
+    width: 34px;
+    height: 34px;
+    font-size: 11px;
+  }
+  .slot-aim {
+    --l: 8px;
+    inset: 0;
+  }
+  .slot-stage:hover .slot-aim,
+  .slot:focus-within .slot-aim,
+  .slot.is-set .slot-aim {
+    inset: -4px;
+  }
+  .win-foot {
+    padding: 0 18px 20px 12px;
+  }
+  .cl {
+    padding: 24px 0 56px;
+  }
+  .cl-card {
+    padding: 18px 16px;
+  }
+  .cl-phones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cl-phones button {
+    gap: 8px;
+    padding: 6px 8px 6px 6px;
+    font-size: 12.5px;
   }
 }

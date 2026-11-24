@@ -75,7 +75,8 @@ export function parsePair(slug: string): [Phone, Phone] | null {
   return a && b && a !== b ? [a, b] : null;
 }
 
-const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+// именительный падеж: «октябрь 2016» — подпись стоит сама по себе, без «в»/«от»
+const MONTHS = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
 export const monthYear = (ym: string) => {
   const [y, m] = ym.split('-').map(Number);
   return m ? `${MONTHS[m - 1]} ${y}` : String(y);

@@ -23,10 +23,10 @@ function Entry({ e, latest, onPick }: { e: (typeof CHANGELOG)[number]; latest: b
   return (
     <li className={`cl-item${latest ? ' is-latest' : ''}`}>
       <span className="cl-dot" aria-hidden="true" />
-      <article className="card cl-card">
+      <article className="card cl-card hov rv">
         <header className="cl-head">
-          <span className="cl-ver">v{e.version}</span>
-          {latest && <span className="cl-new">Новое</span>}
+          <span className="cl-ver dither dither-sm">{e.version}</span>
+          {latest && <span className="chip">новое</span>}
           <time dateTime={e.date}>{dateRu(e.date)}</time>
           {phones.length > 0 && <span className="cl-count">+{models(phones.length)}</span>}
         </header>
@@ -40,7 +40,7 @@ function Entry({ e, latest, onPick }: { e: (typeof CHANGELOG)[number]; latest: b
         )}
         {phones.length > 0 && <ul className="cl-phones">
           {shown.map((p) => (
-            <li key={p.id}>
+            <li key={p.id} className="rv">
               <button type="button" onClick={() => onPick(p)} title={`Добавить ${fullName(p)} в сравнение`}>
                 <PhoneArt phone={p} size="xs" />
                 <span>{fullName(p)}</span>
@@ -63,8 +63,8 @@ export function Changelog({ onPick }: { onPick: (p: Phone) => void }) {
   return (
     <section className="cl" id="cl" aria-labelledby="cl-title">
       <div className="cl-top">
-        <p className="eyebrow">Changelog</p>
-        <h2 id="cl-title">Что нового на сайте</h2>
+        <p className="label">Что нового</p>
+        <h2 id="cl-title">Обновления каталога</h2>
         <p className="cl-sub">Что и когда появилось на сайте: новые смартфоны и возможности. Нажмите на модель, чтобы добавить её в сравнение.</p>
       </div>
       <ol className="cl-list">

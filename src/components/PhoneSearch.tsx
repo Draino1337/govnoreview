@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import type { Phone } from '../types.ts';
 import { PHONES, fullName, models, searchPhones } from '../lib/phones.ts';
 import { analyze } from '../lib/analysis.ts';
@@ -35,6 +35,67 @@ function Mark({ text, q }: { text: string; q: string }) {
     </>
   );
 }
+
+// итоговая оценка считается один раз на модель, а не при каждой перерисовке списка
+const scoreOf = new Map<string, number>();
+const score = (p: Phone) => {
+  let s = scoreOf.get(p.id);
+  if (s == null) scoreOf.set(p.id, (s = overall(analyze(p).s)));
+  return s;
+};
+
+interface RowProps {
+  p: Phone;
+  i: number;
+  oid: string;
+  q: string;
+  hi: boolean;
+  cur: boolean;
+  onHover: (i: number) => void;
+  onPick: (p: Phone) => void;
+}
+
+/** Строка списка. memo: при движении мыши перерисовываются только две строки — старая и новая подсвеченная. */
+const Row = memo(function Row({ p, i, oid, q, hi, cur, onHover, onPick }: RowProps) {
+  const s = score(p);
+  return (
+    <li
+      id={oid}
+      role="option"
+      aria-selected={hi}
+      className={`${hi ? 'is-hi' : ''}${cur ? ' is-cur' : ''}`}
+      style={{ '--i': Math.min(i, 10) } as CSSProperties}
+      onMouseEnter={() => onHover(i)}
+      onClick={() => onPick(p)}
+    >
+      <span className="ps-art">
+        <PhoneArt phone={p} size="xs" />
+      </span>
+      <span className="ps-name">
+        <b>
+          <Mark text={fullName(p)} q={q} />
+        </b>
+        <small>
+          {p.tier} · {p.released.slice(0, 4)}
+          {cur && <em>выбран</em>}
+        </small>
+      </span>
+      {p.price > 0 && <span className="ps-price">${p.price}</span>}
+      {/* оценка: число и шкала из пяти делений */}
+      <span className="ps-score" title="Итоговая оценка из 100">
+        <b>{s}</b>
+        <i aria-hidden="true">
+          {[0, 1, 2, 3, 4].map((k) => (
+            <s key={k} className={k < Math.round(s / 20) ? 'is-on' : undefined} />
+          ))}
+        </i>
+      </span>
+      <span className="ps-go" aria-hidden="true">
+        <Icon name="arrow" size={14} />
+      </span>
+    </li>
+  );
+});
 
 export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange, onDismiss }: Props) {
   const id = useId();
@@ -88,9 +149,13 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
     return () => el.removeEventListener('wheel', wheel);
   }, [chips]);
 
-  // при выборе стрелками подсвеченная строка не должна уезжать за край прокрутки
+  // при выборе стрелками подсвеченная строка не должна уезжать за край прокрутки;
+  // при наведении мышью строка и так на виду — лишний пересчёт раскладки не нужен
   const listRef = useRef<HTMLUListElement>(null);
+  const byKey = useRef(false);
   useEffect(() => {
+    if (!byKey.current) return;
+    byKey.current = false;
     listRef.current?.querySelector('.is-hi')?.scrollIntoView({ block: 'nearest' });
   }, [hi]);
 
@@ -100,6 +165,10 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
     setQ('');
     input.current?.blur();
   };
+  // постоянная ссылка на выбор — чтобы memo-строки не перерисовывались из-за новой функции
+  const pickRef = useRef(pick);
+  pickRef.current = pick;
+  const onPick = useCallback((p: Phone) => pickRef.current(p), []);
   const query = (s: string) => {
     setQ(s);
     setHi(0);
@@ -109,9 +178,11 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
   const onKey = (e: KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
+      byKey.current = true;
       setHi((h) => Math.min(list.length - 1, h + 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
+      byKey.current = true;
       setHi((h) => Math.max(0, h - 1));
     } else if (e.key === 'Enter' && list[hi]) {
       e.preventDefault();
@@ -167,44 +238,33 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
         <div className={`ps-pop${up ? ' is-up' : ''}`} style={{ maxHeight: maxH }} onMouseDown={(e) => e.preventDefault()}>
           {chips && (
             <div ref={brandsRef} className="ps-brands" role="group" aria-label="Бренды">
-              {BRANDS.map(([b, n]) => (
-                <button key={b} type="button" tabIndex={-1} className={b === brandQ ? 'is-on' : undefined} aria-pressed={b === brandQ} onClick={() => query(b === brandQ ? '' : b)}>
+              {BRANDS.map(([b, n], k) => (
+                <button
+                  key={b}
+                  type="button"
+                  tabIndex={-1}
+                  className={b === brandQ ? 'is-on' : undefined}
+                  style={{ '--i': Math.min(k, 8) } as CSSProperties}
+                  aria-pressed={b === brandQ}
+                  onClick={() => query(b === brandQ ? '' : b)}
+                >
                   {b}
                   <small>{n}</small>
                 </button>
               ))}
             </div>
           )}
-          <ul ref={listRef} className="ps-list" role="listbox" id={`${id}-list`} aria-label={label}>
+          {/* смена бренда пересоздаёт список — строки заново выезжают каскадом */}
+          <ul key={brandQ || 'all'} ref={listRef} className="ps-list" role="listbox" id={`${id}-list`} aria-label={label}>
             {list.length === 0 && (
               <li className="ps-empty">
                 <Icon name="search" size={22} />
                 Ничего не нашли. Попробуйте короче: «s25», «пиксель», «поко».
               </li>
             )}
-            {list.map((p, i) => {
-              const score = overall(analyze(p).s);
-              return (
-                <li key={p.id} id={`${id}-o${i}`} role="option" aria-selected={i === hi} className={`${i === hi ? 'is-hi' : ''}${p.id === value?.id ? ' is-cur' : ''}`} onMouseEnter={() => setHi(i)} onClick={() => pick(p)}>
-                  <span className="ps-art">
-                    <PhoneArt phone={p} size="xs" />
-                  </span>
-                  <span className="ps-name">
-                    <b>
-                      <Mark text={fullName(p)} q={q} />
-                    </b>
-                    <small>
-                      {p.tier} · {p.released.slice(0, 4)}
-                      {p.id === value?.id && <em> · выбран</em>}
-                    </small>
-                  </span>
-                  {p.price > 0 && <span className="ps-price">${p.price}</span>}
-                  <span className="ps-score" style={{ '--v': score } as CSSProperties} title="Итоговая оценка из 100">
-                    {score}
-                  </span>
-                </li>
-              );
-            })}
+            {list.map((p, i) => (
+              <Row key={p.id} p={p} i={i} oid={`${id}-o${i}`} q={q} hi={i === hi} cur={p.id === value?.id} onHover={setHi} onPick={onPick} />
+            ))}
           </ul>
           <div className="ps-foot">
             <span>{q.trim() ? `Найдено: ${models(list.length)}` : `Весь каталог: ${models(list.length)}`}</span>
