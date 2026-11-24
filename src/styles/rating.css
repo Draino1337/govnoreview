@@ -109,16 +109,6 @@
 .rt-tabs a.is-on {
   background: var(--a);
   color: var(--bg);
-  /* вкладка «включается» с помехой: плашка мигает янтарным и голубым и рвётся на полосы */
-  animation: tab-gl 0.5s steps(1) both;
-}
-@keyframes tab-gl {
-  0% { background: var(--b); transform: translateX(-3px); clip-path: inset(0 0 50% 0); }
-  14% { background: #6fd8f2; transform: translateX(3px) skewX(-8deg); clip-path: inset(45% 0 0 0); }
-  28% { background: var(--a); transform: translateX(-2px); clip-path: inset(0 30% 0 0); }
-  42% { background: var(--b); transform: translateX(2px); clip-path: none; }
-  56% { background: var(--a); transform: translateX(-1px); clip-path: inset(0 0 0 20%); }
-  70%, 100% { background: var(--a); transform: none; clip-path: none; }
 }
 /* под курсором подпись соседней вкладки двоится — намёк, что её можно «включить» */
 .rt-tabs a:not(.is-on):hover {
@@ -129,8 +119,8 @@
   50% { text-shadow: 1px 0 var(--b), -1px 0 #6fd8f2; }
 }
 
-/* пьедестал: три карточки, король в центре и крупнее. Карточка залита металлом своей медали —
-   золото, серебро, бронза: светлый блик сверху, глубокий тон снизу; текст на ней тёмный */
+/* пьедестал: три карточки, король в центре и крупнее. Карточка тёмная, с лёгким оттенком своей медали —
+   золото, серебро, бронза: рамка, подсветка сверху, номер, оценка и шкала её цвета */
 .podium {
   display: grid;
   grid-template-columns: 1fr 1.14fr 1fr;
@@ -144,43 +134,34 @@
 }
 .pod.is-gold {
   --m1: var(--gold-1);
-  --m-hi: #ffe39a;
-  --m-lo: #9a6d12;
   grid-area: g;
 }
 .pod.is-silver {
   --m1: var(--silver-1);
-  --m-hi: #f4f3f9;
-  --m-lo: #68657a;
   grid-area: s;
 }
 .pod.is-bronze {
   --m1: var(--bronze-1);
-  --m-hi: #f8bf92;
-  --m-lo: #83431a;
   grid-area: b;
 }
 .pod-card {
-  --rim: var(--m-hi);
-  --tex: none; /* общая пиксельная зернистость панелей на металле выглядит грязью */
-  --fill: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.22) 46%, transparent 54%),
-    linear-gradient(170deg, var(--m-hi), var(--m1) 48%, var(--m-lo));
+  --rim: color-mix(in srgb, var(--m1) 60%, var(--line2));
+  --fill: linear-gradient(175deg, color-mix(in srgb, var(--m1) 22%, var(--card)), color-mix(in srgb, var(--m1) 5%, var(--card)) 70%);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 16px 16px 18px;
-  color: var(--medal-ink);
+  color: inherit;
   text-align: center;
   text-decoration: none;
-  filter: drop-shadow(0 10px 28px color-mix(in srgb, var(--m1) 28%, transparent));
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.2s;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .pod-1 .pod-card {
   --c: 5px;
   padding: 20px 20px 22px;
 }
 .pod-card:hover {
-  filter: drop-shadow(0 14px 36px color-mix(in srgb, var(--m1) 45%, transparent)) brightness(1.06);
+  --rim: var(--m1);
   transform: translateY(-4px);
 }
 .pod-top {
@@ -190,7 +171,7 @@
   width: 100%;
 }
 .pod-rank {
-  color: var(--medal-ink);
+  color: var(--m1);
   font: 800 20px/1 var(--mono);
   letter-spacing: -0.03em;
 }
@@ -202,14 +183,14 @@
   align-items: center;
   gap: 6px;
   padding: 5px 9px;
-  background: var(--medal-ink);
-  color: var(--m-hi);
+  background: var(--m1);
+  color: var(--medal-ink);
   font: 800 10.5px/1 var(--mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   clip-path: polygon(2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 2px 2px);
 }
-/* телефон стоит на мягкой тени */
+/* телефон стоит на светящемся «полу» цвета медали */
 .pod-art {
   position: relative;
   display: flex;
@@ -231,7 +212,7 @@
   bottom: -8px;
   z-index: -1;
   height: 16px;
-  background: radial-gradient(closest-side, rgb(0 0 0 / 0.38), transparent);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--m1) 45%, transparent), transparent);
 }
 /* кадры разной ширины вписываются в рамку постоянной высоты и стоят на «полу» — карточки не меняют высоту */
 .pod-art .pa.has-photo {
@@ -256,11 +237,10 @@
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
-.pod-card .pod-meta {
+.pod-meta {
   margin-top: 4px;
-  color: rgb(10 10 12 / 0.78);
   white-space: nowrap;
-  font: 600 11.5px var(--mono);
+  font: 500 11.5px var(--mono);
 }
 .pod-score {
   display: flex;
@@ -269,7 +249,7 @@
   margin-top: 14px;
 }
 .pod-score b {
-  color: var(--medal-ink);
+  color: var(--m1);
   font: 800 40px/1 var(--mono);
   letter-spacing: -0.04em;
 }
@@ -277,19 +257,19 @@
   font-size: 56px;
 }
 .pod-score small {
-  color: rgb(10 10 12 / 0.6);
+  color: var(--dim);
   font: 600 13px var(--mono);
 }
 .pod-meter {
   width: 100%;
   height: 5px;
   margin-top: 12px;
-  background: rgb(10 10 12 / 0.18);
+  background: var(--line);
 }
 .pod-meter i {
   display: block;
   height: 100%;
-  background: var(--medal-ink);
+  background: var(--m1);
 }
 
 /* оценки по категориям в строке списка — значки с числами */
@@ -406,16 +386,8 @@
   background: linear-gradient(90deg, var(--a-deep), var(--a));
 }
 .rt-score {
-  display: grid;
-  justify-items: end;
-  gap: 4px;
-}
-.rt-score b {
+  text-align: right;
   font: 800 18px/1 var(--mono);
-}
-.rt-score small {
-  color: var(--dim);
-  font: 600 11px/1 var(--mono);
 }
 
 .rt .cl-more {

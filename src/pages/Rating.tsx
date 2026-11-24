@@ -83,7 +83,6 @@ export function Rating({ slug }: { slug: string }) {
     return r ? { href: hrefOf(pairPath(p.id, r.id)), title: `Сравнить с ${fullName(r)}` } : {};
   };
   const rest = rows.slice(3);
-  const lead = rows[0]?.score;
   const shown = all ? rest : rest.slice(0, FOLD);
 
   return (
@@ -137,30 +136,24 @@ export function Rating({ slug }: { slug: string }) {
       </ol>
 
       <ol className="rt-list px" start={4} aria-label="Остальные места">
-        {shown.map((r, k) => {
-          const gap = lead != null && r.score != null ? r.score - lead : null;
-          return (
-            <li key={r.p.id}>
-              <a className="rt-row rv" {...link(k + 3)}>
-                <span className="rt-rank">{k + 4}</span>
-                <PhoneArt phone={r.p} size="xs" />
-                <span className="rt-name">
-                  <b>{fullName(r.p)}</b>
-                  <small>{meta(r.p)}</small>
-                </span>
-                <Cats s={r.s} on={top.id} />
-                <span className="rt-bar" aria-hidden="true">
-                  <i style={{ width: `${r.score ?? 0}%` }} />
-                </span>
-                <span className="rt-score">
-                  <b>{r.score ?? 'н/д'}</b>
-                  {gap != null && <small title="Отставание от лидера">{gap === 0 ? '=' : `−${-gap}`}</small>}
-                </span>
-                <Icon name="arrow" size={16} />
-              </a>
-            </li>
-          );
-        })}
+        {shown.map((r, k) => (
+          <li key={r.p.id}>
+            <a className="rt-row rv" {...link(k + 3)}>
+              <span className="rt-rank">{k + 4}</span>
+              <PhoneArt phone={r.p} size="xs" />
+              <span className="rt-name">
+                <b>{fullName(r.p)}</b>
+                <small>{meta(r.p)}</small>
+              </span>
+              <Cats s={r.s} on={top.id} />
+              <span className="rt-bar" aria-hidden="true">
+                <i style={{ width: `${r.score ?? 0}%` }} />
+              </span>
+              <b className="rt-score">{r.score ?? 'н/д'}</b>
+              <Icon name="arrow" size={16} />
+            </a>
+          </li>
+        ))}
       </ol>
       {rest.length > FOLD && (
         <button type="button" className="cl-more" aria-expanded={all} onClick={() => setAll(!all)}>
