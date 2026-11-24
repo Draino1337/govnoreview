@@ -1,5 +1,46 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { useTween } from '../lib/hooks.ts';
+
+// В DotGothic16 кириллица вдвое шире латиницы: шум для буквы берём той же ширины, иначе строка дёргается
+const WIDE = 'АБВГДЖЗИКЛМНПРСТФХЦЧШЩЭЮЯ';
+const NARROW = '#%&$@?!<>=+*/01';
+const pick = (s: string) => s[(Math.random() * s.length) | 0];
+const junk = (c: string) => (c === ' ' ? c : pick(/[а-яё]/i.test(c) ? WIDE : NARROW));
+const calm = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+const noise = (text: string) => Array.from(text, junk).join('');
+
+/** Текст «расшифровывается» из шума слева направо, а цветные копии рвутся полосами (стили .glitch.gx).
+    Потом раз в несколько секунд слово снова двоится; под курсором — непрерывно. */
+export function Glitch({ text, ms = 760 }: { text: string; ms?: number }) {
+  const [out, setOut] = useState(() => (calm() ? text : noise(text)));
+  useEffect(() => {
+    if (calm()) return setOut(text);
+    const chars = Array.from(text);
+    // буква встаёт на место в свой момент: чем правее, тем позже, с небольшим разбросом
+    const at = chars.map((_, i) => ms * (0.18 + 0.82 * ((i + Math.random() * 1.5) / (chars.length + 1.5))));
+    const t0 = performance.now();
+    let raf = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      const t = now - t0;
+      if (t >= ms) return setOut(text);
+      // шум меняется ~20 раз в секунду, а не на каждом кадре — так он «щёлкает», как табло
+      if (now - last > 50) {
+        last = now;
+        setOut(chars.map((c, i) => (t >= at[i] ? c : junk(c))).join(''));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [text, ms]);
+  return (
+    <span className="glitch gx" data-text={text}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">{out}</span>
+    </span>
+  );
+}
 
 /** Текст, буквы которого «перещёлкиваются» на место по очереди: сверху вниз с лёгким отскоком.
     Экранный диктор читает слово целиком, а не по буквам. */

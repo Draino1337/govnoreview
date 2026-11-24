@@ -13,10 +13,59 @@
 .rt-head {
   text-align: center;
 }
+/* заголовок — пиксельный DotGothic16, «набранный» круглыми точками, как на светодиодном табло:
+   маска из кружков с шагом в 1/16 em (столько точек в высоте буквы этого шрифта) */
 .rt-head h1 {
+  --g: calc(1em / 16);
   margin: 18px auto 12px;
-  font: 300 clamp(36px, 6vw, 72px) / 1.02 var(--font);
-  letter-spacing: -0.045em;
+  /* самый длинный заголовок («Дольше всех без розетки») влезает в строку от 760 px — вкладки под ним не прыгают */
+  font: 400 clamp(28px, 4.6vw, 64px) / 1.12 var(--dot);
+  /* кириллица в этом шрифте шириной в целый em, и буквы стоят вразрядку; сжимаем на 4 точки — кратно сетке маски */
+  letter-spacing: -0.25em;
+  word-spacing: 0.125em;
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 82%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 82%, transparent 100%);
+  -webkit-mask-size: var(--g) var(--g);
+  mask-size: var(--g) var(--g);
+}
+/* копии слова у глитча — во всю ширину заголовка, чтобы переносились так же, как оно само */
+.gx::before,
+.gx::after {
+  width: 100%;
+}
+/* при появлении слово сразу рвётся цветными полосами, пока буквы «расшифровываются» */
+.gx::before {
+  animation: gx-a 0.8s steps(1) both, gl-a 4.2s steps(1) 2.2s infinite;
+}
+.gx::after {
+  animation: gx-b 0.8s steps(1) both, gl-b 4.2s steps(1) 2.2s infinite;
+}
+.gx > span[aria-hidden] {
+  animation: gx-main 0.8s steps(1) both, gl-main 4.2s steps(1) 2.2s infinite;
+}
+@keyframes gx-main {
+  0% { transform: translateX(-4px) skewX(-8deg); clip-path: inset(0 0 45% 0); }
+  12% { transform: translateX(5px); clip-path: inset(40% 0 0 0); }
+  24% { transform: none; clip-path: none; }
+  48% { transform: translateX(-3px) skewX(6deg); clip-path: inset(20% 0 30% 0); }
+  60% { transform: translateX(2px); clip-path: none; }
+  72%, 100% { transform: none; clip-path: none; }
+}
+@keyframes gx-a {
+  0% { opacity: 1; clip-path: inset(6% 0 66% 0); transform: translateX(-10px); }
+  12% { opacity: 1; clip-path: inset(50% 0 22% 0); transform: translateX(8px); }
+  24% { opacity: 1; clip-path: inset(72% 0 4% 0); transform: translateX(-6px); }
+  36% { opacity: 1; clip-path: inset(24% 0 52% 0); transform: translateX(12px); }
+  48% { opacity: 1; clip-path: inset(84% 0 0 0); transform: translateX(-4px); }
+  60%, 100% { opacity: 0; }
+}
+@keyframes gx-b {
+  0% { opacity: 1; clip-path: inset(58% 0 14% 0); transform: translateX(11px); }
+  12% { opacity: 1; clip-path: inset(10% 0 72% 0); transform: translateX(-9px); }
+  24% { opacity: 1; clip-path: inset(36% 0 40% 0); transform: translateX(6px); }
+  36% { opacity: 1; clip-path: inset(78% 0 2% 0); transform: translateX(-12px); }
+  48% { opacity: 1; clip-path: inset(2% 0 84% 0); transform: translateX(5px); }
+  60%, 100% { opacity: 0; }
 }
 .rt-lead {
   min-height: 3.1em; /* место под две строки: описания вкладок разной длины, страница не скачет при переключении */
@@ -60,6 +109,24 @@
 .rt-tabs a.is-on {
   background: var(--a);
   color: var(--bg);
+  /* вкладка «включается» с помехой: плашка мигает янтарным и голубым и рвётся на полосы */
+  animation: tab-gl 0.5s steps(1) both;
+}
+@keyframes tab-gl {
+  0% { background: var(--b); transform: translateX(-3px); clip-path: inset(0 0 50% 0); }
+  14% { background: #6fd8f2; transform: translateX(3px) skewX(-8deg); clip-path: inset(45% 0 0 0); }
+  28% { background: var(--a); transform: translateX(-2px); clip-path: inset(0 30% 0 0); }
+  42% { background: var(--b); transform: translateX(2px); clip-path: none; }
+  56% { background: var(--a); transform: translateX(-1px); clip-path: inset(0 0 0 20%); }
+  70%, 100% { background: var(--a); transform: none; clip-path: none; }
+}
+/* под курсором подпись соседней вкладки двоится — намёк, что её можно «включить» */
+.rt-tabs a:not(.is-on):hover {
+  animation: tab-hover 0.45s steps(1) infinite;
+}
+@keyframes tab-hover {
+  0% { text-shadow: -1px 0 var(--b), 1px 0 #6fd8f2; }
+  50% { text-shadow: 1px 0 var(--b), -1px 0 #6fd8f2; }
 }
 
 /* пьедестал: в центре король, слева серебро, справа бронза */

@@ -5,7 +5,7 @@ import { analyze } from '../lib/analysis.ts';
 import { overall, type CatId } from '../lib/score.ts';
 import { hrefOf } from '../router.ts';
 import { Icon } from '../components/Icon.tsx';
-import { Flip } from '../components/Flip.tsx';
+import { Glitch } from '../components/Flip.tsx';
 import { PhoneArt } from '../components/PhoneArt.tsx';
 
 type TopId = 'all' | CatId;
@@ -73,7 +73,7 @@ export function Rating({ slug }: { slug: string }) {
       <header className="rt-head">
         <p className="label">Рейтинг смартфонов</p>
         <h1>
-          <Flip text={top.title} delay={0.05} step={0.025} />
+          <Glitch text={top.title} />
         </h1>
         <p className="rt-lead">
           {top.desc}. Все {models(rows.length)} каталога, оценка из 100.

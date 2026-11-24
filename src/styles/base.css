@@ -1,6 +1,21 @@
 /* ───────── токены ─────────
    Тёмная пиксельная тема: почти чёрный фон, графитовые панели с углами, вырезанными ступенькой,
    лавандовый акцент. Второй телефон в сравнении — янтарный. Светлой темы больше нет. */
+/* DotGothic16 — пиксельный шрифт с кириллицей: заголовок рейтинга и плашка «Новое» в шапке.
+   Подключаем только кириллицу и латиницу (у пакета ещё ~120 файлов японского). */
+@font-face {
+  font-family: 'DotGothic16';
+  font-display: swap;
+  src: url('../../node_modules/@fontsource/dotgothic16/files/dotgothic16-cyrillic-400-normal.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'DotGothic16';
+  font-display: swap;
+  src: url('../../node_modules/@fontsource/dotgothic16/files/dotgothic16-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   --hdr: 64px;
   --nav: 56px;
@@ -8,6 +23,7 @@
   --font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --display: 'Inter Variable', system-ui, sans-serif;
   --mono: ui-monospace, 'Cascadia Mono', Consolas, 'Courier New', monospace;
+  --dot: 'DotGothic16', var(--mono);
 
   --bg: #0a0a0c;
   --ink: #ecebf1;
@@ -170,9 +186,9 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  max-width: min(420px, 40vw);
+  max-width: min(420px, 30vw); /* не наезжает на ссылки справа даже на 1000 px */
   height: 32px;
-  padding: 0 14px 0 4px;
+  padding: 0 11px 0 4px;
   color: var(--ink);
   font-size: 13px;
   font-weight: 600;
@@ -191,27 +207,90 @@ a {
     transform: translate(-50%, -160%);
   }
 }
-/* квадратик с плюсом мерцает, как индикатор «есть новое» */
-.hdr-news b {
-  animation: news-dot 2.4s steps(1) infinite;
-}
-@keyframes news-dot {
-  50% {
-    background: var(--a-ink);
-  }
-}
-.hdr-news b {
-  display: grid;
-  place-items: center;
+/* бейдж «Новое»: пиксельный шрифт на лавандовой плашке со ступенчатыми углами,
+   мигающий «светодиод» слева и пробегающий по плашке блик */
+.hdr-new {
+  position: relative;
+  display: inline-flex;
   flex: none;
-  width: 24px;
+  align-items: center;
+  gap: 7px;
   height: 24px;
+  padding: 0 10px 0 8px;
+  overflow: hidden;
   background: var(--a);
   color: var(--bg);
+  /* 16 px — родной размер DotGothic16: точка шрифта ложится ровно в пиксель экрана */
+  font: 400 16px/1 var(--dot);
+  letter-spacing: -3px; /* кириллица в этом шрифте шириной в целый em */
+  text-transform: uppercase;
+  clip-path: polygon(2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 2px 2px);
 }
-.hdr-news span {
+.hdr-new i {
+  width: 5px;
+  height: 5px;
+  background: var(--bg);
+  animation: blink 1.2s steps(1) infinite;
+}
+.hdr-new::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateX(-14px) skewX(-20deg);
+  animation: new-shine 3.6s steps(9) 1s infinite;
+}
+@keyframes new-shine {
+  0% {
+    transform: translateX(-14px) skewX(-20deg);
+  }
+  25%,
+  100% {
+    transform: translateX(96px) skewX(-20deg);
+  }
+}
+.hdr-news > span {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* на средних экранах заголовок новости не помещается между логотипом и ссылками — остаются бейдж и стрелка */
+@media (max-width: 1080px) {
+  .hdr-news {
+    padding-right: 9px;
+  }
+  .hdr-news > span {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  .hdr-news {
+    display: none;
+  }
+}
+.hdr-news > svg {
+  flex: none;
+  color: var(--dim);
+  transition: transform 0.2s steps(2), color 0.15s;
+}
+.hdr-news:hover > svg {
+  color: var(--a);
+  transform: translateX(3px);
+}
+/* под курсором бейдж двоится янтарным и голубым — как заголовки с глитчем */
+.hdr-news:hover .hdr-new {
+  animation: new-gl 0.4s steps(1) infinite;
+}
+@keyframes new-gl {
+  0% {
+    text-shadow: -2px 0 var(--b), 2px 0 #6fd8f2;
+  }
+  33% {
+    text-shadow: 2px 0 var(--b), -1px 0 #6fd8f2;
+  }
+  66% {
+    text-shadow: none;
+  }
 }
 .hdr-nav {
   display: flex;

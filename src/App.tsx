@@ -7,6 +7,7 @@ import { Compare } from './pages/Compare.tsx';
 import { Rating, topOf } from './pages/Rating.tsx';
 import { Starfield } from './components/Starfield.tsx';
 import { LogoMark, toNews } from './components/Brand.tsx';
+import { Icon } from './components/Icon.tsx';
 
 function Header({ rating, home }: { rating: boolean; home: boolean }) {
   const latest = CHANGELOG[0];
@@ -23,8 +24,12 @@ function Header({ rating, home }: { rating: boolean; home: boolean }) {
           v{latest.version}
         </a>
         <a href="#cl" className="hdr-news hov" onClick={toNews}>
-          <b aria-hidden="true">+</b>
+          <b className="hdr-new">
+            <i aria-hidden="true" />
+            Новое
+          </b>
           <span>{latest.title}</span>
+          <Icon name="arrow" size={14} />
         </a>
         <nav className="hdr-nav" aria-label="Разделы">
           <a href={hrefOf('/')} className={home ? 'is-on' : undefined} aria-current={home ? 'page' : undefined}>
