@@ -1,5 +1,4 @@
-/** имя файла картинки чипа в public/chips/ — то же правило, что в scripts/chip-images.mjs */
-export const chipSlug = (chip: string) => chip.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+import { chipSlug } from '../lib/chip.ts';
 
 /** Квадратная картинка чипа (снимок или рендер самого чипа, см. research/chips.tsv). Название стоит рядом, поэтому alt пустой. */
 export function ChipLogo({ chip, size = 32 }: { chip: string; size?: number }) {

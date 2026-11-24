@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
+import { chipSlug } from '../src/lib/chip.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TSV_DIR = path.join(root, 'research', 'tsv');
@@ -686,7 +687,7 @@ for (const [file, pair] of Object.entries(PAGES)) {
   for (const [i, meta] of pair.entries()) {
     addSensors(meta.id, rows[i]);
     const get = (label) => rows[i].find((r) => r[2] === label)?.[3] ?? '';
-    const chip = get('Чипсет').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const chip = chipSlug(get('Чипсет'));
     if (chip && !fs.existsSync(path.join(root, 'public', 'chips', chip + '.webp')))
       console.warn(`  нет картинки чипа «${get('Чипсет')}»: добавьте строку в research/chips.tsv и запустите node scripts/chip-images.mjs`);
     phones.push({

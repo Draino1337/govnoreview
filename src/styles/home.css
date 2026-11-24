@@ -19,16 +19,36 @@
 .hero-copy {
   min-width: 0;
 }
+/* заголовок набран точечным DotGothic16 (у него одно начертание — без жирного) */
 .hero-title {
   margin: 22px 0 24px;
-  font: 300 clamp(52px, 6.6vw, 104px) / 0.98 var(--font);
-  letter-spacing: -0.045em;
+  font: 400 clamp(52px, 6.6vw, 104px) / 1.02 var(--dot);
+  letter-spacing: 0;
 }
-/* второе слово — с новой строки, жирное и набранное квадратиками */
+/* второе слово — с новой строки и набранное квадратиками */
 .hero-title .dither {
   display: block;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.1em; /* кириллица в DotGothic16 шириной в 1em — без поджатия слово рассыпается */
+}
+/* первая буква «N» мигает синим, как индикатор */
+.hero-n {
+  animation: n-blink 1.4s steps(1) 0.9s infinite;
+}
+@keyframes n-blink {
+  0% {
+    color: #4f86ff;
+    text-shadow: 0 0 18px rgb(79 134 255 / 0.75);
+  }
+  50% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-n {
+    animation: none;
+    color: #4f86ff;
+  }
 }
 .lead {
   max-width: 440px;
@@ -59,8 +79,9 @@
   padding-left: 22px;
   border-left: 2px dotted var(--line3);
 }
+/* цифры сплошные, без точечной маски: стоят поверх Сатурна, и точки сливались с его символами */
 .hero-stat b {
-  color: #d7d4df;
+  color: var(--ink);
   font: 800 42px/1 var(--mono);
   letter-spacing: 0.02em;
 }
@@ -232,7 +253,7 @@
 /* номер слота справа: тусклый, у выбранного — в цвет слота */
 .slot-n {
   margin-left: auto;
-  color: var(--line3);
+  color: var(--faint);
   font: 800 11px/1 var(--mono);
   letter-spacing: 0.1em;
   transition: color 0.2s steps(2);

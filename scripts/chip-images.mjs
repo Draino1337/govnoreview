@@ -2,11 +2,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
+import { chipSlug as slug } from '../src/lib/chip.ts';
 
 const root = path.resolve(import.meta.dirname, '..');
 const out = path.join(root, 'public', 'chips');
-// то же правило, что chipSlug в src/components/ChipLogo.tsx
-const slug = (chip) => chip.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 console.assert(slug('HiSilicon Kirin 9010S') === 'hisilicon-kirin-9010s' && slug('Apple A10 Fusion') === 'apple-a10-fusion');
 
 fs.mkdirSync(out, { recursive: true });

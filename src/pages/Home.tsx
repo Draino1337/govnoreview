@@ -87,7 +87,7 @@ export function Home() {
         <div className="hero-copy">
           <p className="label rv">Сравнение смартфонов</p>
           <h1 className="hero-title">
-            <Flip text="Наноревью" delay={0.05} step={0.025} />{' '}
+            <Flip text="Nanoreview" delay={0.05} step={0.025} first="hero-n" />{' '}
             <span className="dither">
               <span className="glitch" data-text="хуйня">
                 <Flip text="хуйня" delay={0.28} step={0.04} />
@@ -104,13 +104,13 @@ export function Home() {
               Рейтинг
             </a>
             <div className="hero-stat">
-              <b className="dither dither-sm">
+              <b>
                 <Count value={PHONES.length} ms={3400} />
               </b>
               <small>смартфонов</small>
             </div>
             <div className="hero-stat">
-              <b className="dither dither-sm">
+              <b>
                 <Count value={BRANDS} ms={3000} />
               </b>
               <small>брендов</small>

@@ -44,14 +44,15 @@ export function Glitch({ text, ms = 760 }: { text: string; ms?: number }) {
 
 /** Текст, буквы которого «перещёлкиваются» на место по очереди: сверху вниз с лёгким отскоком.
     Экранный диктор читает слово целиком, а не по буквам. */
-export function Flip({ text, delay = 0, step = 0.035 }: { text: string; delay?: number; step?: number }) {
+/** first — класс для первой буквы (её отдельная анимация) */
+export function Flip({ text, delay = 0, step = 0.035, first }: { text: string; delay?: number; step?: number; first?: string }) {
   return (
     <>
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
         {Array.from(text).map((ch, i) => (
           <span key={i} className="fl" style={{ animationDelay: `${delay + i * step}s` } as CSSProperties}>
-            {ch === ' ' ? ' ' : ch}
+            {i === 0 && first ? <span className={first}>{ch}</span> : ch === ' ' ? ' ' : ch}
           </span>
         ))}
       </span>

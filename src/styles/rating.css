@@ -129,68 +129,111 @@
   50% { text-shadow: 1px 0 var(--b), -1px 0 #6fd8f2; }
 }
 
-/* пьедестал: в центре король, слева серебро, справа бронза */
+/* пьедестал: три карточки, король в центре и крупнее. Карточка залита металлом своей медали —
+   золото, серебро, бронза: светлый блик сверху, глубокий тон снизу; текст на ней тёмный */
 .podium {
   display: grid;
-  grid-template-columns: 1fr 1.18fr 1fr;
+  grid-template-columns: 1fr 1.14fr 1fr;
+  grid-template-areas: 's g b';
   align-items: end;
-  gap: clamp(8px, 2vw, 18px);
-  max-width: 820px;
-  margin: 38px auto 0;
+  gap: clamp(10px, 2vw, 20px);
+  max-width: 900px;
+  margin: 40px auto 0;
   padding: 0;
   list-style: none;
 }
 .pod.is-gold {
   --m1: var(--gold-1);
-  order: 2;
+  --m-hi: #ffe39a;
+  --m-lo: #9a6d12;
+  grid-area: g;
 }
 .pod.is-silver {
   --m1: var(--silver-1);
-  order: 1;
+  --m-hi: #f4f3f9;
+  --m-lo: #68657a;
+  grid-area: s;
 }
 .pod.is-bronze {
   --m1: var(--bronze-1);
-  order: 3;
+  --m-hi: #f8bf92;
+  --m-lo: #83431a;
+  grid-area: b;
 }
-.pod a {
+.pod-card {
+  --rim: var(--m-hi);
+  --tex: none; /* общая пиксельная зернистость панелей на металле выглядит грязью */
+  --fill: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.22) 46%, transparent 54%),
+    linear-gradient(170deg, var(--m-hi), var(--m1) 48%, var(--m-lo));
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: inherit;
+  padding: 16px 16px 18px;
+  color: var(--medal-ink);
   text-align: center;
   text-decoration: none;
+  filter: drop-shadow(0 10px 28px color-mix(in srgb, var(--m1) 28%, transparent));
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.2s;
+}
+.pod-1 .pod-card {
+  --c: 5px;
+  padding: 20px 20px 22px;
+}
+.pod-card:hover {
+  filter: drop-shadow(0 14px 36px color-mix(in srgb, var(--m1) 45%, transparent)) brightness(1.06);
+  transform: translateY(-4px);
+}
+.pod-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.pod-rank {
+  color: var(--medal-ink);
+  font: 800 20px/1 var(--mono);
+  letter-spacing: -0.03em;
+}
+.pod-1 .pod-rank {
+  font-size: 26px;
 }
 .pod-medal {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
-  background: var(--m1);
-  color: var(--medal-ink);
-  font: 800 11px/1 var(--mono);
+  padding: 5px 9px;
+  background: var(--medal-ink);
+  color: var(--m-hi);
+  font: 800 10.5px/1 var(--mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   clip-path: polygon(2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 2px 2px);
 }
-.pod-1 .pod-medal {
-  padding: 8px 13px;
-  font-size: 12.5px;
-}
+/* телефон стоит на мягкой тени */
 .pod-art {
   position: relative;
   display: flex;
+  align-items: flex-end;
   justify-content: center;
   width: 100%;
-  align-items: flex-end;
-  height: 196px;
-  margin: 16px 0 12px;
-  transition: transform 0.2s steps(3);
+  height: 150px;
+  margin: 16px 0 14px;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.pod-2 .pod-art,
-.pod-3 .pod-art {
-  height: 132px;
+.pod-1 .pod-art {
+  height: 206px;
 }
-/* кадры разной ширины вписываются в рамку постоянной высоты и стоят на «полу» — пьедестал не меняет высоту */
+.pod-art::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -8px;
+  z-index: -1;
+  height: 16px;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.38), transparent);
+}
+/* кадры разной ширины вписываются в рамку постоянной высоты и стоят на «полу» — карточки не меняют высоту */
 .pod-art .pa.has-photo {
   width: 100%;
   height: 100%;
@@ -199,99 +242,147 @@
 .pod-art .pa-photo {
   object-position: center bottom;
 }
-.pod a:hover .pod-art {
-  transform: translateY(-6px);
+.pod-card:hover .pod-art {
+  transform: translateY(-4px);
 }
-/* название — всегда две строки по высоте (длиннее — с многоточием), чтобы ступени не прыгали */
+/* название — всегда две строки по высоте (длиннее — с многоточием), чтобы карточки не прыгали */
 .pod-name {
   display: -webkit-box;
   min-height: 2.5em;
   overflow: hidden;
-  font: 600 clamp(12.5px, 1.6vw, 15.5px) / 1.25 var(--font);
+  font: 600 clamp(13px, 1.6vw, 16px) / 1.25 var(--font);
   letter-spacing: -0.02em;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
-.pod-meta {
+.pod-card .pod-meta {
   margin-top: 4px;
+  color: rgb(10 10 12 / 0.78);
   white-space: nowrap;
-  color: var(--faint);
-  font: 500 11.5px var(--mono);
-}
-/* ступень — штриховка цвета медали и яркая кромка сверху, как «стопка» под главной кнопкой */
-.pod-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  margin-top: 14px;
-  border-top: 3px solid var(--m1);
-  background: repeating-linear-gradient(0deg, color-mix(in srgb, var(--m1) 16%, var(--bg)) 0 2px, color-mix(in srgb, var(--m1) 6%, var(--bg)) 2px 4px);
-}
-.pod-1 .pod-step {
-  height: 150px;
-}
-.pod-2 .pod-step {
-  height: 112px;
-}
-.pod-3 .pod-step {
-  height: 86px;
+  font: 600 11.5px var(--mono);
 }
 .pod-score {
-  color: var(--m1);
-  font: 800 38px/1 var(--mono);
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 14px;
 }
-.pod-1 .pod-score {
-  font-size: 54px;
+.pod-score b {
+  color: var(--medal-ink);
+  font: 800 40px/1 var(--mono);
+  letter-spacing: -0.04em;
 }
-.pod-step small {
-  color: var(--dim);
-  font: 600 11px var(--mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.pod-1 .pod-score b {
+  font-size: 56px;
+}
+.pod-score small {
+  color: rgb(10 10 12 / 0.6);
+  font: 600 13px var(--mono);
+}
+.pod-meter {
+  width: 100%;
+  height: 5px;
+  margin-top: 12px;
+  background: rgb(10 10 12 / 0.18);
+}
+.pod-meter i {
+  display: block;
+  height: 100%;
+  background: var(--medal-ink);
 }
 
-/* места ниже пьедестала */
+/* оценки по категориям в строке списка — значки с числами */
+.cats {
+  display: flex;
+  gap: 14px;
+  color: var(--dim);
+  font: 600 12px/1 var(--mono);
+}
+.cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.cat b {
+  min-width: 2ch;
+  font-weight: 700;
+  text-align: right;
+}
+.cat.is-on {
+  color: var(--ink);
+}
+.cat.is-on svg {
+  color: var(--a);
+}
+
+/* места ниже пьедестала: одна панель, строки через тонкие разделители */
 .rt-list {
   display: grid;
-  gap: 4px;
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 0;
+  max-width: 900px;
+  margin: 20px auto 0;
+  padding: 6px;
   list-style: none;
 }
+.rt-list li + li {
+  border-top: 1px solid var(--line);
+}
 .rt-row {
+  position: relative;
   display: grid;
-  grid-template-columns: 34px 44px minmax(0, 1fr) minmax(80px, 200px) 40px;
+  grid-template-columns: 34px 40px minmax(0, 1fr) auto minmax(60px, 140px) 44px 16px;
   align-items: center;
-  gap: 12px;
-  padding: 8px 16px 8px 10px;
-  border: 1px solid var(--line);
-  background: var(--card);
+  gap: 14px;
+  padding: 10px 12px;
   color: inherit;
   text-decoration: none;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition: background-color 0.15s;
+}
+/* под курсором — подсветка строки, полоска акцента слева и стрелка «сравнить» справа */
+.rt-row::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 2px;
+  background: var(--a);
+  transform: scaleY(0);
+  transition: transform 0.15s;
 }
 .rt-row:hover {
-  border-color: var(--a-deep);
   background: var(--a-f);
 }
+.rt-row:hover::before {
+  transform: none;
+}
+.rt-row > svg {
+  color: var(--a);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.rt-row:hover > svg {
+  opacity: 1;
+  transform: none;
+}
 .rt-row:focus-visible,
-.pod a:focus-visible {
+.pod-card:focus-visible {
   outline: 2px solid var(--a);
   outline-offset: 3px;
 }
 .rt-rank {
-  color: var(--faint);
-  font: 700 14px/1 var(--mono);
+  color: var(--dim);
+  font: 700 15px/1 var(--mono);
   text-align: center;
+}
+/* первая десятка (места 4–10) — номер акцентом */
+.rt-list li:nth-child(-n + 7) .rt-rank {
+  color: var(--a-ink);
 }
 .rt-name {
   display: grid;
-  gap: 3px;
+  gap: 4px;
   min-width: 0;
 }
 .rt-name b {
@@ -305,33 +396,48 @@
   color: var(--faint);
   font: 500 11.5px var(--mono);
 }
-/* шкала из делений, как у полосок сравнения */
 .rt-bar {
-  height: 8px;
-  overflow: hidden;
-  background: repeating-linear-gradient(90deg, var(--line) 0 5px, transparent 5px 7px);
+  height: 4px;
+  background: var(--line);
 }
 .rt-bar i {
   display: block;
   height: 100%;
-  background: var(--a);
-  -webkit-mask: repeating-linear-gradient(90deg, #000 0 5px, transparent 5px 7px);
-  mask: repeating-linear-gradient(90deg, #000 0 5px, transparent 5px 7px);
+  background: linear-gradient(90deg, var(--a-deep), var(--a));
 }
 .rt-score {
-  font: 800 17px/1 var(--mono);
-  text-align: right;
+  display: grid;
+  justify-items: end;
+  gap: 4px;
 }
+.rt-score b {
+  font: 800 18px/1 var(--mono);
+}
+.rt-score small {
+  color: var(--dim);
+  font: 600 11px/1 var(--mono);
+}
+
 .rt .cl-more {
-  margin: 16px auto 0;
+  margin: 18px auto 0;
   display: flex;
 }
 .rt-note {
-  max-width: 820px;
+  max-width: 900px;
   margin: 22px auto 0;
   color: var(--faint);
   font-size: 13px;
   text-align: center;
+}
+
+/* оценки по категориям в строке не помещаются рядом со шкалой — на средней ширине их убираем */
+@media (max-width: 960px) {
+  .rt-row .cats {
+    display: none;
+  }
+  .rt-row {
+    grid-template-columns: 34px 40px minmax(0, 1fr) minmax(60px, 140px) 44px 16px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -342,18 +448,6 @@
   .rt-lead {
     min-height: 4.65em;
   }
-  .pod-art {
-    height: 148px;
-  }
-  .pod-2 .pod-art,
-  .pod-3 .pod-art {
-    height: 112px;
-  }
-  .pod-name {
-    min-height: 3.75em;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-  }
   .rt-tabs {
     width: auto;
     margin-left: -16px;
@@ -361,38 +455,55 @@
     border-left: 0;
     border-right: 0;
   }
-  .pod-medal {
-    padding: 5px 7px;
-    font-size: 9px;
+  /* король — во всю ширину сверху, серебро и бронза — рядом под ним */
+  .podium {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'g g' 's b';
+    align-items: stretch;
   }
-  .pod-1 .pod-medal {
-    padding: 6px 9px;
-    font-size: 10px;
+  .pod-card {
+    height: 100%;
+    padding: 12px 12px 14px;
+  }
+  .pod-1 .pod-card {
+    padding: 16px 18px 18px;
+  }
+  .pod-art {
+    height: 112px;
+    margin: 12px 0;
+  }
+  .pod-1 .pod-art {
+    height: 180px;
+  }
+  .pod-rank {
+    font-size: 17px;
+  }
+  .pod-medal {
+    padding: 4px 7px;
+    font-size: 9px;
   }
   .pod-meta {
     display: none;
   }
-  .pod-1 .pod-step {
-    height: 118px;
+  .pod-1 .pod-meta {
+    display: block;
   }
-  .pod-2 .pod-step {
-    height: 88px;
+  .pod-score b {
+    font-size: 32px;
   }
-  .pod-3 .pod-step {
-    height: 68px;
+  .pod-1 .pod-score b {
+    font-size: 48px;
   }
-  .pod-score {
-    font-size: 28px;
-  }
-  .pod-1 .pod-score {
-    font-size: 38px;
+  .rt-list {
+    padding: 4px;
   }
   .rt-row {
-    grid-template-columns: 26px 40px minmax(0, 1fr) 34px;
+    grid-template-columns: 26px 36px minmax(0, 1fr) 40px;
     gap: 10px;
-    padding: 7px 12px 7px 8px;
+    padding: 9px 8px;
   }
-  .rt-bar {
+  .rt-bar,
+  .rt-row > svg {
     display: none;
   }
 }
