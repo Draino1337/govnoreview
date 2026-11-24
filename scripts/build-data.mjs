@@ -667,6 +667,19 @@ function addSensors(id, rows) {
   });
 }
 
+// id — ключ ссылок #/compare/<a>-vs-<b>, картинок и таблиц research/*.tsv; ошибка в нём ломает их молча
+{
+  const ids = Object.values(PAGES).flat().map((m) => m.id);
+  const known = new Set(ids);
+  const bad = [
+    ...ids.filter((id, i) => ids.indexOf(id) !== i).map((id) => `повтор id: ${id}`),
+    ...ids.filter((id) => !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id) || id.includes('-vs-')).map((id) => `плохой id (нужно a-z0-9 через дефис, без «-vs-»): ${id}`),
+    ...[...DXO.keys()].filter((id) => !known.has(id)).map((id) => `research/dxomark.tsv: нет телефона ${id}`),
+    ...[...SENSORS.keys()].filter((id) => !known.has(id)).map((id) => `research/sensors.tsv: нет телефона ${id}`),
+  ];
+  if (bad.length) throw new Error(bad.join('\n'));
+}
+
 const phones = [];
 for (const [file, pair] of Object.entries(PAGES)) {
   const { rows, bench } = parse(fs.readFileSync(path.join(TSV_DIR, file), 'utf8'));

@@ -7,7 +7,18 @@ import sharp from 'sharp';
 import { refineEdge, cleanAlpha } from './edge.mjs';
 
 const [input, output, ...rest] = process.argv.slice(2);
-const opt = Object.fromEntries(rest.map((o) => o.replace(/^--/, '').split('=')));
+const opt = Object.fromEntries(rest.map((o) => o.replace(/^--/, '').split(/=(.*)/s).slice(0, 2)));
+// опечатка в ключе иначе молча оставит значение по умолчанию (например, erode=1) и испортит кромку
+const NUM = ['height', 'tol', 'erode', 'upscale', 'floor', 'round', 'alphamin', 'smooth'];
+const ENUM = { bg: ['keep'], blob: ['largest'], mirror: ['right', 'bottom'] };
+for (const [k, v] of Object.entries(opt)) {
+  const ok =
+    NUM.includes(k) ? v !== undefined && v !== '' && Number.isFinite(+v)
+    : k in ENUM ? ENUM[k].includes(v)
+    : k === 'crop' ? /^\d+,\d+,\d+,\d+$/.test(v ?? '')
+    : false;
+  if (!ok) throw new Error(`cutout: неизвестный ключ или плохое значение --${k}${v === undefined ? '' : '=' + v}`);
+}
 const H = +(opt.height ?? 900);
 const TOL = +(opt.tol ?? 18);
 const ERODE = +(opt.erode ?? 1); // на сколько пикселей сдвинуть границу внутрь при вырезке фона
