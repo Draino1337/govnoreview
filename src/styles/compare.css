@@ -327,17 +327,19 @@
 .val-grid {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: 16px;
-  align-items: center;
+  gap: 12px 16px;
 }
+/* общие строки у обеих колонок: длинное название в две строки не сдвигает соседнюю */
 .val {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  justify-items: center;
+  align-items: start;
 }
 .val-name {
   font-size: 16px;
+  text-align: center;
 }
 .val-a .val-name {
   color: var(--a-ink);
@@ -346,6 +348,8 @@
   color: var(--b-ink);
 }
 .val-vs {
+  grid-row: span 4;
+  align-self: center;
   color: var(--dim);
   font: 800 20px var(--mono);
 }
@@ -436,8 +440,9 @@
   top: calc(var(--hdr) + var(--nav) + 12px);
   z-index: 5;
   display: grid;
-  grid-template-columns: minmax(130px, 1.1fr) 1fr 1fr;
+  grid-template-columns: minmax(130px, 1.1fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 0 8px;
+  align-items: baseline;
   margin-bottom: 8px;
   padding: 11px 6px;
   border: 1px solid var(--line2);
@@ -447,10 +452,10 @@
 }
 .spec-head span {
   padding-left: 8px;
-  color: var(--muted);
-}
-.spec-head b {
-  padding-left: 10px;
+  color: var(--dim);
+  font: 600 11.5px/1.3 var(--font);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .spec-head .is-a {
   color: var(--a);
@@ -480,7 +485,7 @@
 }
 .spec-sec-head small {
   color: var(--faint);
-  font: 500 11.5px var(--mono);
+  font: 500 12.5px var(--font);
 }
 .spec-sec-ico {
   flex: none;
@@ -503,50 +508,78 @@
 .spec-cap {
   padding: 14px 8px 6px;
   color: var(--dim);
-  font: 600 11px/1.3 var(--mono);
-  letter-spacing: 0.18em;
+  font: 600 11.5px/1.3 var(--font);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  /* «сверхширокоугольный» длиннее колонки: переносим по слогам */
+  hyphens: auto;
+  overflow-wrap: anywhere;
 }
 .spec-row {
   display: grid;
-  grid-template-columns: minmax(130px, 1.1fr) 1fr 1fr;
+  grid-template-columns: minmax(130px, 1.1fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 0 8px;
   padding: 0 6px;
-  font-size: 14.5px;
+  font-size: 14px;
+  line-height: 1.4;
+  transition: background-color 0.2s;
 }
 .spec-row:hover {
   background: var(--soft);
 }
 .spec-k {
-  padding: 10px 8px;
+  padding: 11px 8px;
   color: var(--muted);
+  font-size: 13.5px;
 }
 .spec-v {
   margin: 3px 0;
   padding: 8px 10px;
+  font-weight: 500;
   overflow-wrap: anywhere;
 }
 .spec-v.is-na {
   color: var(--faint);
 }
+/* победитель строки — мягкая плашка цветом смартфона, по ней медленно бежит перелив;
+   когда строка проявилась, плашка выезжает слева */
 .spec-v.is-win {
-  font-weight: 700;
-}
-.spec-v.is-win::before {
-  content: '▲';
-  margin-right: 6px;
-  font-size: 9px;
-  vertical-align: 2px;
+  font-weight: 650;
+  /* плитка ровно в период градиента — иначе на стыке плиток видна ступенька */
+  background: var(--plate) 0 0 / 320px 100%;
+  animation: spec-plate 4s linear infinite;
 }
 .spec-v.is-win.is-a {
-  box-shadow: inset 2px 0 0 var(--a);
-  background: var(--a-f);
+  --plate: repeating-linear-gradient(90deg, rgba(184, 167, 240, 0.26) 0, rgba(184, 167, 240, 0.1) 160px, rgba(184, 167, 240, 0.26) 320px);
   color: var(--a-ink);
 }
 .spec-v.is-win.is-b {
-  box-shadow: inset 2px 0 0 var(--b);
-  background: color-mix(in srgb, var(--b) 13%, var(--bg));
+  --plate: repeating-linear-gradient(90deg, rgba(224, 182, 74, 0.24) 0, rgba(224, 182, 74, 0.08) 160px, rgba(224, 182, 74, 0.24) 320px);
   color: var(--b-ink);
+}
+.spec-row[data-in] .spec-v.is-win {
+  animation:
+    spec-wipe 0.6s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--rv-delay, 0s) + 0.2s) both,
+    spec-plate 4s linear infinite;
+}
+@keyframes spec-plate {
+  to {
+    background-position: 320px 0;
+  }
+}
+@keyframes spec-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spec-v.is-win,
+  .spec-row[data-in] .spec-v.is-win {
+    animation: none;
+  }
 }
 
 /* ───────── бенчмарки / автономность / камеры ───────── */
@@ -567,21 +600,36 @@
 }
 .lens-card .spec-row,
 .lens-head {
-  grid-template-columns: 1.1fr 1fr 1fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr);
 }
 .lens-head {
   display: grid;
   gap: 0 8px;
-  align-items: end;
-  padding: 0 6px;
+  align-items: baseline;
+  margin: 0 -6px 4px;
+  padding: 0 12px 4px;
+  border-bottom: 1px solid var(--line);
 }
 .lens-head .spec-cap {
   padding: 12px 8px 6px;
 }
-.lens-head b {
+.lens-head b,
+.spec-head b {
   padding: 0 10px 6px;
-  font-size: 12px;
-  line-height: 1.25;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+/* цветной квадрат перед именем — как в легенде над полосами */
+.lens-head b::before,
+.spec-head b::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  vertical-align: 1px;
+  background: currentColor;
 }
 .lens-head .is-a {
   color: var(--a);

@@ -13,7 +13,7 @@ export function SpecRows({ group }: { group: SpecGroup }) {
   return (
     <>
       {group.rows.map((r) => (
-        <div className={`spec-row${r.same ? ' is-same' : ''}`} key={r.label}>
+        <div className={`spec-row rv${r.same ? ' is-same' : ''}`} key={r.label}>
           <div className="spec-k">{r.label}</div>
           <div className={`spec-v is-a${r.win === 'a' ? ' is-win' : ''}${r.a == null ? ' is-na' : ''}`}>{val(r.label, r.a)}</div>
           <div className={`spec-v is-b${r.win === 'b' ? ' is-win' : ''}${r.b == null ? ' is-na' : ''}`}>{val(r.label, r.b)}</div>
