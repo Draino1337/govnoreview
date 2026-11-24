@@ -17,9 +17,11 @@ import { Radar } from '../components/Radar.tsx';
 import { Ring } from '../components/Ring.tsx';
 import { SpecTable } from './compare/Specs.tsx';
 import { BatteryCard, BenchCard, CameraCard } from './compare/Bench.tsx';
+import { ScreenCard } from './compare/Screen.tsx';
 
 const NAV: [id: string, label: string][] = [
   ['diff', 'Отличия'],
+  ['screen', 'Экран'],
   ['overview', 'Обзор'],
   ['specs', 'Характеристики'],
   ['bench', 'Бенчмарки'],
@@ -255,6 +257,8 @@ export function Compare({ a, b }: { a: Phone; b: Phone }) {
           {col(b, diffs.b, 'b')}
         </div>
       </Card>
+
+      <ScreenCard a={a} b={b} />
 
       <Card id="overview" icon="display" title="Обзор" desc="Оценки по категориям и итоговая оценка">
         <Legend a={a} b={b} />
