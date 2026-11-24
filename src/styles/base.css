@@ -662,17 +662,21 @@ a {
   margin-top: 6px;
 }
 /* дорожка и заливка — деления 6 px через 2 px */
+.duel {
+  --seg: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
+}
 .duel-track {
+  position: relative;
+  isolation: isolate;
   height: 10px;
-  overflow: hidden;
   background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 8px);
 }
-.duel-track i {
+.duel-track > i {
   display: block;
   width: var(--w);
   height: 100%;
-  -webkit-mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
-  mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
+  -webkit-mask: var(--seg);
+  mask: var(--seg);
 }
 .duel-line.is-a i {
   background: color-mix(in srgb, var(--a) 55%, var(--bg));
@@ -696,6 +700,62 @@ a {
 }
 .duel-line.is-win.is-b .duel-track i {
   background: var(--b);
+}
+/* перевес: отрезок от конца полосы соперника до своей — по нему бежит градиент от цвета победителя
+   к светлому оттенку, под ним мягкое свечение. Слой во всю ширину дорожки и обрезан clip-path, чтобы
+   деления совпадали с остальной полосой */
+.duel-gain,
+.duel-ghost {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--to)) 0 var(--from));
+  -webkit-mask: var(--seg);
+  mask: var(--seg);
+}
+.duel-gain {
+  background: repeating-linear-gradient(90deg, var(--a) 0, #7fd6ff 80px, var(--a) 160px);
+  animation: duel-flow 2.4s linear infinite;
+}
+.duel-line.is-b .duel-gain {
+  background: repeating-linear-gradient(90deg, var(--b) 0, #ff9b45 80px, var(--b) 160px);
+}
+@keyframes duel-flow {
+  to {
+    background-position: 160px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .duel-gain {
+    animation: none;
+  }
+}
+.duel-glow {
+  position: absolute;
+  z-index: -1;
+  top: -4px;
+  bottom: -4px;
+  left: var(--from);
+  width: calc(var(--to) - var(--from));
+  background: linear-gradient(90deg, var(--a), #7fd6ff);
+  filter: blur(8px);
+  opacity: 0.5;
+}
+.duel-line.is-b .duel-glow {
+  background: linear-gradient(90deg, var(--b), #ff9b45);
+}
+/* на месте перевеса — бледная подложка цвета строки: у проигравшего видно, сколько не хватает,
+   у победителя — куда дольётся заливка */
+.duel-ghost {
+  background: color-mix(in srgb, var(--a) 16%, transparent);
+}
+.duel-line.is-b .duel-ghost {
+  background: color-mix(in srgb, var(--b) 16%, transparent);
+}
+.duel-line.is-win .duel-ghost {
+  background: color-mix(in srgb, var(--a) 32%, transparent);
+}
+.duel-line.is-win.is-b .duel-ghost {
+  background: color-mix(in srgb, var(--b) 32%, transparent);
 }
 
 /* ───────── поиск телефона (комбобокс) ───────── */
