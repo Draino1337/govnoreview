@@ -5,6 +5,20 @@ import { scoreAll, overall, valueIndex } from '../src/lib/score.ts';
 import type { Phone } from '../src/types.ts';
 
 const phones = JSON.parse(fs.readFileSync(new URL('../src/data/phones.json', import.meta.url), 'utf8')) as Phone[];
+// --check: молча проверить, что все оценки целые 0..100 или undefined (нет данных), иначе exit 1. Запускается в npm run build.
+if (process.argv.includes('--check')) {
+  const ok = (x: number | undefined) => x === undefined || Number.isInteger(x) && x >= 0 && x <= 100;
+  const bad = phones.flatMap((p) => {
+    const m = getMetrics(p);
+    const s = scoreAll(m);
+    const ov = overall(s);
+    const all = { ...s, overall: ov, value: valueIndex(ov, m.price) };
+    return Object.entries(all).filter(([, v]) => !ok(v)).map(([k, v]) => `${p.id} ${k}=${v}`);
+  });
+  if (bad.length) { console.error('check-scores: плохие оценки:\n' + bad.join('\n')); process.exit(1); }
+  console.log(`check-scores: ${phones.length} телефонов, ок`);
+  process.exit(0);
+}
 console.log('id'.padEnd(30), 'disp cam perf game batt comm | итог | value');
 for (const p of phones) {
   const m = getMetrics(p);
