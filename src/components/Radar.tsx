@@ -34,7 +34,7 @@ export function Radar({ labels, a, b, nameA, nameB }: Props) {
           const [lx, ly] = pt(i, n, 1.16);
           const anchor = Math.abs(lx - CX) < 8 ? 'middle' : lx > CX ? 'start' : 'end';
           return (
-            <g key={l} className={`radar-axis${hot === i ? ' is-hot' : ''}`} onMouseEnter={() => setHot(i)} onMouseLeave={() => setHot(null)} onFocus={() => setHot(i)} onBlur={() => setHot(null)} tabIndex={0}>
+            <g key={l} className={`radar-axis${hot === i ? ' is-hot' : ''}`} onMouseEnter={() => setHot(i)} onClick={() => setHot(i)} onMouseLeave={() => setHot(null)} onFocus={() => setHot(i)} onBlur={() => setHot(null)} tabIndex={0}>
               <line x1={CX} y1={CY} x2={x} y2={y} />
               <text x={lx} y={ly} textAnchor={anchor} dominantBaseline="middle">
                 {l}
@@ -54,7 +54,7 @@ export function Radar({ labels, a, b, nameA, nameB }: Props) {
       </svg>
       <figcaption className="radar-cap" aria-live="polite">
         {hot == null ? (
-          <span className="muted">Наведите на ось, чтобы увидеть значения</span>
+          <span className="muted">Выберите ось, чтобы увидеть значения</span>
         ) : (
           <>
             <b>{labels[hot]}</b>
