@@ -8,7 +8,7 @@
     "data": "node scripts/build-data.mjs",
     "dev": "vite",
     "typecheck": "tsc --noEmit",
-    "build": "node scripts/build-data.mjs && tsc --noEmit && vite build",
+    "build": "node scripts/build-data.mjs && tsc --noEmit && node scripts/check-scores.ts --check && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
