@@ -413,6 +413,13 @@
 }
 
 @media (max-width: 720px) {
+  /* длинные имена — в две строки, а не обрезать многоточием */
+  .rt-name b {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+  }
   /* на узком экране заголовок бывает в две строки, описание — в три: место держим под самый длинный вариант */
   .rt-head h1 {
     min-height: 2.04em;
@@ -422,6 +429,7 @@
   }
   .rt-tabs {
     width: auto;
+    max-width: none;
     margin-left: -16px;
     margin-right: -16px;
     border-left: 0;
