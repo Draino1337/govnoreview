@@ -33,7 +33,7 @@ npm run preview    # посмотреть собранный сайт
 Характеристики и замеры лежат в `research/tsv/*.tsv`, скрипт `scripts/build-data.mjs` собирает из них `src/data/phones.json`.
 Чтобы добавить телефон: положите выгрузку в `research/tsv`, опишите пару телефонов в `PAGES` (id, бренд, название, цвет и раскладка камер для запасной «нарисованной» панели) и запустите `npm run data`. Сенсоры камер (основная, сверхширокоугольная, телевик) берутся из `research/sensors.tsv`: собраны с nanoreview, пробелы — с Kimovil; «не раскрыт» — модель сенсора нигде не названа. Картинки чипов: строка «чип|ссылка» в `research/chips.tsv`, затем `node scripts/chip-images.mjs` кладёт их в `public/chips/`; `npm run data` предупредит, если картинки нет.
 
-В каталоге сейчас 283 модели 16 брендов: Apple, Samsung, Google, Xiaomi, Huawei, Honor, Nothing, OnePlus, Vivo, Oppo, Asus, ZTE, Motorola, Realme, Sony и Fairphone. Данные собраны из открытых источников (в первую очередь со страниц сравнений NanoReview, для старых Pixel — с GSMArena, а также Geekbench, AnTuTu, 3DMark) по состоянию на ноябрь 2026.
+В каталоге сейчас 319 моделей 16 брендов: Apple, Samsung, Google, Xiaomi, Huawei, Honor, Nothing, OnePlus, Vivo, Oppo, Asus, ZTE, Motorola, Realme, Sony и Fairphone. Данные собраны из открытых источников (в первую очередь со страниц сравнений NanoReview, для старых Pixel — с GSMArena, а также Geekbench, AnTuTu, 3DMark) по состоянию на ноябрь 2026.
 
 ## Фото телефонов
 

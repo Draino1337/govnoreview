@@ -594,7 +594,7 @@ const PAGES = {
   'honor-x80-pro-max.tsv': [
     { id: 'honor-x80-pro-max', brand: 'Honor', name: 'X80 Pro Max', look: { body: ['#ffc38a', '#c8641e'], cam: 'ring' } },
   ],
-  // Samsung Galaxy S10 … S27 Ultra, Z Flip 3 … 7 FE, Z Fold 3 … 7: NanoReview (S22, S23 FE, S24, S24 Plus, S26 — версии на Exynos)
+  // Samsung Galaxy S10 … S26, Z Flip 3 … 7 FE, Z Fold 3 … 7: NanoReview (S22, S23 FE, S24, S24 Plus, S26 — версии на Exynos)
   'samsung-galaxy-s10--s10-plus.tsv': [
     { id: 'samsung-galaxy-s10', brand: 'Samsung', name: 'Galaxy S10', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
     { id: 'samsung-galaxy-s10-plus', brand: 'Samsung', name: 'Galaxy S10 Plus', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
@@ -643,9 +643,8 @@ const PAGES = {
     { id: 'samsung-galaxy-s25-edge', brand: 'Samsung', name: 'Galaxy S25 Edge', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
     { id: 'samsung-galaxy-s25-plus', brand: 'Samsung', name: 'Galaxy S25 Plus', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
   ],
-  'samsung-galaxy-s26-exynos--s27-ultra.tsv': [
+  'samsung-galaxy-s26-exynos.tsv': [
     { id: 'samsung-galaxy-s26-exynos', brand: 'Samsung', name: 'Galaxy S26 (Exynos)', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
-    { id: 'samsung-galaxy-s27-ultra', brand: 'Samsung', name: 'Galaxy S27 Ultra', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
   ],
   'samsung-galaxy-z-flip-3-5g--z-flip-4.tsv': [
     { id: 'samsung-galaxy-z-flip-3-5g', brand: 'Samsung', name: 'Galaxy Z Flip 3 5G', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
