@@ -134,3 +134,16 @@ npm run data
 - Honor X8 (2022) — `honor-x8`; Magic 8 Lite — `honor-magic8-lite`; Play 11 — `honor-play11`; Win RT 2 — `honor-win-rt2`.
 - X5d Plus и X7c 5G: у Kimovil те же галереи, что у X5d и X7c, взята спина другого цвета.
 - Magic 9 и 9 Super, Magic V2 и V3, Win и Win RT делят снимок спереди; складные (V2, V3, V5) — композиции `keep`, ровных спин нет.
+
+## Samsung Galaxy S, Z Flip, Z Fold (партия из 37 моделей)
+
+Сейчас на сайте присланные кадры всех 36 моделей (`research/parts/<id>-user.webp`). Исходно они собраны по таблице `scripts/kimovil.mjs` (ниже — откуда), выгружены владельцу PNG в «Фото Samsung» и вернулись вырезанными.
+
+- Galaxy S27 Ultra — на Kimovil страницы нет (модель ещё не вышла), кадра нет, на сайте рисованная заглушка.
+- Страницы Kimovil: Z Flip 4 — `samsung-z-flip4`, S24 FE — `samsung-galaxy-s24fe`, остальные Z — `samsung-galaxy-z-flip3-5g`, `…-z-fold3` и т. д.
+- S26 и Z Flip 3: отдельной спины нет, спина вырезана `--crop` из композиции.
+- Z Flip 5, Z Fold 5, Z Fold 7 и часть S (S20 Ultra, S21, S22, S23, S24) — композиции `keep`. Z Flip 5 — d796746 на тёмно-сером фоне, вырезан с `--tol=6`: корпус почти того же цвета, что фон, держит светлая кромка.
+- Не с Kimovil (у него спины срезаны краем кадра или закрыты надписями), а официальные снимки со страниц GSMArena «pictures», файлы `gsm-N.jpg` положены в `research/img-src/<id>/` вручную:
+  - Z Fold 3 — `samsung_galaxy_z_fold3_5g-pictures-10906`, снимок 1 (левая пара, `--crop=0,0,355,456`); Z Fold 4 — `…_z_fold4-pictures-11737`, снимок 2; Z Fold 6 — `…_z_fold6-pictures-13147`, снимок 2. Все три — композиции `keep`: развёрнутый телефон снаружи, спина и внешний экран.
+  - S23 FE — `…_s23_fe-pictures-12520`, снимок 1: из него только спина (`--crop=356,0,304,611`), экран — Kimovil p821206.
+  - На корпусах у GSMArena полупрозрачная надпись «www.GSMArena.com». В `gsm-Nc.jpg` она затёрта: прямоугольник надписи заменён полосой корпуса прямо над ним (x, y, ширина, высота): Fold 3 — 33,419,93,13; Fold 4 — 444,633,90,9; Fold 6 — 14,583,92,13; S23 FE — 538,591,88,11 и 626,591,6,8.

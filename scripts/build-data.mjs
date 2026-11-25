@@ -594,6 +594,82 @@ const PAGES = {
   'honor-x80-pro-max.tsv': [
     { id: 'honor-x80-pro-max', brand: 'Honor', name: 'X80 Pro Max', look: { body: ['#ffc38a', '#c8641e'], cam: 'ring' } },
   ],
+  // Samsung Galaxy S10 … S27 Ultra, Z Flip 3 … 7 FE, Z Fold 3 … 7: NanoReview (S22, S23 FE, S24, S24 Plus, S26 — версии на Exynos)
+  'samsung-galaxy-s10--s10-plus.tsv': [
+    { id: 'samsung-galaxy-s10', brand: 'Samsung', name: 'Galaxy S10', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'samsung-galaxy-s10-plus', brand: 'Samsung', name: 'Galaxy S10 Plus', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s10e--s20.tsv': [
+    { id: 'samsung-galaxy-s10e', brand: 'Samsung', name: 'Galaxy S10e', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'samsung-galaxy-s20', brand: 'Samsung', name: 'Galaxy S20', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s20-fe--s20-plus.tsv': [
+    { id: 'samsung-galaxy-s20-fe', brand: 'Samsung', name: 'Galaxy S20 FE', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'samsung-galaxy-s20-plus', brand: 'Samsung', name: 'Galaxy S20 Plus', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s20-ultra--s21.tsv': [
+    { id: 'samsung-galaxy-s20-ultra', brand: 'Samsung', name: 'Galaxy S20 Ultra', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'samsung-galaxy-s21', brand: 'Samsung', name: 'Galaxy S21', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s21-fe-5g--s21-plus.tsv': [
+    { id: 'samsung-galaxy-s21-fe-5g', brand: 'Samsung', name: 'Galaxy S21 FE 5G', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'samsung-galaxy-s21-plus', brand: 'Samsung', name: 'Galaxy S21 Plus', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s21-ultra--s22.tsv': [
+    { id: 'samsung-galaxy-s21-ultra', brand: 'Samsung', name: 'Galaxy S21 Ultra', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'samsung-galaxy-s22', brand: 'Samsung', name: 'Galaxy S22', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s22-plus--s22-ultra.tsv': [
+    { id: 'samsung-galaxy-s22-plus', brand: 'Samsung', name: 'Galaxy S22 Plus', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'samsung-galaxy-s22-ultra', brand: 'Samsung', name: 'Galaxy S22 Ultra', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s23--s23-fe-exynos.tsv': [
+    { id: 'samsung-galaxy-s23', brand: 'Samsung', name: 'Galaxy S23', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'samsung-galaxy-s23-fe-exynos', brand: 'Samsung', name: 'Galaxy S23 FE (Exynos)', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s23-plus--s23-ultra.tsv': [
+    { id: 'samsung-galaxy-s23-plus', brand: 'Samsung', name: 'Galaxy S23 Plus', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'samsung-galaxy-s23-ultra', brand: 'Samsung', name: 'Galaxy S23 Ultra', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s24-exynos--s24-fe.tsv': [
+    { id: 'samsung-galaxy-s24-exynos', brand: 'Samsung', name: 'Galaxy S24 (Exynos)', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'samsung-galaxy-s24-fe', brand: 'Samsung', name: 'Galaxy S24 FE', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s24-plus-exynos--s24-ultra.tsv': [
+    { id: 'samsung-galaxy-s24-plus-exynos', brand: 'Samsung', name: 'Galaxy S24 Plus (Exynos)', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'samsung-galaxy-s24-ultra', brand: 'Samsung', name: 'Galaxy S24 Ultra', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s25-edge--s25-plus.tsv': [
+    { id: 'samsung-galaxy-s25-edge', brand: 'Samsung', name: 'Galaxy S25 Edge', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'samsung-galaxy-s25-plus', brand: 'Samsung', name: 'Galaxy S25 Plus', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'samsung-galaxy-s26-exynos--s27-ultra.tsv': [
+    { id: 'samsung-galaxy-s26-exynos', brand: 'Samsung', name: 'Galaxy S26 (Exynos)', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'samsung-galaxy-s27-ultra', brand: 'Samsung', name: 'Galaxy S27 Ultra', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'samsung-galaxy-z-flip-3-5g--z-flip-4.tsv': [
+    { id: 'samsung-galaxy-z-flip-3-5g', brand: 'Samsung', name: 'Galaxy Z Flip 3 5G', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'samsung-galaxy-z-flip-4', brand: 'Samsung', name: 'Galaxy Z Flip 4', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'samsung-galaxy-z-flip-5--z-flip-6.tsv': [
+    { id: 'samsung-galaxy-z-flip-5', brand: 'Samsung', name: 'Galaxy Z Flip 5', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+    { id: 'samsung-galaxy-z-flip-6', brand: 'Samsung', name: 'Galaxy Z Flip 6', look: { body: ['#c9b6ff', '#6447c4'], cam: 'col' } },
+  ],
+  'samsung-galaxy-z-flip-7--z-flip-7-fe.tsv': [
+    { id: 'samsung-galaxy-z-flip-7', brand: 'Samsung', name: 'Galaxy Z Flip 7', look: { body: ['#f3d6dc', '#bf8e98'], cam: 'col' } },
+    { id: 'samsung-galaxy-z-flip-7-fe', brand: 'Samsung', name: 'Galaxy Z Flip 7 FE', look: { body: ['#9fd2ff', '#3b7fc0'], cam: 'col' } },
+  ],
+  'samsung-galaxy-z-fold-3-5g--z-fold-4.tsv': [
+    { id: 'samsung-galaxy-z-fold-3-5g', brand: 'Samsung', name: 'Galaxy Z Fold 3 5G', look: { body: ['#3a3d46', '#121318'], cam: 'col' } },
+    { id: 'samsung-galaxy-z-fold-4', brand: 'Samsung', name: 'Galaxy Z Fold 4', look: { body: ['#e9ebef', '#a9aeb8'], cam: 'col' } },
+  ],
+  'samsung-galaxy-z-fold-5--z-fold-6.tsv': [
+    { id: 'samsung-galaxy-z-fold-5', brand: 'Samsung', name: 'Galaxy Z Fold 5', look: { body: ['#7fa8ff', '#2f4fb8'], cam: 'col' } },
+    { id: 'samsung-galaxy-z-fold-6', brand: 'Samsung', name: 'Galaxy Z Fold 6', look: { body: ['#b9f0dd', '#4fa68a'], cam: 'col' } },
+  ],
+  'samsung-galaxy-z-fold-7.tsv': [
+    { id: 'samsung-galaxy-z-fold-7', brand: 'Samsung', name: 'Galaxy Z Fold 7', look: { body: ['#ffc38a', '#c8641e'], cam: 'col' } },
+  ],
 };
 
 const MONTHS = { Январь: 1, Февраль: 2, Март: 3, Апрель: 4, Май: 5, Июнь: 6, Июль: 7, Август: 8, Сентябрь: 9, Октябрь: 10, Ноябрь: 11, Декабрь: 12 };

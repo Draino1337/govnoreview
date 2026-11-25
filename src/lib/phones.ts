@@ -30,9 +30,13 @@ const ALIASES: Record<string, string> = {
 };
 const hay = (p: Phone) => `${fullName(p)} ${ALIASES[p.brand] ?? ''}`.toLowerCase();
 
-// бренды по алфавиту, внутри бренда — от новых к старым; в один месяц старшая модель выше (17 Pro Max, 17 Pro, 17)
+// сначала главные бренды в этом порядке, остальные по алфавиту; внутри бренда — от новых к старым,
+// в один месяц старшая модель выше (17 Pro Max, 17 Pro, 17)
+const FIRST = ['Apple', 'Samsung', 'Google', 'Xiaomi', 'Nothing', 'OnePlus'];
 const cmp = (a: string, b: string) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
-const byName = (a: Phone, b: Phone) => cmp(a.brand, b.brand) || cmp(b.released, a.released) || cmp(b.name, a.name);
+const rank = (b: string) => (FIRST.includes(b) ? FIRST.indexOf(b) : FIRST.length);
+export const byBrand = (a: string, b: string) => rank(a) - rank(b) || cmp(a, b);
+const byName = (a: Phone, b: Phone) => byBrand(a.brand, b.brand) || cmp(b.released, a.released) || cmp(b.name, a.name);
 
 // слова из названий моделей, набранные по-русски: «айфон 15 про», «поко ф8»
 const WORDS: Record<string, string> = {
@@ -48,7 +52,7 @@ const queryTokens = (q: string) =>
     .filter(Boolean)
     .map((t) => WORDS[t] ?? (/\d/.test(t) ? t.replace(/[а-яё]/g, (c) => LAT[c] ?? c) : t));
 
-/** Телефоны, подходящие под запрос (пустой запрос — весь каталог): бренды по алфавиту, модели от новых к старым. */
+/** Телефоны, подходящие под запрос (пустой запрос — весь каталог): бренды в порядке byBrand, модели от новых к старым. */
 export function searchPhones(q: string, limit = Infinity): Phone[] {
   const tokens = queryTokens(q);
   return PHONES.filter((p) => {

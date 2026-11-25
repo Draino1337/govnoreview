@@ -1,6 +1,6 @@
 # чип (как в строке «Чипсет»)|откуда картинка. Картинки ставит node scripts/chip-images.mjs в public/chips/.
 # versus.com — снимки и рендеры самих чипов; Wikimedia Commons — фото кристаллов первых iPhone (общественное достояние, автор Henriok).
-# Близнецы без своей картинки берут картинку базового чипа: 7400 Ultra → 7400, 7300 Pro → 7300, 7200 Pro → 7200, 9500 Super → 9500, Kirin 9000S1 → 9000S, 7025 Ultra → 7025, 7100 Elite → 7100, 8500 Elite → 8500, Helio G81 → G81 Ultra, Kirin 710F → 710, 8 Elite (Accelerated) → 8 Elite, 7 Gen 1 Accelerated → 7 Gen 1.
+# Близнецы без своей картинки берут картинку базового чипа: 7400 Ultra → 7400, 7300 Pro → 7300, 7200 Pro → 7200, 9500 Super → 9500, Kirin 9000S1 → 9000S, 7025 Ultra → 7025, 7100 Elite → 7100, 8500 Elite → 8500, Helio G81 → G81 Ultra, Kirin 710F → 710, 8 Elite (Accelerated) → 8 Elite, 7 Gen 1 Accelerated → 7 Gen 1, 8 Gen 2 и 8 Gen 3 «for Galaxy» → обычные, 888 5G → 888, Exynos 9 Octa 990 → 990.
 Qualcomm Snapdragon 8 Elite Gen 5|https://images.versus.io/objects/qualcomm-snapdragon-8-elite-gen-5.front.master2x.1758899235682.webp
 Apple A18 Pro|https://images.versus.io/objects/apple-a18-pro.front.master2x.1725916162979.webp
 Qualcomm Snapdragon 8 Elite|https://images.versus.io/objects/qualcomm-snapdragon-8-elite.front.master2x.1730283932429.webp
@@ -110,3 +110,12 @@ Qualcomm Snapdragon 8 Gen 3|https://images.versus.io/objects/qualcomm-snapdragon
 Qualcomm Snapdragon 888|https://images.versus.io/objects/qualcomm-snapdragon-888.front.master2x.1607515336598.webp
 Qualcomm Snapdragon 8s Gen 3|https://images.versus.io/objects/qualcomm-snapdragon-8s-gen-3.front.master2x.1710759552267.webp
 Snapdragon 7 Gen 1 Accelerated Edition|https://images.versus.io/objects/qualcomm-snapdragon-7-gen-1.front.master2x.1653324120079.webp
+Samsung Exynos 9 Octa 9820|https://images.versus.io/objects/samsung-exynos-9820.front.master2x.1576684641045.webp
+Samsung Exynos 9 Octa 990|https://images.versus.io/objects/samsung-exynos-990.front.master2x.1581341819487.webp
+Samsung Exynos 990|https://images.versus.io/objects/samsung-exynos-990.front.master2x.1581341819487.webp
+Samsung Exynos 2100|https://images.versus.io/objects/samsung-exynos-2100.front.master2x.1610544148558.webp
+Samsung Exynos 2200|https://images.versus.io/objects/samsung-exynos-2200.front.master2x.1642607837788.webp
+Samsung Exynos 2400e|https://images.versus.io/objects/samsung-exynos-2400e.front.master2x.1727964463539.webp
+Snapdragon 8 Gen 2 Mobile Platform for Galaxy|https://images.versus.io/objects/qualcomm-snapdragon-8-gen-2.front.master2x.1668617244819.webp
+Qualcomm Snapdragon 8 Gen 3 (for Galaxy)|https://images.versus.io/objects/qualcomm-snapdragon-8-gen-3.front.master2x.1698246497835.webp
+Qualcomm Snapdragon 888 5G|https://images.versus.io/objects/qualcomm-snapdragon-888.front.master2x.1607515336598.webp
