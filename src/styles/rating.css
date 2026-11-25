@@ -74,7 +74,49 @@
   line-height: 1.55;
 }
 
-/* вкладки: по чему считать рейтинг */
+/* «терминал» над заголовком: команда печатается по буквам, мигает курсор */
+.rt-cmd {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--line2);
+  background: color-mix(in srgb, var(--well) 88%, transparent);
+  color: var(--sky);
+  font: 600 12.5px/1 var(--mono);
+  white-space: nowrap;
+}
+.rt-ps {
+  color: var(--a);
+}
+.rt-type {
+  display: inline-block;
+  width: calc(var(--n) * 1ch);
+  overflow: hidden;
+  animation: rt-type 0.8s steps(var(--n)) 0.2s both;
+}
+@keyframes rt-type {
+  from {
+    width: 0;
+  }
+}
+.rt-caret {
+  flex: none;
+  width: 0.62em;
+  height: 1.15em;
+  margin-left: -6px;
+  background: var(--a);
+  animation: rt-blink 1.05s steps(1) infinite;
+}
+@keyframes rt-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* вкладки: по чему считать рейтинг; на клавиатуре — цифрами 1–5 */
 .rt-tabs {
   display: flex;
   gap: 2px;
@@ -95,7 +137,7 @@
   flex: none;
   align-items: center;
   gap: 7px;
-  padding: 8px 14px;
+  padding: 8px 14px 8px 10px;
   color: var(--muted);
   font-size: 13.5px;
   font-weight: 600;
@@ -103,11 +145,26 @@
   white-space: nowrap;
   transition: color 0.15s;
 }
+.rt-tabs kbd {
+  min-width: 17px;
+  height: auto;
+  margin: 0;
+  padding: 3px 4px;
+  border: 1px solid var(--line2);
+  background: none;
+  color: var(--faint);
+  font: 700 10px/1 var(--mono);
+  text-align: center;
+}
 .rt-tabs a:hover {
   color: var(--ink);
 }
 .rt-tabs a.is-on {
   background: var(--a);
+  color: var(--bg);
+}
+.rt-tabs a.is-on kbd {
+  border-color: color-mix(in srgb, var(--bg) 35%, transparent);
   color: var(--bg);
 }
 /* под курсором подпись соседней вкладки двоится — намёк, что её можно «включить» */
@@ -118,103 +175,76 @@
   0% { text-shadow: -1px 0 var(--b), 1px 0 #6fd8f2; }
   50% { text-shadow: 1px 0 var(--b), -1px 0 #6fd8f2; }
 }
+@media (hover: none) {
+  .rt-tabs kbd {
+    display: none;
+  }
+  .rt-tabs a {
+    padding-left: 14px;
+  }
+}
 
-/* пьедестал: три карточки, король в центре и крупнее. Карточка тёмная, с лёгким оттенком своей медали —
-   золото, серебро, бронза: рамка, подсветка сверху, номер, оценка и шкала её цвета */
+/* пьедестал: три модели стоят на ASCII-постаментах цвета своей медали, король в центре и выше всех */
 .podium {
   display: grid;
-  grid-template-columns: 1fr 1.14fr 1fr;
+  grid-template-columns: 1fr 1.12fr 1fr;
   grid-template-areas: 's g b';
   align-items: end;
-  gap: clamp(10px, 2vw, 20px);
+  gap: clamp(8px, 2vw, 22px);
   max-width: 900px;
-  margin: 40px auto 0;
+  margin: 36px auto 0;
   padding: 0;
   list-style: none;
 }
 .pod.is-gold {
   --m1: var(--gold-1);
+  --ph: 216px;
   grid-area: g;
 }
 .pod.is-silver {
   --m1: var(--silver-1);
+  --ph: 156px;
   grid-area: s;
 }
 .pod.is-bronze {
   --m1: var(--bronze-1);
+  --ph: 120px;
   grid-area: b;
 }
 .pod-card {
-  --rim: color-mix(in srgb, var(--m1) 60%, var(--line2));
-  --fill: linear-gradient(175deg, color-mix(in srgb, var(--m1) 22%, var(--card)), color-mix(in srgb, var(--m1) 5%, var(--card)) 70%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 16px 18px;
+  min-width: 0;
   color: inherit;
   text-align: center;
   text-decoration: none;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.pod-1 .pod-card {
-  --c: 5px;
-  padding: 20px 20px 22px;
-}
-.pod-card:hover {
-  --rim: var(--m1);
-  transform: translateY(-4px);
-}
-.pod-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.pod-rank {
-  color: var(--m1);
-  font: 800 20px/1 var(--mono);
-  letter-spacing: -0.03em;
-}
-.pod-1 .pod-rank {
-  font-size: 26px;
-}
-.pod-medal {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 9px;
-  background: var(--m1);
-  color: var(--medal-ink);
-  font: 800 10.5px/1 var(--mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  clip-path: polygon(2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 2px 2px);
-}
-/* телефон стоит на светящемся «полу» цвета медали */
+/* телефон парит над постаментом на светящемся «полу» цвета медали */
 .pod-art {
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   width: 100%;
-  height: 150px;
-  margin: 16px 0 14px;
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  height: 128px;
+  margin-bottom: 14px;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .pod-1 .pod-art {
-  height: 206px;
+  height: 180px;
 }
 .pod-art::after {
   content: '';
   position: absolute;
-  left: 12%;
-  right: 12%;
-  bottom: -8px;
+  left: 14%;
+  right: 14%;
+  bottom: -10px;
   z-index: -1;
-  height: 16px;
-  background: radial-gradient(closest-side, color-mix(in srgb, var(--m1) 45%, transparent), transparent);
+  height: 18px;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--m1) 50%, transparent), transparent);
 }
-/* кадры разной ширины вписываются в рамку постоянной высоты и стоят на «полу» — карточки не меняют высоту */
+/* кадры разной ширины вписываются в рамку постоянной высоты и стоят на «полу» */
 .pod-art .pa.has-photo {
   width: 100%;
   height: 100%;
@@ -224,14 +254,27 @@
   object-position: center bottom;
 }
 .pod-card:hover .pod-art {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
 }
-/* название — всегда две строки по высоте (длиннее — с многоточием), чтобы карточки не прыгали */
+.pod-medal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  background: var(--m1);
+  color: var(--medal-ink);
+  font: 800 10px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  clip-path: polygon(2px 0, calc(100% - 2px) 0, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 2px 2px);
+}
+/* название — всегда две строки по высоте (длиннее — с многоточием), чтобы постаменты стояли ровно */
 .pod-name {
   display: -webkit-box;
   min-height: 2.5em;
+  margin-top: 10px;
   overflow: hidden;
-  font: 600 clamp(13px, 1.6vw, 16px) / 1.25 var(--font);
+  font: 600 clamp(12.5px, 1.6vw, 16px) / 1.25 var(--font);
   letter-spacing: -0.02em;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -239,6 +282,7 @@
 }
 .pod-meta {
   margin-top: 4px;
+  color: var(--dim);
   white-space: nowrap;
   font: 500 11.5px var(--mono);
 }
@@ -246,30 +290,50 @@
   display: flex;
   align-items: baseline;
   gap: 4px;
-  margin-top: 14px;
+  margin: 10px 0 12px;
 }
 .pod-score b {
   color: var(--m1);
   font: 800 40px/1 var(--mono);
   letter-spacing: -0.04em;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--m1) 45%, transparent);
 }
 .pod-1 .pod-score b {
-  font-size: 56px;
+  font-size: 58px;
 }
 .pod-score small {
   color: var(--dim);
   font: 600 13px var(--mono);
 }
-.pod-meter {
-  width: 100%;
-  height: 5px;
-  margin-top: 12px;
-  background: var(--line);
+.roll {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
 }
-.pod-meter i {
-  display: block;
-  height: 100%;
-  background: var(--m1);
+/* сам постамент: символы рисует Pedestal (components/Ascii.tsx), цифра места — <b> */
+.pdl {
+  width: 100%;
+  height: var(--ph);
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--m1) 14%, transparent), transparent 85%);
+  color: color-mix(in srgb, var(--m1) 50%, var(--bg));
+  font: 600 12px/12px var(--mono);
+  text-align: left;
+  white-space: pre;
+  user-select: none;
+  transition: color 0.2s;
+}
+.pdl i {
+  color: color-mix(in srgb, var(--m1) 30%, var(--bg));
+  font-style: normal;
+}
+.pdl b {
+  color: var(--m1);
+  font-weight: 800;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--m1) 70%, transparent);
+}
+.pod-card:hover .pdl {
+  color: color-mix(in srgb, var(--m1) 75%, var(--bg));
 }
 
 /* оценки по категориям в строке списка — значки с числами */
@@ -296,21 +360,44 @@
   color: var(--a);
 }
 
-/* места ниже пьедестала: одна панель, строки через тонкие разделители */
+/* места ниже пьедестала: таблица в духе терминала — шапка капслоком, строки через пунктир */
+.rt-board {
+  --cols: 34px 44px minmax(0, 1fr) 172px 136px 40px 22px;
+  max-width: 900px;
+  margin: 30px auto 0;
+  padding: 6px;
+}
+.rt-thead {
+  display: grid;
+  grid-template-columns: var(--cols);
+  gap: 14px;
+  margin: 0;
+  padding: 10px 12px 11px;
+  border-bottom: 1px dashed var(--line2);
+  color: var(--faint);
+  font: 700 10.5px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rt-thead span:first-child {
+  text-align: center;
+}
+.rt-thead span:nth-child(6) {
+  text-align: right;
+}
 .rt-list {
   display: grid;
-  max-width: 900px;
-  margin: 20px auto 0;
-  padding: 6px;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 .rt-list li + li {
-  border-top: 1px solid var(--line);
+  border-top: 1px dashed var(--line);
 }
 .rt-row {
   position: relative;
   display: grid;
-  grid-template-columns: 34px 40px minmax(0, 1fr) auto minmax(60px, 140px) 44px 16px;
+  grid-template-columns: var(--cols);
   align-items: center;
   gap: 14px;
   padding: 10px 12px;
@@ -318,7 +405,7 @@
   text-decoration: none;
   transition: background-color 0.15s;
 }
-/* под курсором — подсветка строки, полоска акцента слева и стрелка «сравнить» справа */
+/* под курсором — подсветка со строками развёртки, полоска акцента слева и «->» справа */
 .rt-row::before {
   content: '';
   position: absolute;
@@ -331,18 +418,19 @@
   transition: transform 0.15s;
 }
 .rt-row:hover {
-  background: var(--a-f);
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(184, 167, 240, 0.05) 2px 4px), var(--a-f);
 }
 .rt-row:hover::before {
   transform: none;
 }
-.rt-row > svg {
+.rt-go {
   color: var(--a);
+  font: 800 13px/1 var(--mono);
   opacity: 0;
   transform: translateX(-6px);
   transition: opacity 0.15s, transform 0.15s;
 }
-.rt-row:hover > svg {
+.rt-row:hover .rt-go {
   opacity: 1;
   transform: none;
 }
@@ -376,23 +464,59 @@
   color: var(--faint);
   font: 500 11.5px var(--mono);
 }
-.rt-bar {
-  height: 4px;
-  background: var(--line);
-}
-.rt-bar i {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--a-deep), var(--a));
-}
 .rt-score {
   text-align: right;
   font: 800 18px/1 var(--mono);
 }
 
-.rt .cl-more {
-  margin: 18px auto 0;
+/* шкала из символов: ░ — фон, █ поверх «печатается» по клетке, когда строка появляется */
+.abar {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--a) 30%, transparent);
+  font: 400 11px/1 var(--mono);
+  white-space: nowrap;
+}
+.abar-fg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--n) * 1ch);
+  overflow: hidden;
+  color: var(--a);
+}
+.rt-list li:nth-child(n + 8) .abar-fg {
+  color: var(--a-deep);
+}
+.rt-row.rv[data-in] .abar-fg {
+  animation: abar 0.7s steps(var(--n)) calc(var(--rv-delay, 0s) + 0.15s) both;
+}
+@keyframes abar {
+  from {
+    width: 0;
+  }
+}
+
+.rt-more {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px auto 0;
+  padding: 12px 18px;
+  border: 1px dashed var(--line3);
+  background: var(--well);
+  color: var(--ink);
+  font: 700 13px/1 var(--mono);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.rt-more span {
+  color: var(--a);
+}
+.rt-more:hover {
+  border-style: solid;
+  border-color: var(--a);
 }
 .rt-note {
   max-width: 900px;
@@ -402,13 +526,28 @@
   text-align: center;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .rt-type,
+  .rt-caret,
+  .rt-row.rv[data-in] .abar-fg {
+    animation: none;
+  }
+}
+
 /* оценки по категориям в строке не помещаются рядом со шкалой — на средней ширине их убираем */
 @media (max-width: 960px) {
-  .rt-row .cats {
+  .rt-board {
+    --cols: 34px 44px minmax(0, 1fr) 136px 40px 22px;
+  }
+  .rt-row .cats,
+  .rt-th-cats {
     display: none;
   }
-  .rt-row {
-    grid-template-columns: 34px 40px minmax(0, 1fr) minmax(60px, 140px) 44px 16px;
+  .rt-thead span:nth-child(6) {
+    text-align: left;
+  }
+  .rt-thead span:nth-child(5) {
+    text-align: right;
   }
 }
 
@@ -420,62 +559,108 @@
   .rt-lead {
     min-height: 4.65em;
   }
+  .rt-cmd {
+    font-size: 11px;
+  }
   .rt-tabs {
     width: auto;
+    max-width: none;
     margin-left: -16px;
     margin-right: -16px;
     border-left: 0;
     border-right: 0;
   }
-  /* король — во всю ширину сверху, серебро и бронза — рядом под ним */
+  /* три постамента остаются рядом — как настоящий пьедестал, только ниже и уже */
   .podium {
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 'g g' 's b';
-    align-items: stretch;
+    gap: 6px;
+    margin-top: 32px;
   }
-  .pod-card {
-    height: 100%;
-    padding: 12px 12px 14px;
+  .pod.is-gold {
+    --ph: 128px;
   }
-  .pod-1 .pod-card {
-    padding: 16px 18px 18px;
+  .pod.is-silver {
+    --ph: 100px;
+  }
+  .pod.is-bronze {
+    --ph: 80px;
   }
   .pod-art {
-    height: 112px;
-    margin: 12px 0;
+    height: 96px;
+    margin-bottom: 10px;
   }
   .pod-1 .pod-art {
-    height: 180px;
-  }
-  .pod-rank {
-    font-size: 17px;
+    height: 132px;
   }
   .pod-medal {
-    padding: 4px 7px;
-    font-size: 9px;
+    gap: 4px;
+    padding: 4px 6px;
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+  }
+  .pod-medal svg {
+    display: none;
+  }
+  .pod-name {
+    font-size: 12px;
   }
   .pod-meta {
     display: none;
   }
-  .pod-1 .pod-meta {
-    display: block;
+  .pod-score {
+    margin: 6px 0 8px;
   }
   .pod-score b {
-    font-size: 32px;
+    font-size: 26px;
   }
   .pod-1 .pod-score b {
-    font-size: 48px;
+    font-size: 34px;
   }
-  .rt-list {
+  .pod-score small {
+    font-size: 10px;
+  }
+  .pdl {
+    font-size: 8px;
+    line-height: 8px;
+  }
+  .rt-board {
     padding: 4px;
   }
+  .rt-thead {
+    display: none;
+  }
+  /* строка: место, кадр, название, а под ним шкала; балл справа */
   .rt-row {
-    grid-template-columns: 26px 36px minmax(0, 1fr) 40px;
-    gap: 10px;
+    grid-template-columns: 26px 36px minmax(0, 1fr) 34px;
+    grid-template-areas: 'rank art name score' 'rank art bar score';
+    row-gap: 6px;
+    column-gap: 10px;
     padding: 9px 8px;
   }
-  .rt-bar,
-  .rt-row > svg {
+  .rt-rank {
+    grid-area: rank;
+  }
+  .rt-row > .pa {
+    grid-area: art;
+  }
+  .rt-name {
+    grid-area: name;
+  }
+  .rt-score {
+    grid-area: score;
+  }
+  .rt-row .abar {
+    grid-area: bar;
+    font-size: 9px;
+  }
+  .rt-name small,
+  .rt-go {
     display: none;
+  }
+  /* длинные имена — в две строки, а не обрезать многоточием */
+  .rt-name b {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
   }
 }
