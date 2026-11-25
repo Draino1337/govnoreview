@@ -142,7 +142,7 @@ a {
   height: var(--hdr);
   border-bottom: 1px solid var(--line);
   /* почти сплошной фон вместо размытия: blur пересчитывался бы на каждом кадре звёздного неба под шапкой */
-  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  background: var(--bg);
 }
 /* шапка — во всю ширину окна: логотип слева, плашка «Новое» по центру, ссылки справа */
 .hdr-in {

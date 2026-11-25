@@ -693,8 +693,8 @@
 }
 .cl-more {
   display: inline-flex;
-  margin-top: 14px;
-  padding: 6px 0;
+  margin-top: 6px;
+  padding: 13px 0; /* зона нажатия ~40 px */
   border: 0;
   background: none;
   color: var(--a);

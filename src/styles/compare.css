@@ -71,6 +71,9 @@
   color: var(--faint);
   font: 500 12px/1.4 var(--mono);
 }
+.side-date::before {
+  content: ' · ';
+}
 .side-chip,
 .chip-v {
   display: inline-flex;
@@ -165,7 +168,8 @@
   margin-top: 16px;
   padding: 0 8px;
   border: 1px solid var(--line2);
-  background: color-mix(in srgb, var(--solid) 97%, transparent);
+  background: var(--solid);
+  box-shadow: 0 -7px 0 var(--bg); /* закрывает щель под шапкой, когда панель прилипла */
 }
 .subnav-pills {
   display: flex;
@@ -505,6 +509,7 @@
 }
 .money input {
   width: 104px;
+  height: 100%;
   border: 0;
   outline: 0;
   background: transparent;
@@ -893,7 +898,28 @@
     font-size: clamp(13px, 3.9vw, 15px);
   }
   .side-meta {
-    font-size: 12.5px;
+    font-size: 11.5px;
+  }
+  .side-date {
+    display: block;
+  }
+  .side-date::before {
+    content: none;
+  }
+  /* название чипа под логотипом, а не узкой колонкой в 4 строки рядом с ним */
+  .side-chip {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+  .hero-intro {
+    text-align: left;
+  }
+  .radar-axis text {
+    font: 600 15px var(--font);
+  }
+  .radar svg {
+    overflow: visible;
   }
   .side .btn-sm {
     padding: 0 12px;
