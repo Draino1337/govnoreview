@@ -62,7 +62,8 @@ function Side({ p, an, score, accent, leader, onPick }: SideProps) {
       <PhoneArt phone={p} lenses={an.m.lenses} size="lg" interactive />
       <h2 className="side-name">{shortName(p)}</h2>
       <p className="side-meta">
-        {p.brand} · {p.tier} · {monthYear(p.released)}
+        {p.brand} · {p.tier}
+        <span className="side-date">{monthYear(p.released)}</span>
       </p>
       <p className="side-chip">
         <ChipLogo chip={chipset(p)} size={44} />
