@@ -1,14 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { Phone } from '../types.ts';
 import { PHONES, fullName, models, monthYear, pairPath } from '../lib/phones.ts';
 import { analyze } from '../lib/analysis.ts';
 import { overall, type CatId, type Scores } from '../lib/score.ts';
-import { hrefOf } from '../router.ts';
+import { go, hrefOf } from '../router.ts';
 import { Icon } from '../components/Icon.tsx';
 import { Glitch } from '../components/Flip.tsx';
 import { PhoneArt } from '../components/PhoneArt.tsx';
+import { Bar, Pedestal, Roll } from '../components/Ascii.tsx';
 
 type TopId = 'all' | CatId;
+
+/** команда в «терминале» над заголовком — у каждой вкладки своя */
+const CMD: Partial<Record<TopId, string>> = {
+  all: 'govno rank --all',
+  camera: 'govno rank --by camera',
+  gaming: 'govno rank --by gaming',
+  battery: 'govno rank --by battery',
+  display: 'govno rank --by display',
+};
 
 /** вкладки рейтинга: общий и по категориям оценки (src/lib/score.ts) */
 export const TOPS: { id: TopId; tab: string; icon: string; title: string; desc: string }[] = [
@@ -76,6 +86,16 @@ export function Rating({ slug }: { slug: string }) {
     if (on && box && box.scrollWidth > box.clientWidth)
       box.scrollLeft += on.getBoundingClientRect().left - box.getBoundingClientRect().left - (box.clientWidth - on.offsetWidth) / 2;
   }, []);
+  // клавиши 1–5 переключают вкладки (цифры подписаны на самих вкладках)
+  useEffect(() => {
+    const on = (e: KeyboardEvent) => {
+      const t = TOPS[Number(e.key) - 1];
+      if (!t || e.ctrlKey || e.metaKey || e.altKey || (e.target as HTMLElement).closest('input, textarea, [contenteditable]')) return;
+      go(`/rating/${t.id}`);
+    };
+    addEventListener('keydown', on);
+    return () => removeEventListener('keydown', on);
+  }, []);
   // ссылка с места рейтинга — сравнение с лидером, у самого лидера — со вторым местом (если в каталоге он один — без ссылки)
   const link = (i: number) => {
     const p = rows[i].p;
@@ -88,7 +108,13 @@ export function Rating({ slug }: { slug: string }) {
   return (
     <div className="wrap rt">
       <header className="rt-head">
-        <p className="label">Рейтинг смартфонов</p>
+        <p className="rt-cmd" aria-hidden="true">
+          <span className="rt-ps">~/govnoreview $</span>
+          <span className="rt-type" style={{ '--n': (CMD[top.id] ?? 'govno rank').length } as CSSProperties}>
+            {(CMD[top.id] ?? 'govno rank')}
+          </span>
+          <i className="rt-caret" />
+        </p>
         <h1>
           <Glitch text={top.title} />
         </h1>
@@ -98,65 +124,75 @@ export function Rating({ slug }: { slug: string }) {
       </header>
 
       <nav className="rt-tabs" ref={tabs} aria-label="По чему считать рейтинг">
-        {TOPS.map((t) => (
+        {TOPS.map((t, i) => (
           <a key={t.id} href={hrefOf(`/rating/${t.id}`)} className={t.id === top.id ? 'is-on' : undefined} aria-current={t.id === top.id ? 'page' : undefined}>
-            <Icon name={t.icon} size={16} />
+            <kbd aria-hidden="true">{i + 1}</kbd>
+            <Icon name={t.icon} size={15} />
             {t.tab}
           </a>
         ))}
       </nav>
 
-      {/* тройка лучших — карточки цвета своей медали: золото, серебро, бронза */}
+      {/* тройка лучших стоит на ASCII-постаментах: король в центре и выше всех */}
       <ol className="podium" aria-label="Тройка лучших">
         {rows.slice(0, 3).map((r, i) => (
           <li key={r.p.id} className={`pod pod-${i + 1} is-${MEDALS[i].cls}`}>
-            <a className="pod-card px" {...link(i)}>
-              <span className="pod-top">
-                <b className="pod-rank">#{i + 1}</b>
-                <span className="pod-medal">
-                  <Icon name={MEDALS[i].icon} size={13} />
-                  {MEDALS[i].label}
-                </span>
-              </span>
+            <a className="pod-card" {...link(i)}>
               <span className="pod-art">
                 <PhoneArt phone={r.p} size={i === 0 ? 'md' : 'sm'} />
+              </span>
+              <span className="pod-medal">
+                <Icon name={MEDALS[i].icon} size={12} />
+                {MEDALS[i].label}
               </span>
               <span className="pod-name">{fullName(r.p)}</span>
               <span className="pod-meta">{meta(r.p)}</span>
               <span className="pod-score">
-                <b>{r.score ?? 'н/д'}</b>
+                <b>
+                  <Roll value={r.score} delay={[650, 500, 800][i]} />
+                </b>
                 <small>/100</small>
               </span>
-              <span className="pod-meter" aria-hidden="true">
-                <i style={{ width: `${r.score ?? 0}%` }} />
-              </span>
+              <Pedestal rank={(i + 1) as 1 | 2 | 3} delay={[600, 450, 750][i]} />
             </a>
           </li>
         ))}
       </ol>
 
-      <ol className="rt-list px" start={4} aria-label="Остальные места">
-        {shown.map((r, k) => (
-          <li key={r.p.id}>
-            <a className="rt-row rv" {...link(k + 3)}>
-              <span className="rt-rank">{k + 4}</span>
-              <PhoneArt phone={r.p} size="xs" />
-              <span className="rt-name">
-                <b>{fullName(r.p)}</b>
-                <small>{meta(r.p)}</small>
-              </span>
-              <Cats s={r.s} on={top.id} />
-              <span className="rt-bar" aria-hidden="true">
-                <i style={{ width: `${r.score ?? 0}%` }} />
-              </span>
-              <b className="rt-score">{r.score ?? 'н/д'}</b>
-              <Icon name="arrow" size={16} />
-            </a>
-          </li>
-        ))}
-      </ol>
+      <div className="rt-board px">
+        <p className="rt-thead" aria-hidden="true">
+          <span>#</span>
+          <span />
+          <span>модель</span>
+          <span className="rt-th-cats">категории</span>
+          <span className="rt-th-bar">шкала</span>
+          <span>балл</span>
+          <span />
+        </p>
+        <ol className="rt-list" start={4} aria-label="Остальные места">
+          {shown.map((r, k) => (
+            <li key={r.p.id}>
+              <a className="rt-row rv" {...link(k + 3)}>
+                <span className="rt-rank">{String(k + 4).padStart(2, '0')}</span>
+                <PhoneArt phone={r.p} size="xs" />
+                <span className="rt-name">
+                  <b>{fullName(r.p)}</b>
+                  <small>{meta(r.p)}</small>
+                </span>
+                <Cats s={r.s} on={top.id} />
+                <Bar value={r.score} />
+                <b className="rt-score">{r.score ?? 'н/д'}</b>
+                <span className="rt-go" aria-hidden="true">
+                  -&gt;
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
       {rest.length > FOLD && (
-        <button type="button" className="cl-more" aria-expanded={all} onClick={() => setAll(!all)}>
+        <button type="button" className="rt-more" aria-expanded={all} onClick={() => setAll(!all)}>
+          <span aria-hidden="true">{all ? '[ - ]' : '[ + ]'}</span>
           {all ? 'Свернуть' : `Показать всех: ещё ${rest.length - FOLD}`}
         </button>
       )}
