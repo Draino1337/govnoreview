@@ -171,6 +171,72 @@ a {
   color: var(--muted);
   font-weight: 500;
 }
+/* ASCII-логотип (AsciiLogo.tsx): знак и слово из символов; цвета клеток — классами */
+.alogo {
+  flex: none;
+  margin: 0;
+  color: var(--ink);
+  font: 700 8px/8px var(--mono);
+  letter-spacing: 0;
+  white-space: pre;
+  user-select: none;
+}
+/* котик лавандовый, глаза и нос светлые */
+.alogo .k {
+  color: var(--a);
+}
+.alogo .f {
+  color: #fff;
+}
+.alogo .g {
+  color: var(--ink);
+}
+.alogo .r {
+  color: var(--muted);
+  transition: color 0.2s steps(2);
+}
+/* под курсором слово двоится янтарным и голубым — как бейдж «Новое» */
+.logo:hover .alogo,
+.logo:focus-visible .alogo {
+  animation: new-gl 0.4s steps(1) infinite;
+}
+.alogo .l {
+  color: #fff;
+  text-shadow: 0 0 4px var(--a);
+}
+.alogo .n {
+  color: var(--a);
+}
+.alogo .c {
+  color: var(--a);
+}
+.logo:hover .alogo .r,
+.logo:focus-visible .alogo .r {
+  color: var(--a-ink);
+}
+/* слово обычным текстом — только на узких экранах, где ASCII рисует одного котика; пиксельный DotGothic16 */
+.logo-txt {
+  display: none;
+  font: 400 16px/1 var(--dot);
+  letter-spacing: -0.5px;
+}
+.logo-txt span {
+  font-weight: 400;
+}
+/* до 1100 px бейдж версии упирается в «Рейтинг» по центру — версия есть в ленте новостей */
+@media (max-width: 1100px) {
+  .hdr-ver {
+    display: none;
+  }
+}
+@media (max-width: 940px) {
+  .logo-txt {
+    display: inline;
+  }
+  .logo:hover .logo-txt {
+    animation: new-gl 0.4s steps(1) infinite;
+  }
+}
 .hdr-ver {
   --c: 2px;
   padding: 3px 7px;

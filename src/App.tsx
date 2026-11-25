@@ -7,7 +7,8 @@ import { Compare } from './pages/Compare.tsx';
 import { Rating, topOf } from './pages/Rating.tsx';
 import { Starfield } from './components/Starfield.tsx';
 import { Saturn } from './components/Saturn.tsx';
-import { LogoMark, toNews } from './components/Brand.tsx';
+import { toNews } from './components/Brand.tsx';
+import { AsciiLogo } from './components/AsciiLogo.tsx';
 import { Icon } from './components/Icon.tsx';
 
 function Header({ rating }: { rating: boolean }) {
@@ -16,8 +17,8 @@ function Header({ rating }: { rating: boolean }) {
     <header className="hdr">
       <div className="hdr-in">
         <a href={hrefOf('/')} className="logo" aria-label="govnoreview — на главную">
-          <LogoMark />
-          <b>
+          <AsciiLogo />
+          <b className="logo-txt">
             govno<span>review</span>
           </b>
         </a>
