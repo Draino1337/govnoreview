@@ -424,9 +424,6 @@
   margin-left: -5px;
   background: color-mix(in srgb, var(--acc) 40%, var(--line2));
 }
-.slot-sil svg {
-  animation: bob 1.4s steps(2) infinite;
-}
 /* луч — линия со свечением в верхних 10 px слоя высотой с силуэт; слой едет через transform */
 .slot-scan {
   position: absolute;
@@ -583,7 +580,6 @@
   .hero-down,
   .win-scan::before,
   .slot-scan,
-  .slot-sil svg,
   .slot-aim,
   .slot-phone,
   .slot-score,

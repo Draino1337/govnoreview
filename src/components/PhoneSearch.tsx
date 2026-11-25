@@ -17,13 +17,10 @@ interface Props {
   onDismiss?: () => void;
 }
 
-// бренды для быстрых фильтров: сначала главные, остальные — чем больше моделей в каталоге, тем левее
-const FIRST = ['Apple', 'Samsung', 'Google', 'Nothing'];
-const rank = (b: string) => (FIRST.includes(b) ? FIRST.indexOf(b) : FIRST.length);
-const BRANDS = [...PHONES.reduce((m, p) => m.set(p.brand, (m.get(p.brand) ?? 0) + 1), new Map<string, number>())].sort(
-  (x, y) => rank(x[0]) - rank(y[0]) || y[1] - x[1],
+// бренды для быстрых фильтров — по алфавиту, как и модели в списке
+const BRANDS = [...PHONES.reduce((m, p) => m.set(p.brand, (m.get(p.brand) ?? 0) + 1), new Map<string, number>())].sort((x, y) =>
+  x[0].localeCompare(y[0], 'en', { sensitivity: 'base' }),
 );
-if (import.meta.env.DEV) console.assert(BRANDS.slice(0, 4).map(([b]) => b).join() === FIRST.join(), 'первыми должны идти Apple, Samsung, Google, Nothing');
 
 function Mark({ text, q }: { text: string; q: string }) {
   const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -128,7 +125,7 @@ export function PhoneSearch({ label, accent, value, exclude, autoFocus, onChange
     };
   }, [editing]);
 
-  // весь каталог по алфавиту, список прокручивается
+  // весь каталог: бренды по алфавиту, модели от новых к старым; список прокручивается
   const list = useMemo(() => searchPhones(editing ? q : '').filter((p) => p.id !== exclude), [q, editing, exclude]);
   const open = editing;
   // чипы брендов — пока запрос пустой или это сам бренд из чипа

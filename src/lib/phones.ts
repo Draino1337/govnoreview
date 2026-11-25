@@ -30,8 +30,9 @@ const ALIASES: Record<string, string> = {
 };
 const hay = (p: Phone) => `${fullName(p)} ${ALIASES[p.brand] ?? ''}`.toLowerCase();
 
-// по алфавиту, числа — как числа: iPhone 15, 16, 17 (а не 15, 17, 16 Pro…)
-const byName = (a: Phone, b: Phone) => fullName(a).localeCompare(fullName(b), 'en', { numeric: true, sensitivity: 'base' });
+// бренды по алфавиту, внутри бренда — от новых к старым; в один месяц старшая модель выше (17 Pro Max, 17 Pro, 17)
+const cmp = (a: string, b: string) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' });
+const byName = (a: Phone, b: Phone) => cmp(a.brand, b.brand) || cmp(b.released, a.released) || cmp(b.name, a.name);
 
 // слова из названий моделей, набранные по-русски: «айфон 15 про», «поко ф8»
 const WORDS: Record<string, string> = {
@@ -47,7 +48,7 @@ const queryTokens = (q: string) =>
     .filter(Boolean)
     .map((t) => WORDS[t] ?? (/\d/.test(t) ? t.replace(/[а-яё]/g, (c) => LAT[c] ?? c) : t));
 
-/** Телефоны, подходящие под запрос (пустой запрос — весь каталог), по алфавиту. */
+/** Телефоны, подходящие под запрос (пустой запрос — весь каталог): бренды по алфавиту, модели от новых к старым. */
 export function searchPhones(q: string, limit = Infinity): Phone[] {
   const tokens = queryTokens(q);
   return PHONES.filter((p) => {

@@ -10,7 +10,7 @@ import { Saturn } from './components/Saturn.tsx';
 import { LogoMark, toNews } from './components/Brand.tsx';
 import { Icon } from './components/Icon.tsx';
 
-function Header({ rating, home }: { rating: boolean; home: boolean }) {
+function Header({ rating }: { rating: boolean }) {
   const latest = CHANGELOG[0];
   return (
     <header className="hdr">
@@ -24,7 +24,11 @@ function Header({ rating, home }: { rating: boolean; home: boolean }) {
         <a href="#cl" className="hdr-ver" onClick={toNews} title="Что нового">
           v{latest.version}
         </a>
-        <a href="#cl" className="hdr-news hov" onClick={toNews}>
+        <a href={hrefOf('/rating')} className={rating ? 'hdr-rate px hov is-on' : 'hdr-rate px hov'} aria-current={rating ? 'page' : undefined}>
+          <Icon name="trophy" size={17} />
+          Рейтинг
+        </a>
+        <a href="#cl" className="hdr-news hov" onClick={toNews} aria-label={`Что нового: ${latest.title}`}>
           <b className="hdr-new">
             <i aria-hidden="true" />
             Новое
@@ -32,17 +36,6 @@ function Header({ rating, home }: { rating: boolean; home: boolean }) {
           <span>{latest.title}</span>
           <Icon name="arrow" size={14} />
         </a>
-        <nav className="hdr-nav" aria-label="Разделы">
-          <a href={hrefOf('/')} className={home ? 'is-on' : undefined} aria-current={home ? 'page' : undefined}>
-            Сравнение
-          </a>
-          <a href={hrefOf('/rating')} className={rating ? 'is-on' : undefined} aria-current={rating ? 'page' : undefined}>
-            Рейтинг
-          </a>
-          <a href="#cl" onClick={toNews}>
-            Что нового
-          </a>
-        </nav>
       </div>
     </header>
   );
@@ -95,7 +88,7 @@ export default function App() {
       <Saturn onReady={() => setReady(true)} />
       {ready && (
         <>
-          <Header rating={isRating} home={isHome} />
+          <Header rating={isRating} />
           {/* ключ по разделу: при переходе главная ↔ рейтинг ↔ сравнение страница заново всплывает */}
           <main key={section} className={section === firstSection.current ? 'page intro-in' : 'page'}>
             {isHome ? (

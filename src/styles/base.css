@@ -181,35 +181,73 @@ a {
 .hdr-ver:hover {
   color: var(--ink);
 }
-/* плашка новостей по центру шапки */
-.hdr-news {
+/* «Рейтинг» по центру шапки: золотой кубок, рамка золотится под курсором и на странице рейтинга */
+.hdr-rate {
   --c: 3px;
-  position: absolute;
   left: 50%;
   top: 50%;
   display: inline-flex;
   align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px 0 11px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+/* pixel.css делает панели position: relative — здесь кнопка должна висеть по центру шапки */
+.hdr-in > .hdr-rate {
+  position: absolute;
+  animation: rate-in 0.5s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes rate-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -160%);
+  }
+}
+.hdr-rate {
+  --rim: color-mix(in srgb, var(--gold-1) 30%, var(--line2));
+}
+.hdr-rate > svg {
+  flex: none;
+  color: var(--gold-1);
+}
+.hdr-rate:hover,
+.hdr-rate.is-on {
+  --rim: color-mix(in srgb, var(--gold-1) 70%, transparent);
+  --fill: color-mix(in srgb, var(--gold-1) 9%, var(--card));
+}
+/* кубок покачивается под курсором — ступенчато, как всё на сайте */
+.hdr-rate:hover > svg {
+  animation: cup 0.5s steps(4);
+}
+@keyframes cup {
+  25% {
+    transform: rotate(-12deg);
+  }
+  75% {
+    transform: rotate(12deg);
+  }
+}
+/* плашка новостей справа */
+.hdr-news {
+  --c: 3px;
+  display: inline-flex;
+  align-items: center;
   gap: 9px;
-  max-width: min(420px, 30vw); /* не наезжает на ссылки справа даже на 1000 px */
+  max-width: min(420px, 30vw);
   height: 32px;
+  margin-left: auto;
   padding: 0 11px 0 4px;
   color: var(--ink);
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
-  transform: translate(-50%, -50%);
-}
-/* pixel.css делает панели position: relative — здесь плашка должна висеть по центру шапки */
-.hdr-in > .hdr-news {
-  position: absolute;
-  animation: news-in 0.5s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-@keyframes news-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -160%);
-  }
 }
 /* бейдж «Новое»: пиксельный шрифт на лавандовой плашке со ступенчатыми углами,
    мигающий «светодиод» слева и пробегающий по плашке блик */
@@ -258,17 +296,12 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* на средних экранах заголовок новости не помещается между логотипом и ссылками — остаются бейдж и стрелка */
+/* на средних экранах заголовок новости упирается в «Рейтинг» — остаются бейдж и стрелка */
 @media (max-width: 1080px) {
   .hdr-news {
     padding-right: 9px;
   }
   .hdr-news > span {
-    display: none;
-  }
-}
-@media (max-width: 860px) {
-  .hdr-news {
     display: none;
   }
 }
@@ -296,70 +329,42 @@ a {
     text-shadow: none;
   }
 }
-.hdr-nav {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-.hdr-nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  height: 32px;
-  padding: 0 10px;
-  color: var(--muted);
-  font-size: 13.5px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.15s;
-}
-/* точка-разделитель перед каждой ссылкой */
-.hdr-nav a::before {
-  content: '';
-  width: 3px;
-  height: 3px;
-  background: var(--line3);
-}
-.hdr-nav a:hover,
-.hdr-nav a.is-on {
-  color: var(--ink);
-}
-.hdr-nav a.is-on::before {
-  background: var(--a);
-}
 @media (max-width: 720px) {
   .hdr-in {
     padding: 0 16px;
   }
-  .hdr-news {
-    display: none;
-  }
   .hdr-ver {
     display: none;
   }
-  /* на главную ведёт логотип — ссылку «Сравнение» на телефоне прячем, иначе шапка не влезает */
-  .hdr-nav a:first-child {
+  .hdr-in {
+    gap: 8px;
+  }
+  /* на телефоне по центру «Рейтинг» упирается в логотип — ставим его в ряд справа, от новостей остаётся бейдж */
+  .hdr-in > .hdr-rate {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin-left: auto;
+    padding: 0 11px 0 9px;
+    animation: none;
+  }
+  .hdr-news {
+    margin-left: 0;
+    padding-right: 4px;
+  }
+  .hdr-news > svg {
     display: none;
   }
-  .hdr-nav a {
-    padding: 0 6px;
+}
+/* узкие телефоны (360 px): бейдж новостей не влезает рядом с логотипом и «Рейтингом», новости есть внизу главной */
+@media (max-width: 374px) {
+  .hdr-news {
+    display: none;
   }
 }
 .logo {
   flex: none;
-}
-/* совсем узкие экраны: от логотипа остаётся значок, чтобы влезли ссылки */
-@media (max-width: 359px) {
-  .logo b {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-  }
-}
-.hdr-nav a {
-  white-space: nowrap;
 }
 
 /* ───────── кнопки и чипы ───────── */

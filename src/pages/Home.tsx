@@ -53,7 +53,6 @@ function Slot({ n, label, accent, value, exclude, onChange }: SlotProps) {
           <div className="slot-ghost">
             <span className="slot-sil">
               <i className="slot-scan" />
-              <Icon name="plus" size={20} />
             </span>
             Выбрать модель
           </div>
